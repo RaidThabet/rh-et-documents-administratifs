@@ -9,6 +9,7 @@ createRoot(document.getElementById('root')!).render(
           <BrowserRouter>
               <Routes>
                   <Route path={"/"} element={<App />}>
+                      <Route path={"/users"} element={<div></div>} />
                   </Route>
               </Routes>
           </BrowserRouter>
