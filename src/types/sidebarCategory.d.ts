@@ -1,6 +1,8 @@
+import {ReactNode} from "react";
+
 type SidebarCategory = {
     name: string;
-    buttons: {label: string}[]
+    buttons: {icon?: ReactNode; label: string, href: string}[]
 }
 
 type Categories = SidebarCategory[];

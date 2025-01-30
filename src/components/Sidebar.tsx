@@ -4,34 +4,37 @@ import {Divider} from "@heroui/divider";
 import {NavLink} from "react-router";
 import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
+import {FaCalendarTimes, FaDatabase, FaTasks, FaUserAlt} from "react-icons/fa";
+import {IoDocumentText, IoSettings, IoStatsChart} from "react-icons/io5";
+import {IoIosTime} from "react-icons/io";
 
 const categories: Categories = [
     {
         name: "Administration Générale",
         buttons: [
-            {label: "Gestion des utilisateurs"},
-            {label: "Gestion des paramètres système"},
+            {icon: <FaUserAlt size={15} />, label: "Gestion des utilisateurs", href: "users-management"},
+            {icon: <IoSettings size={15} />, label: "Gestion des paramètres système", href: "system-settings"},
         ]
     },
     {
         name: "Gestion du Personnel",
         buttons: [
-            {label: "Données des employés et enseignants"},
-            {label: "Documents administratifs"},
+            {icon: <FaDatabase size={15} />, label: "Données des employés et enseignants", href: "employees-profs-management"},
+            {icon: <IoDocumentText />, label: "Documents administratifs", href: "documents"},
         ]
     },
     {
         name: "Gestion du Temps & des Présences",
         buttons: [
-            {label: "Absences et congés"},
-            {label: "Emploi du temps"},
+            {icon: <FaCalendarTimes size={15} />, label: "Absences et congés", href: "absences-and-leaves"},
+            {icon: <IoIosTime size={15} />, label: "Emploi du temps", href: "time-table"},
         ]
     },
     {
         name: "Organisation & Suivi",
         buttons: [
-            {label: "Tâches et responsabilités"},
-            {label: "Statistiques et rapports"},
+            {icon: <FaTasks size={15} />, label: "Tâches et responsabilités", href: "tasks-and-responsibilities"},
+            {icon: <IoStatsChart size={15} />, label: "Statistiques et rapports", href: "stats-and-reports"},
         ]
     }
 ]
@@ -41,12 +44,12 @@ function Sidebar() {
         const buttons = (
             <div className={"flex flex-col justify-start items-start gap-1 w-full"}>
                 {
-                    category.buttons.map(({label}) => (
-                        <NavLink key={uuidv4()} to={`/users`} className={"flex justify-start items-center w-full"}
+                    category.buttons.map(({icon, label, href}) => (
+                        <NavLink key={uuidv4()} to={href} className={"flex justify-start items-center w-full"}
                         >
                             {
                                 ({isActive}) => (
-                                    <SidebarButton label={label} isActive={isActive} />
+                                    <SidebarButton icon={icon} label={label} isActive={isActive} />
                                 )
                             }
                         </NavLink>
