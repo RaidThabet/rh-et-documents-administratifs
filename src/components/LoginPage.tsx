@@ -22,7 +22,7 @@ function LoginPage() {
     })
 
     return (
-        <div className={"bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center items-center h-full w-full"}>
+        <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-full w-full"}>
             <Card className={"px-4 w-3/12"}>
                 <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
                     <Avatar size={"lg"} src={"public/images/logo_isimm.png"} />
@@ -53,7 +53,7 @@ function LoginPage() {
                             description={<a href={"/login"}>Mot de passe oublié?</a>}
                         />
                         <button disabled={!isValid} type={"submit"}
-                                className={"mt-5 rounded-md bg-sky-600 disabled:opacity-50 text-white font-semibold py-2 px-4"}>
+                                className={"mt-5 rounded-md bg-[#4879f4] disabled:opacity-50 text-white font-semibold py-2 px-4"}>
                             Se Connecter
                         </button>
                     </form>
