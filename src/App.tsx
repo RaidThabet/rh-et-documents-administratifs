@@ -1,18 +1,16 @@
 import {HeroUIProvider} from "@heroui/system";
-import Sidebar from "./components/Sidebar.tsx";
 import {Outlet} from "react-router";
 
 function App() {
     return (
         <HeroUIProvider>
-            <div className={"flex flex-row justify-start items-center"}>
-                <Sidebar />
-                <div className={"flex-1"}>
+            <div className={"flex flex-row justify-center items-center h-[100vh]"}>
+                {/*<Sidebar />*/}
+                <div className={"flex justify-center items-center flex-1 h-full"}>
                     <Outlet />
                 </div>
             </div>
         </HeroUIProvider>
-
     );
 }
 

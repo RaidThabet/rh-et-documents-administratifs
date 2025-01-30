@@ -70,7 +70,7 @@ function Sidebar() {
 
     return (
         <div
-            className={"px-4 flex flex-col justify-start items-start gap-7 bg-stone-50 h-[100vh]"}> {/*Sidebar main container*/}
+            className={"px-4 flex flex-col justify-start items-start gap-7 bg-stone-50 h-full"}> {/*Sidebar main container*/}
             <div className={"flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
                 <Avatar size={"lg"} src={"/public/images/logo_isimm.png"}/>
                 <p>RH</p>
