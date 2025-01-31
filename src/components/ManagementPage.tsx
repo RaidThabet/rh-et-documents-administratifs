@@ -39,13 +39,14 @@ function ManagementPage({title, subtitle}: Props) {
             <div className={"mt-5 flex flex-col justify-center items-center gap-4"}> {/*table container*/}
                 <div className={"flex flex-row justify-between items-center w-full"}> {/*table header container*/}
                     <Input
+                        radius={"sm"}
                         className={"w-1/2"}
                         startContent={<BiSearch size={20} />}
                         placeholder={"Rechercher par nom..."}
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
-                        <Button>Filtres</Button>
-                        <Button color={"primary"}>Ajouter</Button>
+                        <Button radius={"sm"}>Filtres</Button>
+                        <Button radius={"sm"} color={"primary"}>Ajouter</Button>
                     </div>
 
                 </div>

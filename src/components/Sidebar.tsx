@@ -1,6 +1,5 @@
 import {Avatar} from "@heroui/avatar";
 import {Categories, SidebarCategory} from "../types/sidebarCategory";
-import {Divider} from "@heroui/divider";
 import {NavLink} from "react-router";
 import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
@@ -60,8 +59,7 @@ function Sidebar() {
 
         return (
             <div key={uuidv4()} className={"flex flex-col justify-start items-start gap-2 w-full"}>
-                <p className={"font-bold"}>{category.name}</p>
-                <Divider/>
+                <p className={"font-regular"}>{category.name}</p>
                 {buttons}
             </div>
         );
@@ -70,7 +68,7 @@ function Sidebar() {
 
     return (
         <div
-            className={"px-4 flex flex-col justify-start items-start gap-7 bg-sky-800 text-white h-full"}> {/*Sidebar main container*/}
+            className={"px-4 flex flex-col justify-start items-start gap-7 bg-neutral-200 h-full"}> {/*Sidebar main container*/}
             <div className={"flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
                 <Avatar size={"lg"} src={"/public/images/logo_isimm.png"}/>
                 <p>RH</p>
