@@ -9,9 +9,12 @@ function App() {
             <div className={"flex flex-row justify-center items-center h-[100vh]"}>
                 <Sidebar/>
                 <div className={"mx-3 flex flex-col justify-start items-start flex-1 h-full"}>
-                    <Breadcrumbs className={"py-2"}>
-                        <BreadcrumbItem>Accueil</BreadcrumbItem>
-                        <BreadcrumbItem>Gestion des Utilisateurs</BreadcrumbItem>
+                    <Breadcrumbs
+                        size={"lg"}
+                        className={"py-2"}
+                    >
+                        <BreadcrumbItem isCurrent={true}>Accueil</BreadcrumbItem>
+                        <BreadcrumbItem isCurrent={true}>Gestion des Utilisateurs</BreadcrumbItem>
                     </Breadcrumbs>
                     <Outlet/>
                 </div>

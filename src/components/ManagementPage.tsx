@@ -2,6 +2,9 @@ import {getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, Tabl
 import {Input} from "@heroui/input";
 import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
+import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
+import {SlOptionsVertical} from "react-icons/sl";
+import {Chip} from "@heroui/chip";
 
 type Props = {
     title: string;
@@ -16,14 +19,14 @@ const columns = [
 ]
 
 const users = [
-    {key: "1", name: "Alice Dupont", role: "Admin", status: "Actif" },
-    {key: "2", name: "Benjamin Leroy", role: "Utilisateur", status: "Inactif" },
-    {key: "3", name: "Catherine Moreau", role: "Modérateur", status: "Actif" },
-    {key: "4", name: "David Fontaine", role: "Admin", status: "Suspendu" },
-    {key: "5", name: "Élodie Garnier", role: "Utilisateur", status: "Actif" },
-    {key: "6", name: "François Martin", role: "Utilisateur", status: "Inactif" },
-    {key: "7", name: "Gisèle Rousseau", role: "Modérateur", status: "Actif" },
-    {key: "8", name: "Hugo Bernard", role: "Admin", status: "Actif" },
+    {key: "1", name: "Alice Dupont", role: "Admin", status: <Chip color={"success"}>Actif</Chip> },
+    {key: "2", name: "Benjamin Leroy", role: "Utilisateur", status: <Chip color={"danger"}>Inactif</Chip> },
+    {key: "3", name: "Catherine Moreau", role: "Modérateur", status: <Chip color={"success"}>Actif</Chip> },
+    {key: "4", name: "David Fontaine", role: "Admin", status: <Chip color={"danger"}>Inactif</Chip> },
+    {key: "5", name: "Élodie Garnier", role: "Utilisateur", status: <Chip color={"success"}>Actif</Chip> },
+    {key: "6", name: "François Martin", role: "Utilisateur", status: <Chip color={"danger"}>Inactif</Chip> },
+    {key: "7", name: "Gisèle Rousseau", role: "Modérateur", status: <Chip color={"success"}>Actif</Chip> },
+    {key: "8", name: "Hugo Bernard", role: "Admin", status: <Chip color={"success"}>Actif</Chip> },
 ];
 
 
@@ -58,10 +61,17 @@ function ManagementPage({title, subtitle}: Props) {
                                 {(columnKey) => (
                                     <TableCell>{
                                         columnKey === "actions" ? (
-                                            <div className="flex flex-row justify-start items-center gap-2">
-                                                <Button size="sm" color="warning">Modifier</Button>
-                                                <Button size="sm" color="danger">Supprimer</Button>
-                                            </div>
+                                            <Dropdown>
+                                                <DropdownTrigger>
+                                                    <button>
+                                                        <SlOptionsVertical size={20} />
+                                                    </button>
+                                                </DropdownTrigger>
+                                                <DropdownMenu aria-label={"Actions"}>
+                                                    <DropdownItem key="edit">Modifier</DropdownItem>
+                                                    <DropdownItem className={"text-danger"} key="delete">Supprimer</DropdownItem>
+                                                </DropdownMenu>
+                                            </Dropdown>
                                         ) : (
                                             getKeyValue(item, columnKey)
                                         )}
