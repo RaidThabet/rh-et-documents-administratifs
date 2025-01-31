@@ -59,7 +59,7 @@ function Sidebar() {
         )
 
         return (
-            <div className={"flex flex-col justify-start items-start gap-2 w-full"}>
+            <div key={uuidv4()} className={"flex flex-col justify-start items-start gap-2 w-full"}>
                 <p className={"font-bold"}>{category.name}</p>
                 <Divider/>
                 {buttons}

@@ -8,7 +8,7 @@ import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
 
 function LoginPage() {
-    const {register, handleSubmit, formState: {errors, isValid}} = useForm<LoginSchema>({
+    const {register, handleSubmit, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
@@ -52,7 +52,7 @@ function LoginPage() {
                             {...register("password")}
                             description={<a href={"/login"}>Mot de passe oublié?</a>}
                         />
-                        <button disabled={!isValid} type={"submit"}
+                        <button disabled={!isValid || isSubmitting} type={"submit"}
                                 className={"mt-5 rounded-md bg-[#4879f4] disabled:opacity-50 text-white font-semibold py-2 px-4"}>
                             Se Connecter
                         </button>
