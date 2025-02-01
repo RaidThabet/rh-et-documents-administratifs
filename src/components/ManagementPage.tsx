@@ -5,6 +5,8 @@ import {BiSearch} from "react-icons/bi";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
 import {Chip} from "@heroui/chip";
+import {useDisclosure} from "@heroui/modal";
+import UserAddModal from "./UserAddForm.tsx";
 
 type Props = {
     title: string;
@@ -31,6 +33,7 @@ const users = [
 
 
 function ManagementPage({title, subtitle}: Props) {
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     return (
         <div className={"mt-3 flex flex-col w-full gap-2 px-12"}> {/*page container*/}
@@ -46,7 +49,13 @@ function ManagementPage({title, subtitle}: Props) {
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
                         <Button radius={"sm"}>Filtres</Button>
-                        <Button radius={"sm"} color={"primary"}>Ajouter</Button>
+                        <Button
+                            onPress={onOpen}
+                            radius={"sm"}
+                            color={"primary"}
+                        >
+                            Ajouter
+                        </Button>
                     </div>
 
                 </div>
@@ -83,6 +92,7 @@ function ManagementPage({title, subtitle}: Props) {
                     </TableBody>
                 </Table>
             </div>
+            <UserAddModal isOpen={isOpen} onOpenChange={onOpenChange} />
         </div>
     );
 }
