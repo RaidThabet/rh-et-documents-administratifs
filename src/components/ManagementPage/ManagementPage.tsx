@@ -9,6 +9,7 @@ import {MdOutlinePersonAdd} from "react-icons/md";
 import Filters from "./Filters.tsx";
 import {UserType} from "../../types/User";
 import {EmployeeProf} from "../../types/EmployeeProf";
+import {useSort} from "../../hooks/useSort.ts";
 
 type Props = {
     title: string;
@@ -31,6 +32,10 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         ]
     }));
 
+
+    const {sortDescriptor, handleSort, sortedItems} = useSort(items);
+
+
     const [page, setPage] = useState(1);
 
     const pages = Math.ceil(items.length / rowsPerPage);
@@ -39,8 +44,9 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return items.slice(start, end);
+        return sortedItems.slice(start, end);
     }
+
 
     return (
         <div className={"mt-3 flex flex-col w-full gap-2 px-12"}> {/*page container*/}
@@ -56,9 +62,9 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
                         {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
-                        <Filters sections={sections} />
+                        <Filters sections={sections}/>
                         <Button
-                            startContent={<MdOutlinePersonAdd size={20} />}
+                            startContent={<MdOutlinePersonAdd size={20}/>}
                             onPress={onOpen}
                             radius={"sm"}
                             color={"primary"}
@@ -69,6 +75,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
 
                 </div>
                 <Table
+                    sortDescriptor={sortDescriptor}
+                    onSortChange={handleSort}
                     color={"primary"}
                     classNames={{
                         wrapper: "max-h-[382px]",
@@ -93,7 +101,12 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                 >
                     <TableHeader columns={columns}>
                         {(column) => (
-                            <TableColumn key={column.key}>{column.label}</TableColumn>
+                            <TableColumn
+                                allowsSorting={true}
+                                key={column.key}
+                            >
+                                {column.label}
+                            </TableColumn>
                         )}
                     </TableHeader>
                     <TableBody items={pageItems()} emptyContent={"Pas des données à afficher."}>
