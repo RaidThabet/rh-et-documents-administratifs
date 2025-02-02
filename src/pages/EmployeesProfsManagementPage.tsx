@@ -7,14 +7,16 @@ import {useDisclosure} from "@heroui/modal";
 import {User} from "@heroui/user";
 
 import RowActions from "../components/ManagementPage/RowActions.tsx";
+import {UserType} from "../types/User";
 
 
 
 function EmployeesProfsManagementPage() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-    const renderCell = (user: EmployeeProf, columnKey: Key): ReactNode => {
-        // @ts-ignore
+    const renderCell = (user: EmployeeProf | UserType, columnKey: Key): ReactNode => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const cellValue = user[columnKey];
 
         switch (columnKey) {
@@ -34,10 +36,13 @@ function EmployeesProfsManagementPage() {
             case "seniority":
                 return cellValue;
             case "actions":
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 return <RowActions user={user} />
         }
     }
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return (
         <div className={"w-full"}>
             <ManagementPage

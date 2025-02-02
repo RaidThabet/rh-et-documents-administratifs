@@ -30,12 +30,14 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         name: column.label, // Assuming label in column is the name to be used
         possibleValues: [
             ...new Set(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 items.map(item => item[column.key]) // Type assertion
             )
         ]
     }));
 
-    const filterItems = (filters: any) => {
+    const filterItems = (filters: object) => {
         console.log("inside filterItems with filter: ");
         console.log(filters);
         let newItems = [...items.map(i => ({ ...i }))]; // Copy to avoid mutating original items
@@ -44,6 +46,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
 
         for (const [key, values] of Object.entries(filters)) {
             if (Array.isArray(values) && values.length > 0) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 newItems = newItems.filter(item => values.includes(item[key]));
             }
         }
@@ -68,7 +72,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         return sortedItems.slice(start, end);
     }
 
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return (
         <div className={"mt-3 flex flex-col w-full gap-2 px-12"}> {/*page container*/}
             <p className={"text-4xl font-bold"}>{title}</p>

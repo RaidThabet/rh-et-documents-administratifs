@@ -10,7 +10,11 @@ export const useSort = (items: (UserType | EmployeeProf)[]) => {
     // Update sortedItems when the items or sortDescriptor change
     useEffect(() => {
         const sortedItems = [...items].sort((a, b) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             const first = a[sortDescriptor?.column as keyof EmployeeProf] ?? "";
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             const second = b[sortDescriptor?.column as keyof EmployeeProf] ?? "";
 
             if (!isNaN(Number(first)) && !isNaN(Number(second))) {

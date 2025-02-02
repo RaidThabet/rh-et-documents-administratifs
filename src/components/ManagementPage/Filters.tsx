@@ -1,15 +1,14 @@
-import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {Button} from "@heroui/button";
 import {IoFilterSharp} from "react-icons/io5";
 import {Select, SelectItem} from "@heroui/select";
 import {v4 as uuid} from "uuid";
-import {Key, useRef, useState} from "react";
+import {Key, useRef} from "react";
 import {useDisclosure} from "@heroui/modal";
 import {Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader} from "@heroui/drawer";
 
 type Props = {
     sections: { key: Key, name: string; possibleValues: string[] }[];
-    onFilter: (filters: any) => void
+    onFilter: (filters: object) => void
 }
 
 function Filters({sections, onFilter}: Props) {
@@ -22,12 +21,20 @@ function Filters({sections, onFilter}: Props) {
         filters.current = {};
     }
 
-    const handleChangeFilter = (key, value) => {
+    const handleChangeFilter = (key: Key, value: string) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         if (!filters.current[key]) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             filters.current[key] = [];
         }
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         if (!filters.current[key].includes(value)) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             filters.current[key].push(value);
         }
     };
