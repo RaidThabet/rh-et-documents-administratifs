@@ -6,4 +6,5 @@ export type EmployeeProf = {
     grade: string;
     department: string;
     seniority: string;
+    avatar: string;
 }

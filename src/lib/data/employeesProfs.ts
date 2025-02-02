@@ -2,11 +2,11 @@ import {EmployeeProf} from "../../types/EmployeeProf";
 
 export const columns = [
     { key: "name", label: "Nom" },
-    { key: "email", label: "Email" },
     { key: "gender", label: "Genre" },
     { key: "grade", label: "Grade" },
     { key: "department", label: "Département" },
     { key: "seniority", label: "Ancienneté" },
+    { key: "actions", label: "Actions" },
 ];
 
 export const employees: EmployeeProf[] = [
@@ -18,6 +18,7 @@ export const employees: EmployeeProf[] = [
         grade: "Manager",
         department: "Ressources Humaines",
         seniority: "8 ans",
+        avatar: "https://i.pravatar.cc/150?u=a1",
     },
     {
         id: 2,
@@ -27,6 +28,7 @@ export const employees: EmployeeProf[] = [
         grade: "Ingénieur",
         department: "IT",
         seniority: "5 ans",
+        avatar: "https://i.pravatar.cc/150?u=a2",
     },
     {
         id: 3,
@@ -36,6 +38,7 @@ export const employees: EmployeeProf[] = [
         grade: "Technicien",
         department: "Support",
         seniority: "3 ans",
+        avatar: "https://i.pravatar.cc/150?u=a3",
     },
     {
         id: 4,
@@ -45,6 +48,7 @@ export const employees: EmployeeProf[] = [
         grade: "Senior Manager",
         department: "Finance",
         seniority: "12 ans",
+        avatar: "https://i.pravatar.cc/150?u=a4",
     },
     {
         id: 5,
@@ -54,6 +58,7 @@ export const employees: EmployeeProf[] = [
         grade: "Chef de Projet",
         department: "Marketing",
         seniority: "6 ans",
+        avatar: "https://i.pravatar.cc/150?u=a5",
     },
     {
         id: 6,
@@ -63,6 +68,7 @@ export const employees: EmployeeProf[] = [
         grade: "Analyste",
         department: "Stratégie",
         seniority: "7 ans",
+        avatar: "https://i.pravatar.cc/150?u=a6",
     },
     {
         id: 7,
@@ -72,6 +78,7 @@ export const employees: EmployeeProf[] = [
         grade: "Assistante",
         department: "Administratif",
         seniority: "4 ans",
+        avatar: "https://i.pravatar.cc/150?u=a7",
     },
     {
         id: 8,
@@ -81,6 +88,7 @@ export const employees: EmployeeProf[] = [
         grade: "Consultant",
         department: "Conseil",
         seniority: "10 ans",
+        avatar: "https://i.pravatar.cc/150?u=a8",
     },
     {
         id: 9,
@@ -90,6 +98,7 @@ export const employees: EmployeeProf[] = [
         grade: "Responsable",
         department: "Ventes",
         seniority: "9 ans",
+        avatar: "https://i.pravatar.cc/150?u=a9",
     },
     {
         id: 10,
@@ -99,5 +108,6 @@ export const employees: EmployeeProf[] = [
         grade: "Développeur",
         department: "IT",
         seniority: "5 ans",
+        avatar: "https://i.pravatar.cc/150?u=a10",
     },
 ];
