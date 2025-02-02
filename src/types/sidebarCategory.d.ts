@@ -1,5 +1,3 @@
-import {ReactNode} from "react";
-
 type SidebarCategory = {
     name: string;
     buttons: {icon?: ReactNode; label: string, href: string}[]
