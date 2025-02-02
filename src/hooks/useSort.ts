@@ -10,20 +10,22 @@ export const useSort = (items: (UserType | EmployeeProf)[]) => {
     const handleSort = (descriptor: SortDescriptor) => {
         setSortDescriptor(descriptor);
 
-        const sortedData = [...items].sort((a, b) => {
-            const first = a[descriptor.column as keyof EmployeeProf] ?? "";
-            const second = b[descriptor.column as keyof EmployeeProf] ?? "";
+        const sortedItems = [...items].sort((a, b) => {
+            const first = a[sortDescriptor.column as keyof EmployeeProf] ?? "";
+            const second = b[sortDescriptor.column as keyof EmployeeProf] ?? "";
 
-            if (typeof first === "number" && typeof second === "number") {
-                return descriptor.direction === "ascending" ? first - second : second - first;
+            if (!isNaN(Number(first)) && !isNaN(Number(second))) {
+                const numFirst = Number(first);
+                const numSecond = Number(second);
+                return sortDescriptor?.direction === "ascending" ? numFirst - numSecond : numSecond - numFirst;
             }
 
-            return descriptor.direction === "ascending"
-                ? String(first).localeCompare(String(second))
-                : String(second).localeCompare(String(first));
+            const strFirst = String(first).toLowerCase();
+            const strSecond = String(second).toLowerCase();
+            return sortDescriptor?.direction === "ascending" ? strFirst.localeCompare(strSecond) : strSecond.localeCompare(strFirst);
         });
 
-        setSortedItems(sortedData);
+        setSortedItems(sortedItems);
     };
 
     return {
