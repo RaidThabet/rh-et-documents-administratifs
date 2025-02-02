@@ -1,4 +1,6 @@
+import {Key} from "react";
+
 export type Column = {
-    key: string;
+    key: Key;
     label: string;
 }

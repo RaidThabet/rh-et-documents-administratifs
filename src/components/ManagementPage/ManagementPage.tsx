@@ -2,18 +2,19 @@ import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@
 import {Input} from "@heroui/input";
 import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
-import {ReactNode, useState} from "react";
+import {Key, ReactNode, useState} from "react";
 import {Pagination} from "@heroui/pagination";
-// import {UserType} from "../../types/User";
 import {Column} from "../../types/TableColumn";
-import {IoFilterSharp} from "react-icons/io5";
 import {MdOutlinePersonAdd} from "react-icons/md";
+import Filters from "./Filters.tsx";
+import {UserType} from "../../types/User";
+import {EmployeeProf} from "../../types/EmployeeProf";
 
 type Props = {
     title: string;
     subtitle: string;
-    renderCell: (item: any, columnKey: any) => ReactNode;
-    items: any[];
+    renderCell: (item: UserType | EmployeeProf, columnKey: Key) => ReactNode;
+    items: (UserType | EmployeeProf)[];
     columns: Column[];
     onOpen: () => void
 }
@@ -21,6 +22,15 @@ type Props = {
 const rowsPerPage = 3;
 
 function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
+    const sections = columns.map((column) => ({
+        name: column.label, // Assuming label in column is the name to be used
+        possibleValues: [
+            ...new Set(
+                items.map(item => item[column.key]) // Type assertion
+            )
+        ]
+    }));
+
     const [page, setPage] = useState(1);
 
     const pages = Math.ceil(items.length / rowsPerPage);
@@ -45,7 +55,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                         placeholder={"Rechercher par nom..."}
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
-                        <Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>
+                        {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
+                        <Filters sections={sections} />
                         <Button
                             startContent={<MdOutlinePersonAdd size={20} />}
                             onPress={onOpen}
@@ -58,6 +69,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
 
                 </div>
                 <Table
+                    color={"primary"}
                     classNames={{
                         wrapper: "max-h-[382px]",
                     }}

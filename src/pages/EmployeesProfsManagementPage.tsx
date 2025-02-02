@@ -8,6 +8,8 @@ import {User} from "@heroui/user";
 
 import RowActions from "../components/ManagementPage/RowActions.tsx";
 
+
+
 function EmployeesProfsManagementPage() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 

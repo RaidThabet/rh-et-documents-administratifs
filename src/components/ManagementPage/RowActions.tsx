@@ -24,7 +24,7 @@ function RowActions({user}: Props) {
                 <DropdownMenu aria-label={"Actions"}>
                     <DropdownItem startContent={<FaEye />} onPress={onOpen} key="delete">Voir</DropdownItem>
                     <DropdownItem startContent={<MdEdit />} key="edit">Modifier</DropdownItem>
-                    <DropdownItem startContent={<MdDeleteForever />} className={"text-danger"} key="delete">Supprimer</DropdownItem>
+                    <DropdownItem startContent={<MdDeleteForever />} color={"danger"} className={"text-danger"} key="delete">Supprimer</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <UserDetails user={user} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>
