@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import {BrowserRouter, Route, Routes} from "react-router";
 import LoginPage from "./components/LoginPage.tsx";
-import ManagementPage from "./components/ManagementPage.tsx";
+import UsersManagementPage from "./pages/UsersManagementPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,12 +12,7 @@ createRoot(document.getElementById('root')!).render(
               <Routes>
                   <Route path={"/"} element={<App />}>
                       <Route path={"login"} element={<LoginPage />} />
-                      <Route path={"/users-management"} element={
-                          <ManagementPage
-                              title={"Gestion des Utilisateurs"}
-                              subtitle={"Gérer les utilisateurs et leurs rôles ici."}
-                          />
-                      }
+                      <Route path={"/users-management"} element={<UsersManagementPage />}
                       />
                   </Route>
               </Routes>

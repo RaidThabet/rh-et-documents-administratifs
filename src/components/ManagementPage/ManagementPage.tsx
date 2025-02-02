@@ -2,77 +2,32 @@ import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@
 import {Input} from "@heroui/input";
 import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
-import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
-import {SlOptionsVertical} from "react-icons/sl";
-import {Chip} from "@heroui/chip";
-import {useDisclosure} from "@heroui/modal";
-import UserAddModal from "./UserAddForm.tsx";
-import {users, columns} from "../lib/data/users.ts";
-import {User} from "@heroui/user";
-import {Key, useState} from "react";
+import {ReactNode, useState} from "react";
 import {Pagination} from "@heroui/pagination";
-import {UserType} from "../types/User";
+// import {UserType} from "../../types/User";
+import {Column} from "../../types/TableColumn";
 
 type Props = {
     title: string;
     subtitle: string;
+    renderCell: (item: any, columnKey: any) => ReactNode;
+    items: any[];
+    columns: Column[];
+    onOpen: () => void
 }
 
 const rowsPerPage = 3;
 
-function ManagementPage({title, subtitle}: Props) {
+function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
     const [page, setPage] = useState(1);
 
-    const pages = Math.ceil(users.length / rowsPerPage);
+    const pages = Math.ceil(items.length / rowsPerPage);
 
-    const items = () => {
+    const pageItems = () => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return users.slice(start, end);
-    }
-
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
-    const renderCell = (user: UserType, columnKey: Key) => {
-        // @ts-ignore
-        const cellValue = user[columnKey];
-
-        switch (columnKey) {
-            case "name":
-                return (
-                    <User
-                        avatarProps={{radius: "lg", src: user.avatar}}
-                        description={user.email}
-                        name={cellValue}
-                    >
-                        {user.email}
-                    </User>
-                );
-            case "role":
-                return cellValue;
-            case "status":
-                return (
-                    <Chip color={cellValue === "Actif" ? "success" : "danger"}>{cellValue}</Chip>
-                )
-            case "actions":
-                return (
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <button>
-                                <SlOptionsVertical size={20}/>
-                            </button>
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label={"Actions"}>
-                            <DropdownItem key="edit">Modifier</DropdownItem>
-                            <DropdownItem className={"text-danger"}
-                                          key="delete">Supprimer</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                )
-        }
-
-
+        return items.slice(start, end);
     }
 
     return (
@@ -126,7 +81,7 @@ function ManagementPage({title, subtitle}: Props) {
                             <TableColumn key={column.key}>{column.label}</TableColumn>
                         )}
                     </TableHeader>
-                    <TableBody items={items()} emptyContent={"Pas des données à afficher."}>
+                    <TableBody items={pageItems()} emptyContent={"Pas des données à afficher."}>
                         {(item) => (
                             <TableRow key={item.id}>
                                 {(columnKey) => (
@@ -139,7 +94,6 @@ function ManagementPage({title, subtitle}: Props) {
                     </TableBody>
                 </Table>
             </div>
-            <UserAddModal isOpen={isOpen} onOpenChange={onOpenChange}/>
         </div>
     );
 }
