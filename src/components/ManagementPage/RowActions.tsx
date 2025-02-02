@@ -3,6 +3,8 @@ import {SlOptionsVertical} from "react-icons/sl";
 import {EmployeeProf} from "../../types/EmployeeProf";
 import {useDisclosure} from "@heroui/modal";
 import UserDetails from "../UserDetails.tsx";
+import {MdDeleteForever, MdEdit} from "react-icons/md";
+import {FaEye} from "react-icons/fa";
 
 type Props = {
     user: EmployeeProf;
@@ -20,9 +22,9 @@ function RowActions({user}: Props) {
                     </button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label={"Actions"}>
-                    <DropdownItem onPress={onOpen} key="delete">Voir</DropdownItem>
-                    <DropdownItem key="edit">Modifier</DropdownItem>
-                    <DropdownItem className={"text-danger"} key="delete">Supprimer</DropdownItem>
+                    <DropdownItem startContent={<FaEye />} onPress={onOpen} key="delete">Voir</DropdownItem>
+                    <DropdownItem startContent={<MdEdit />} key="edit">Modifier</DropdownItem>
+                    <DropdownItem startContent={<MdDeleteForever />} className={"text-danger"} key="delete">Supprimer</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <UserDetails user={user} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>

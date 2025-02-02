@@ -6,6 +6,8 @@ import {ReactNode, useState} from "react";
 import {Pagination} from "@heroui/pagination";
 // import {UserType} from "../../types/User";
 import {Column} from "../../types/TableColumn";
+import {IoFilterSharp} from "react-icons/io5";
+import {MdOutlinePersonAdd} from "react-icons/md";
 
 type Props = {
     title: string;
@@ -43,8 +45,9 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                         placeholder={"Rechercher par nom..."}
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
-                        <Button radius={"sm"}>Filtres</Button>
+                        <Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>
                         <Button
+                            startContent={<MdOutlinePersonAdd size={20} />}
                             onPress={onOpen}
                             radius={"sm"}
                             color={"primary"}
