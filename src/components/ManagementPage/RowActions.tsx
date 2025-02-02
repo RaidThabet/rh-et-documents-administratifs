@@ -1,20 +1,33 @@
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
+import {EmployeeProf} from "../../types/EmployeeProf";
+import {useDisclosure} from "@heroui/modal";
+import UserDetails from "../UserDetails.tsx";
 
-function RowActions() {
+type Props = {
+    user: EmployeeProf;
+}
+
+function RowActions({user}: Props) {
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
     return (
-        <Dropdown>
-            <DropdownTrigger>
-                <button>
-                    <SlOptionsVertical size={20}/>
-                </button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label={"Actions"}>
-                <DropdownItem key="delete">Voir</DropdownItem>
-                <DropdownItem key="edit">Modifier</DropdownItem>
-                <DropdownItem className={"text-danger"} key="delete">Supprimer</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+        <>
+            <Dropdown>
+                <DropdownTrigger>
+                    <button>
+                        <SlOptionsVertical size={20}/>
+                    </button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label={"Actions"}>
+                    <DropdownItem onPress={onOpen} key="delete">Voir</DropdownItem>
+                    <DropdownItem key="edit">Modifier</DropdownItem>
+                    <DropdownItem className={"text-danger"} key="delete">Supprimer</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+            <UserDetails user={user} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>
+        </>
+
     );
 }
 

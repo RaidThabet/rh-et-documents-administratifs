@@ -32,7 +32,7 @@ function EmployeesProfsManagementPage() {
             case "seniority":
                 return cellValue;
             case "actions":
-                return <RowActions />
+                return <RowActions user={user} />
         }
     }
 
