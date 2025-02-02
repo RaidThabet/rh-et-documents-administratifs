@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {SortDescriptor} from "@heroui/react";
 import {EmployeeProf} from "../types/EmployeeProf";
 import {UserType} from "../types/User";
@@ -7,12 +7,11 @@ export const useSort = (items: (UserType | EmployeeProf)[]) => {
     const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor | undefined>(undefined);
     const [sortedItems, setSortedItems] = useState(items);
 
-    const handleSort = (descriptor: SortDescriptor) => {
-        setSortDescriptor(descriptor);
-
+    // Update sortedItems when the items or sortDescriptor change
+    useEffect(() => {
         const sortedItems = [...items].sort((a, b) => {
-            const first = a[sortDescriptor.column as keyof EmployeeProf] ?? "";
-            const second = b[sortDescriptor.column as keyof EmployeeProf] ?? "";
+            const first = a[sortDescriptor?.column as keyof EmployeeProf] ?? "";
+            const second = b[sortDescriptor?.column as keyof EmployeeProf] ?? "";
 
             if (!isNaN(Number(first)) && !isNaN(Number(second))) {
                 const numFirst = Number(first);
@@ -26,9 +25,13 @@ export const useSort = (items: (UserType | EmployeeProf)[]) => {
         });
 
         setSortedItems(sortedItems);
+    }, [items, sortDescriptor]);  // This ensures sorting is recalculated when `items` or `sortDescriptor` change.
+
+    const handleSort = (descriptor: SortDescriptor) => {
+        setSortDescriptor(descriptor);
     };
 
     return {
         sortDescriptor, sortedItems, handleSort
-    }
-}
+    };
+};

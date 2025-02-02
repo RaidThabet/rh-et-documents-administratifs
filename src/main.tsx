@@ -15,7 +15,6 @@ createRoot(document.getElementById('root')!).render(
                       <Route path={"login"} element={<LoginPage />} />
                       <Route path={"/users-management"} element={<UsersManagementPage />}/>
                       <Route path={"/employees-profs-management"} element={<EmployeesProfsManagementPage />}/>
-
                   </Route>
               </Routes>
           </BrowserRouter>

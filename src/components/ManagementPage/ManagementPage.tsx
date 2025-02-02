@@ -23,7 +23,10 @@ type Props = {
 const rowsPerPage = 3;
 
 function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
+    const [filteredItems, setFilteredItems] = useState(items);
+    
     const sections = columns.map((column) => ({
+        key: column.key,
         name: column.label, // Assuming label in column is the name to be used
         possibleValues: [
             ...new Set(
@@ -32,13 +35,31 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         ]
     }));
 
+    const filterItems = (filters: any) => {
+        console.log("inside filterItems with filter: ");
+        console.log(filters);
+        let newItems = [...items.map(i => ({ ...i }))]; // Copy to avoid mutating original items
 
-    const {sortDescriptor, handleSort, sortedItems} = useSort(items);
+
+
+        for (const [key, values] of Object.entries(filters)) {
+            if (Array.isArray(values) && values.length > 0) {
+                newItems = newItems.filter(item => values.includes(item[key]));
+            }
+        }
+
+        console.log("these are newItems: ", newItems);
+
+        setFilteredItems(newItems);
+        setPage(1);
+    };
+
+    const {sortDescriptor, handleSort, sortedItems} = useSort(filteredItems);
 
 
     const [page, setPage] = useState(1);
 
-    const pages = Math.ceil(items.length / rowsPerPage);
+    const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
     const pageItems = () => {
         const start = (page - 1) * rowsPerPage;
@@ -62,7 +83,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                     />
                     <div className={"flex flex-row justify-center items-center gap-5"}>
                         {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
-                        <Filters sections={sections}/>
+                        <Filters onFilter={filterItems} sections={sections}/>
                         <Button
                             startContent={<MdOutlinePersonAdd size={20}/>}
                             onPress={onOpen}
