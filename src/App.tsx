@@ -6,9 +6,9 @@ import {BreadcrumbItem, Breadcrumbs} from "@heroui/breadcrumbs";
 function App() {
     return (
         <HeroUIProvider>
-            <div className={"flex flex-row justify-center items-center h-[100vh]"}>
+            <div className={"relative flex flex-row justify-center items-center h-[100vh]"}>
                 <Sidebar/>
-                <div className={"mx-3 flex flex-col justify-start items-start flex-1 h-full"}>
+                <div className={"ml-28 mr-5 flex flex-col justify-start items-start flex-1 h-full"}>
                     <Breadcrumbs
                         size={"lg"}
                         className={"py-2"}

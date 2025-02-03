@@ -20,7 +20,7 @@ type Props = {
     onOpen: () => void
 }
 
-const rowsPerPage = 3;
+const rowsPerPage = 5;
 
 function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
     const [filteredItems, setFilteredItems] = useState(items);
@@ -101,6 +101,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
 
                 </div>
                 <Table
+                    isStriped={true}
                     sortDescriptor={sortDescriptor}
                     onSortChange={handleSort}
                     color={"primary"}

@@ -6,6 +6,9 @@ import SidebarButton from "./SidebarButton.tsx";
 import {FaCalendarTimes, FaDatabase, FaTasks, FaUserAlt} from "react-icons/fa";
 import {IoDocumentText, IoSettings, IoStatsChart} from "react-icons/io5";
 import {IoIosTime} from "react-icons/io";
+import {useState} from "react";
+import {TbLayoutSidebar} from "react-icons/tb";
+import { motion } from "framer-motion";
 
 const categories: Categories = [
     {
@@ -19,7 +22,7 @@ const categories: Categories = [
         name: "Gestion du Personnel",
         buttons: [
             {icon: <FaDatabase size={15} />, label: "Employés et enseignants", href: "employees-profs-management"},
-            {icon: <IoDocumentText />, label: "Documents administratifs", href: "documents"},
+            {icon: <IoDocumentText size={15} />, label: "Documents administratifs", href: "documents"},
         ]
     },
     {
@@ -39,27 +42,34 @@ const categories: Categories = [
 ]
 
 function Sidebar() {
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+
+    const handleCollapse = () => {
+        setIsCollapsed(prev => !prev);
+    }
+
     const renderCategory = (category: SidebarCategory) => {
         const buttons = (
-            <div className={"flex flex-col justify-start items-start gap-1 w-full"}>
+            <div className={"flex flex-col justify-start items-center gap-3 w-full"}>
                 {
                     category.buttons.map(({icon, label, href}) => (
-                        <NavLink key={uuidv4()} to={href} className={"flex justify-start items-center w-full"}
-                        >
-                            {
-                                ({isActive}) => (
-                                    <SidebarButton icon={icon} label={label} isActive={isActive} />
-                                )
-                            }
-                        </NavLink>
+                        <div>
+                            <NavLink key={uuidv4()} to={href} className={"flex justify-start items-center w-full"}
+                            >
+                                {
+                                    ({isActive}) => (
+                                        <SidebarButton isCollapsed={isCollapsed} icon={icon} label={label} isActive={isActive} />
+                                    )
+                                }
+                            </NavLink>
+                        </div>
 
                     ))}
             </div>
         )
 
         return (
-            <div key={uuidv4()} className={"flex flex-col justify-start items-start gap-2 w-full"}>
-                <p className={"font-regular"}>{category.name}</p>
+            <div key={uuidv4()} className={"flex flex-col justify-center items-start w-full"}>
                 {buttons}
             </div>
         );
@@ -67,18 +77,33 @@ function Sidebar() {
     }
 
     return (
-        <div
-            className={"px-4 flex flex-col justify-start items-start gap-7 bg-neutral-200 h-full"}> {/*Sidebar main container*/}
+        <motion.nav
+            layout
+            transition={{type: "spring", duration: 1}}
+            className={"z-30 absolute left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-200 h-full"}> {/*Sidebar main container*/}
             <div className={"flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
-                <Avatar size={"lg"} src={"/public/images/logo_isimm.png"}/>
-                <p>RH</p>
+                <motion.button layout className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar size={22} /></motion.button>
+                <motion.div layout>
+                    <Avatar size={"lg"} src={"/public/images/logo_isimm.png"}/>
+                </motion.div>
+                {!isCollapsed && (
+                    <motion.p
+                        className={"text-xl font-semibold"}
+                        layout
+                        initial={{opacity: 0, y: 12}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{delay: 0.125}}
+                    >
+                        RH
+                    </motion.p>
+                )}
             </div>
             {
                 categories.map(category => (
                     renderCategory(category)
                 ))
             }
-        </div>
+        </motion.nav>
     );
 }
 
