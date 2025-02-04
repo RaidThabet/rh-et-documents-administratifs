@@ -107,7 +107,7 @@ function UserAddModal({ isOpen, onOpenChange }: Props) {
                             </div>
                         </ModalBody>
                         <ModalFooter className="flex justify-end space-x-2">
-                            <Button variant="bordered" color="danger" onPress={onClose}>Annuler</Button>
+                            <Button variant="bordered" onPress={onClose}>Annuler</Button>
                             <Button isDisabled={!isValid} type="submit" color="primary">Ajouter</Button>
                         </ModalFooter>
                     </form>
