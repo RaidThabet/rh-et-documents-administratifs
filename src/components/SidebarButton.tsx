@@ -13,9 +13,9 @@ function SidebarButton({isCollapsed, icon, label, isActive}: Props) {
     return (
         <motion.button
             // layout
-            className={clsx("flex flex-row justify-start items-center gap-3 py-2 px-3 text-sm font-semibold rounded-md h-10 w-full", {
-                "font-bold bg-neutral-300": isActive,
-                "hover:bg-neutral-300 transition-background drop-shadow": !isActive,
+            className={clsx(" flex flex-row justify-start items-center gap-3 py-2 px-3 text-sm font-semibold rounded-md h-10 w-full", {
+                "font-bold text-[#0D47A1] bg-[#cce6f4]": isActive,
+                "hover:bg-[#cce6f4] hover:text-[#0D47A1] transition-background drop-shadow": !isActive,
                 // "w-full": !isCollapsed,
                 // "w-fit": isCollapsed
 

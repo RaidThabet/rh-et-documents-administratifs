@@ -2,22 +2,25 @@ import {Avatar} from "@heroui/avatar";
 import {NavLink} from "react-router";
 import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
-import {FaCalendarTimes, FaDatabase, FaTasks, FaUserAlt} from "react-icons/fa";
-import {IoDocumentText, IoSettings, IoStatsChart} from "react-icons/io5";
-import {IoIosTime} from "react-icons/io";
+import {FaRegCalendarTimes, FaRegUser, FaTasks} from "react-icons/fa";
+import {IoStatsChartOutline} from "react-icons/io5";
 import {useState} from "react";
 import {TbLayoutSidebar} from "react-icons/tb";
 import { motion } from "framer-motion";
+import {MdAccessTime} from "react-icons/md";
+import {FiDatabase, FiSettings} from "react-icons/fi";
+import {CgFileDocument} from "react-icons/cg";
+import {Divider} from "@heroui/divider";
 
 const buttons= [
-    {icon: <FaUserAlt size={15} />, label: "Gestion des utilisateurs", href: "users-management"},
-    {icon: <IoSettings size={15} />, label: "Paramètres système", href: "system-settings"},
-    {icon: <FaDatabase size={15} />, label: "Employés et enseignants", href: "employees-profs-management"},
-    {icon: <IoDocumentText size={15} />, label: "Documents administratifs", href: "documents"},
-    {icon: <FaCalendarTimes size={15} />, label: "Absences et congés", href: "absences-and-leaves"},
-    {icon: <IoIosTime size={15} />, label: "Emploi du temps", href: "time-table"},
-    {icon: <FaTasks size={15} />, label: "Tâches et responsabilités", href: "tasks-and-responsibilities"},
-    {icon: <IoStatsChart size={15} />, label: "Statistiques et rapports", href: "stats-and-reports"},
+    {icon: <FaRegUser size={17} />, label: "Gestion des utilisateurs", href: "users-management"},
+    {icon: <FiSettings size={17} />, label: "Paramètres système", href: "system-settings"},
+    {icon: <FiDatabase size={17} />, label: "Employés et enseignants", href: "employees-profs-management"},
+    {icon: <CgFileDocument size={17} />, label: "Documents administratifs", href: "documents"},
+    {icon: <FaRegCalendarTimes size={17} />, label: "Absences et congés", href: "absences-and-leaves"},
+    {icon: <MdAccessTime size={17} />, label: "Emploi du temps", href: "time-table"},
+    {icon: <FaTasks size={17} />, label: "Tâches et responsabilités", href: "tasks-and-responsibilities"},
+    {icon: <IoStatsChartOutline size={17} />, label: "Statistiques et rapports", href: "stats-and-reports"},
 ]
 
 function Sidebar() {
@@ -50,7 +53,7 @@ function Sidebar() {
         <motion.nav
             layout
             transition={{duration: 0.3, ease: "easeInOut"}}
-            className={"z-30 absolute left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-200 h-full"}> {/*Sidebar main container*/}
+            className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 absolute left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
             <div className={"w-full flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
                 <motion.button layout className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar size={22} /></motion.button>
                 <motion.div layout>
@@ -68,6 +71,7 @@ function Sidebar() {
                     </motion.p>
                 )}
             </div>
+            <Divider />
             {renderButtons()}
         </motion.nav>
     );

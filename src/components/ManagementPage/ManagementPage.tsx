@@ -93,7 +93,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                             startContent={<MdOutlinePersonAdd size={20}/>}
                             onPress={onOpen}
                             radius={"sm"}
-                            color={"primary"}
+                            className={"bg-[#1565C0] text-white"}
+                            // color={"primary"}
                         >
                             Ajouter
                         </Button>
