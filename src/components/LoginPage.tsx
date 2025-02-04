@@ -34,15 +34,17 @@ function LoginPage() {
                 <CardBody>
                     <form onSubmit={onSubmit} className={"flex flex-col justify-center items-center gap-4 h-full"}>
                         <Input
+                            color={errors.email ? "danger" : "default"}
                             startContent={<MdEmail size={20}/>}
                             type={"email"}
                             placeholder={"Entrez votre email"}
                             errorMessage={errors.email?.message as string}
-                            isInvalid={!!errors.email?.message}
+                            isInvalid={!!errors.email}
                             size={"md"}
                             {...register("email")}
                         />
                         <Input
+                            color={errors.password ? "danger" : "default"}
                             startContent={<RiLockPasswordFill size={20}/>}
                             type={"password"}
                             placeholder={"Entrez votre mot de passe"}

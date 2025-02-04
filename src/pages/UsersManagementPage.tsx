@@ -16,7 +16,8 @@ function UsersManagementPage() {
 
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const cellValue  = user[columnKey];
 
         switch (columnKey) {
@@ -34,7 +35,7 @@ function UsersManagementPage() {
                 return cellValue;
             case "status":
                 return (
-                    <Chip color={cellValue === "Actif" ? "success" : "danger"}>{cellValue}</Chip>
+                    <Chip variant={"flat"} color={cellValue === "Actif" ? "success" : "danger"}>{cellValue}</Chip>
                 )
             case "actions":
                 return (
@@ -53,7 +54,6 @@ function UsersManagementPage() {
                 )
         }
     }
-
 
     return (
         <div className={"w-full"}>
