@@ -11,11 +11,11 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
           <BrowserRouter>
               <Routes>
-                  <Route path={"/"} element={<App />}>
-                      <Route path={"login"} element={<LoginPage />} />
-                      <Route path={"/users-management"} element={<UsersManagementPage />}/>
-                      <Route path={"/employees-profs-management"} element={<EmployeesProfsManagementPage />}/>
+                  <Route path={"/accueil"} element={<App />}>
+                      <Route path={"users-management"} element={<UsersManagementPage />}/>
+                      <Route path={"employees-profs-management"} element={<EmployeesProfsManagementPage />}/>
                   </Route>
+                  <Route path={"/login"} element={<LoginPage />} />
               </Routes>
           </BrowserRouter>
   </StrictMode>,

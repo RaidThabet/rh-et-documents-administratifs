@@ -22,7 +22,7 @@ function LoginPage() {
     })
 
     return (
-        <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-full w-full"}>
+        <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-screen w-full"}>
             <Card className={"px-4 w-3/12"}>
                 <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
                     <Avatar size={"lg"} src={"public/images/logo_isimm.png"} />
