@@ -96,7 +96,6 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                                 onPress={onOpen}
                                 radius={"sm"}
                                 className={"bg-[#1565C0] text-white"}
-                                // color={"primary"}
                             >
                                 Ajouter
                             </Button>

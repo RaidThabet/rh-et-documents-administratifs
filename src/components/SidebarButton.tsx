@@ -1,6 +1,5 @@
 import {clsx} from "clsx";
 import {ReactNode} from "react";
-import {motion} from "framer-motion";
 import {Tooltip} from "@heroui/tooltip";
 
 type Props = {
@@ -13,7 +12,7 @@ type Props = {
 function SidebarButton({isCollapsed, icon, label, isActive}: Props) {
     return (
         <Tooltip isDisabled={!isCollapsed} color={"primary"} content={label} placement={"right"} delay={600}>
-            <motion.button
+            <button
                 // layout
                 className={clsx("relative flex flex-row justify-start items-center gap-3 py-2 px-3 text-sm font-semibold rounded-md h-10 w-full", {
                     "font-bold text-[#0D47A1] bg-[#cce6f4]": isActive,
@@ -23,18 +22,14 @@ function SidebarButton({isCollapsed, icon, label, isActive}: Props) {
 
                 })}
             >
-                <motion.div layout>
+                <div>
                     {icon}
-                </motion.div>
+                </div>
                 {!isCollapsed && (
-                    <motion.span
-                        layout
-                        initial={{opacity: 0, y: 12}}
-                        animate={{opacity: 1, y: 0}}
-                        transition={{delay: 0.125}}
-                    >{label}</motion.span>
+                    <span
+                    >{label}</span>
                 )}
-            </motion.button>
+            </button>
         </Tooltip>
 
     );

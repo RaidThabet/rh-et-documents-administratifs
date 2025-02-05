@@ -6,7 +6,6 @@ import {FaRegCalendarTimes, FaRegUser, FaTasks} from "react-icons/fa";
 import {IoStatsChartOutline} from "react-icons/io5";
 import {useEffect, useRef, useState} from "react";
 import {TbLayoutSidebar} from "react-icons/tb";
-import {motion} from "framer-motion";
 import {MdAccessTime} from "react-icons/md";
 import {FiDatabase, FiSettings} from "react-icons/fi";
 import {CgFileDocument} from "react-icons/cg";
@@ -46,7 +45,7 @@ function Sidebar() {
 
     const renderButtons = () => {
         return (
-            <motion.div layout className={"flex flex-col justify-center items-center gap-3 w-full"}>
+            <div className={"flex flex-col justify-center items-center gap-3 w-full"}>
                 {
                     buttons.map(({icon, label, href}) => (
                         <NavLink key={uuidv4()} to={href} className={"flex justify-center items-center w-full"}
@@ -59,39 +58,33 @@ function Sidebar() {
                             }
                         </NavLink>
                     ))}
-            </motion.div>
+            </div>
         )
     }
 
     return (
-        <motion.nav
+        <nav
             ref={sidebarRef}
-            layout
-            transition={{duration: 0.3, ease: "easeInOut"}}
-            className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 absolute left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
+            className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
             <div className={"w-full flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
-                <motion.button layout className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar
-                    size={22}/></motion.button>
-                <motion.div layout>
+                <button className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar
+                    size={22}/></button>
+                <div>
                     <Avatar size={"md"} src={"/public/images/logo_isimm.png"}/>
-                </motion.div>
+                </div>
                 {!isCollapsed && (
-                    <motion.p
+                    <p
                         className={"text-xl font-semibold"}
-                        layout
-                        initial={{opacity: 0, y: 12}}
-                        animate={{opacity: 1, y: 0}}
-                        transition={{delay: 0.125}}
                     >
                         RH
-                    </motion.p>
+                    </p>
                 )}
             </div>
-            <motion.div layout className={"w-full"}>
+            <div className={"w-full"}>
                 <Divider/>
-            </motion.div>
+            </div>
             {renderButtons()}
-        </motion.nav>
+        </nav>
     );
 }
 
