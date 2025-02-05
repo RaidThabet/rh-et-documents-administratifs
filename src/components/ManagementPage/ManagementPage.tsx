@@ -80,24 +80,27 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
             <p className={'text-xl font-medium'}>{subtitle}</p>
             <div className={"mt-5 flex flex-col justify-center items-center gap-4"}> {/*table container*/}
                 <div className={"flex flex-row justify-between items-center w-full"}> {/*table header container*/}
-                    <Input
-                        radius={"sm"}
-                        className={"w-1/2"}
-                        startContent={<BiSearch size={20}/>}
-                        placeholder={"Rechercher par nom..."}
-                    />
-                    <div className={"flex flex-row justify-center items-center gap-5"}>
-                        {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
-                        <Filters onFilter={filterItems} sections={sections}/>
-                        <Button
-                            startContent={<MdOutlinePersonAdd size={20}/>}
-                            onPress={onOpen}
+                    <h1 className={"text-2xl"}>Total des données: 25</h1>
+                    <div className={"flex flex-row justify-end gap-5 w-1/2"}>
+                        <Input
                             radius={"sm"}
-                            className={"bg-[#1565C0] text-white"}
-                            // color={"primary"}
-                        >
-                            Ajouter
-                        </Button>
+                            className={"w-1/2"}
+                            startContent={<BiSearch size={20}/>}
+                            placeholder={"Rechercher par nom..."}
+                        />
+                        <div className={"flex flex-row justify-center items-center gap-5"}>
+                            {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
+                            <Filters onFilter={filterItems} sections={sections}/>
+                            <Button
+                                startContent={<MdOutlinePersonAdd size={20}/>}
+                                onPress={onOpen}
+                                radius={"sm"}
+                                className={"bg-[#1565C0] text-white"}
+                                // color={"primary"}
+                            >
+                                Ajouter
+                            </Button>
+                        </div>
                     </div>
 
                 </div>
