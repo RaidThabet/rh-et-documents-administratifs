@@ -4,7 +4,7 @@ import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
 import {FaRegCalendarTimes, FaRegUser, FaTasks} from "react-icons/fa";
 import {IoStatsChartOutline} from "react-icons/io5";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import {TbLayoutSidebar} from "react-icons/tb";
 import {MdAccessTime} from "react-icons/md";
 import {FiDatabase, FiSettings} from "react-icons/fi";
@@ -24,20 +24,6 @@ const buttons = [
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-    const sidebarRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
-                setIsCollapsed(true);
-            }
-        }
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
 
     const handleCollapse = () => {
         setIsCollapsed(prev => !prev);
@@ -64,7 +50,6 @@ function Sidebar() {
 
     return (
         <nav
-            ref={sidebarRef}
             className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
             <div className={"w-full flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
                 <button className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar

@@ -9,7 +9,7 @@ function App() {
         <HeroUIProvider>
             <div className={"flex flex-row justify-center items-center h-[100vh]"}>
                 <Sidebar/>
-                <div className={"flex flex-col justify-start items-start flex-1 h-full"}>
+                <div className={"overflow-scroll flex flex-col justify-start items-start flex-1 h-full"}>
                     <PageBreadcrumbs />
                     <Divider />
                     <Outlet/>
