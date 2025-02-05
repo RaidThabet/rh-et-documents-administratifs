@@ -9,11 +9,8 @@ import {columns, users} from "../lib/data/users.ts";
 import UserAddModal from "../components/UserAddForm.tsx";
 import {useDisclosure} from "@heroui/modal";
 
-
-
 function UsersManagementPage() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
