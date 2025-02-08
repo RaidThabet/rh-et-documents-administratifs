@@ -8,6 +8,8 @@ function ProtectedRoutes() {
         return <Navigate to={"/login"} />
     }
 
+    console.log("token: " + token);
+
     return <Outlet />
 }
 

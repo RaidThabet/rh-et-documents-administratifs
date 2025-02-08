@@ -6,11 +6,13 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
-// import axios from "axios"
 import {useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
+import {getAuthToken} from "../util/auth.ts";
+import {useEffect} from "react";
 
 function LoginPage() {
+    const token = getAuthToken();
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -38,6 +40,12 @@ function LoginPage() {
         }
         
     })
+
+    useEffect(() => {
+        if (token) {
+            navigate("/accueil");
+        }
+    }, [navigate, token]);
 
     return (
         <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-screen w-full"}>
