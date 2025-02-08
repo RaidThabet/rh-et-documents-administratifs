@@ -6,9 +6,12 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
-import axios from "axios"
+// import axios from "axios"
+import {useNavigate} from "react-router";
+import {login} from "../actions/authActions.ts";
 
 function LoginPage() {
+    const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -18,14 +21,22 @@ function LoginPage() {
         mode: "onTouched"
     })
 
-    const onSubmit = handleSubmit((data) => {
-        console.log(data);
-        axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login", 
-            data,
-            { withCredentials: true }
-        )
-        .then(response => console.log(response.data))
-        .catch(error => console.error(error));
+    const onSubmit = handleSubmit(async (data) => {
+        // console.log(data);
+        // axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login",
+        //     data,
+        //     { withCredentials: true }
+        // )
+        // .then(response => console.log(response.data))
+        // .catch(error => console.error(error));
+        try {
+            await login(data);
+            navigate("/accueil");
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+        
     })
 
     return (
