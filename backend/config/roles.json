@@ -1,0 +1,43 @@
+{
+  "roles": [
+    {
+      "name": "anonymous",
+      "permissions": [
+        "login",
+        "register",
+        "logout"
+      ]
+    },
+    {
+      "name": "admin",
+      "permissions": [
+        "create_record",
+        "read_record",
+        "update_record",
+        "delete_record"
+      ]
+    },
+    {
+      "name": "rh",
+      "permissions": [
+        "create_record",
+        "read_record",
+        "update_record"
+      ]
+    },
+    {
+      "name": "agent",
+      "permissions": [
+        "create_record",
+        "read_record"
+      ]
+    },
+    {
+      "name": "professor",
+      "permissions": [
+        "create_record",
+        "read_record"
+      ]
+    }
+  ]
+}
