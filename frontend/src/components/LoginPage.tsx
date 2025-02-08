@@ -10,11 +10,12 @@ import {useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
 import {getAuthToken} from "../util/auth.ts";
 import {useEffect} from "react";
+import {Alert} from "@heroui/alert";
 
 function LoginPage() {
     const token = getAuthToken();
     const navigate = useNavigate();
-    const {register, handleSubmit, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
+    const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
@@ -24,17 +25,14 @@ function LoginPage() {
     })
 
     const onSubmit = handleSubmit(async (data) => {
-        // console.log(data);
-        // axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login",
-        //     data,
-        //     { withCredentials: true }
-        // )
-        // .then(response => console.log(response.data))
-        // .catch(error => console.error(error));
         try {
             await login(data);
             navigate("/accueil");
         } catch (e) {
+            setError("root", {
+                type: "manual",
+                message: e.message || "Veuillez vérifier vos coordonnées"
+            })
             console.log(e);
             throw e;
         }
@@ -56,6 +54,7 @@ function LoginPage() {
                     <p className={"text-md text-center font-semibold"}>
                         Bonjour! Veuillez saisir vos coordonnées pour vous connecter.
                     </p>
+                    {errors.root && <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
                 </CardHeader>
                 <CardBody>
                     <form onSubmit={onSubmit} className={"flex flex-col justify-center items-center gap-4 h-full"}>
