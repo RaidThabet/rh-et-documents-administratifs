@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
+import axios from "axios"
 
 function LoginPage() {
     const {register, handleSubmit, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
@@ -19,6 +20,12 @@ function LoginPage() {
 
     const onSubmit = handleSubmit((data) => {
         console.log(data);
+        axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login", 
+            data,
+            { withCredentials: true }
+        )
+        .then(response => console.log(response.data))
+        .catch(error => console.error(error));
     })
 
     return (
