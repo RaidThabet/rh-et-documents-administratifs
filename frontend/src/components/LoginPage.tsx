@@ -31,6 +31,8 @@ function LoginPage() {
         } catch (e) {
             setError("root", {
                 type: "manual",
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
                 message: e.message || "Veuillez vérifier vos coordonnées"
             })
             console.log(e);
@@ -81,7 +83,7 @@ function LoginPage() {
                         />
                         <button disabled={!isValid || isSubmitting} type={"submit"}
                                 className={"mt-5 rounded-md bg-[#4879f4] disabled:opacity-50 text-white font-semibold py-2 px-4"}>
-                            Se Connecter
+                            {isSubmitting ? "Connexion..." : "Se Connecter"}
                         </button>
                     </form>
                 </CardBody>

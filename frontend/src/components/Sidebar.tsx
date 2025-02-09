@@ -1,5 +1,5 @@
 import {Avatar} from "@heroui/avatar";
-import {NavLink} from "react-router";
+import {NavLink, useNavigate} from "react-router";
 import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
 import {FaRegCalendarTimes, FaRegUser, FaTasks} from "react-icons/fa";
@@ -10,6 +10,8 @@ import {MdAccessTime} from "react-icons/md";
 import {FiDatabase, FiSettings} from "react-icons/fi";
 import {CgFileDocument} from "react-icons/cg";
 import {Divider} from "@heroui/divider";
+import {LuLogOut} from "react-icons/lu";
+import {logout} from "../actions/authActions.ts";
 
 const buttons = [
     {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management"},
@@ -23,10 +25,17 @@ const buttons = [
 ]
 
 function Sidebar() {
+    const navigate = useNavigate();
+
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
     const handleCollapse = () => {
         setIsCollapsed(prev => !prev);
+    }
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
     }
 
     const renderButtons = () => {
@@ -52,8 +61,15 @@ function Sidebar() {
         <nav
             className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
             <div className={"w-full flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
-                <button className={"absolute bottom-1 left-1"} onClick={handleCollapse}><TbLayoutSidebar
-                    size={22}/></button>
+                <div className={"space-x-2 absolute bottom-1 left-1"}>
+                    <button onClick={handleCollapse}>
+                        <TbLayoutSidebar
+                            size={22}/>
+                    </button>
+                    <button onClick={handleLogout} className={"absolute bottom-1 left-17"}>
+                        <LuLogOut size={22}/>
+                    </button>
+                </div>
                 <div>
                     <Avatar size={"md"} src={"/public/images/logo_isimm.png"}/>
                 </div>
