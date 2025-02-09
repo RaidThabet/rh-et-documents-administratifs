@@ -33,8 +33,8 @@ function Sidebar() {
         setIsCollapsed(prev => !prev);
     }
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        await logout();
         navigate("/login");
     }
 
@@ -71,7 +71,7 @@ function Sidebar() {
                     </button>
                 </div>
                 <div>
-                    <Avatar size={"md"} src={"/public/images/logo_isimm.png"}/>
+                    <Avatar size={"md"} src={"/images/logo_isimm.png"}/>
                 </div>
                 {!isCollapsed && (
                     <p

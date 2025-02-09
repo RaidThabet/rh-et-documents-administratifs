@@ -51,7 +51,7 @@ function LoginPage() {
         <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-screen w-full"}>
             <Card className={"px-4 w-3/12"}>
                 <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
-                    <Avatar size={"lg"} src={"public/images/logo_isimm.png"} />
+                    <Avatar size={"lg"} src={"/images/logo_isimm.png"} />
                     <p className={"text-2xl font-bold"}>Authentification</p>
                     <p className={"text-md text-center font-semibold"}>
                         Bonjour! Veuillez saisir vos coordonnées pour vous connecter.

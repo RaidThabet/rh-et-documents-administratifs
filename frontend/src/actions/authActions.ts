@@ -20,6 +20,7 @@ export const login = async (credentials: { email: string, password: string }) =>
     }
 }
 
-export const logout = () => {
+export const logout = async () => {
+    await axios.get(`${import.meta.env.VUTE_BACKEND_URL}/auth/logout`);
     localStorage.removeItem("token");
 };
