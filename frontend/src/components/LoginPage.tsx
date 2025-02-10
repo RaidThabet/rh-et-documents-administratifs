@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
-import {useNavigate} from "react-router";
+import {Link, useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
 import {getAuthToken} from "../util/auth.ts";
 import {useEffect} from "react";
@@ -22,7 +22,7 @@ function LoginPage() {
             password: ""
         },
         mode: "onTouched"
-    })
+    });
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -32,13 +32,13 @@ function LoginPage() {
             setError("root", {
                 type: "manual",
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
+                // @ts-expect-error
                 message: e.message || "Veuillez vérifier vos coordonnées"
             })
             console.log(e);
             throw e;
         }
-        
+
     })
 
     useEffect(() => {
@@ -48,15 +48,17 @@ function LoginPage() {
     }, [navigate, token]);
 
     return (
-        <div className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-screen w-full"}>
+        <div
+            className={"bg-gradient-to-r from-indigo-500 to-blue-500 flex justify-center items-center h-screen w-full"}>
             <Card className={"px-4 w-3/12"}>
                 <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
-                    <Avatar size={"lg"} src={"/images/logo_isimm.png"} />
+                    <Avatar size={"lg"} src={"/images/logo_isimm.png"}/>
                     <p className={"text-2xl font-bold"}>Authentification</p>
                     <p className={"text-md text-center font-semibold"}>
                         Bonjour! Veuillez saisir vos coordonnées pour vous connecter.
                     </p>
-                    {errors.root && <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
+                    {errors.root &&
+                        <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
                 </CardHeader>
                 <CardBody>
                     <form onSubmit={onSubmit} className={"flex flex-col justify-center items-center gap-4 h-full"}>
@@ -70,17 +72,19 @@ function LoginPage() {
                             size={"md"}
                             {...register("email")}
                         />
-                        <Input
-                            color={errors.password ? "danger" : "default"}
-                            startContent={<RiLockPasswordFill size={20}/>}
-                            type={"password"}
-                            placeholder={"Entrez votre mot de passe"}
-                            errorMessage={errors.password?.message as string}
-                            isInvalid={!!errors.password?.message}
-                            size={"md"}
-                            {...register("password")}
-                            description={<a href={"/login"}>Mot de passe oublié?</a>}
-                        />
+                        <div className={"flex gap-1 flex-col justify-center items-start w-full"}>
+                            <Input
+                                color={errors.password ? "danger" : "default"}
+                                startContent={<RiLockPasswordFill size={20}/>}
+                                type={"password"}
+                                placeholder={"Entrez votre mot de passe"}
+                                errorMessage={errors.password?.message as string}
+                                isInvalid={!!errors.password?.message}
+                                size={"md"}
+                                {...register("password")}
+                            />
+                            <Link to={"/reset"} className={"opacity-80 text-xs"}>Mot de passe oublié?</Link>
+                        </div>
                         <button disabled={!isValid || isSubmitting} type={"submit"}
                                 className={"mt-5 rounded-md bg-[#4879f4] disabled:opacity-50 text-white font-semibold py-2 px-4"}>
                             {isSubmitting ? "Connexion..." : "Se Connecter"}
