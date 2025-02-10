@@ -19,8 +19,9 @@ exports.registerUser = async (req, res) => {
             res.status(400).send("All input is required");
         }
 
-        if (!["agent", "professor"].includes(req.body.role))
-            res.status(403).send("Only allowed self-assigned roles are: agent, professor!");
+        // if (!["agent", "professor"].includes(req.body.role))
+        //     res.status(403).send("Only allowed self-assigned roles are: agent, professor!");
+        // no need anymore: because now only admin can create new accounts
 
         const oldUser = await User.findOne({ email: req.body.email });
 
