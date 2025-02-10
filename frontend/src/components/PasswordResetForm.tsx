@@ -8,7 +8,7 @@ import {Input} from "@heroui/input";
 import {MdEmail} from "react-icons/md";
 
 function PasswordResetForm() {
-    const {register, handleSubmit, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<PasswordResetSchema>({
+    const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<PasswordResetSchema>({
         resolver: zodResolver(passwordResetSchema),
         defaultValues: {
             email: "",
@@ -17,7 +17,17 @@ function PasswordResetForm() {
     });
 
     const onSubmit = handleSubmit((data) => {
-        console.log(data);
+        try {
+            console.log(data);
+            throw new Error("bruh");
+        } catch (e) {
+            setError("root", {
+                type: "manual",
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                message: e.message || "Veuillez vérifier vos coordonnées"
+            })
+        }
     })
 
     return (
