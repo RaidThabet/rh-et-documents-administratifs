@@ -74,7 +74,7 @@ exports.loginUser = async (req, res) => {
         sameSite: "None",
     });
 
-    res.json({ token });
+    res.json({ token, user });
 };
 
 
