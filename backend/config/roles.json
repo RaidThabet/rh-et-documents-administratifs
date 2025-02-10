@@ -3,9 +3,7 @@
     {
       "name": "anonymous",
       "permissions": [
-        "login",
-        "register",
-        "logout"
+        "login"
       ]
     },
     {
@@ -14,7 +12,9 @@
         "create_record",
         "read_record",
         "update_record",
-        "delete_record"
+        "delete_record",
+        "register",
+        "logout"
       ]
     },
     {
@@ -22,21 +22,24 @@
       "permissions": [
         "create_record",
         "read_record",
-        "update_record"
+        "update_record",
+        "logout"
       ]
     },
     {
       "name": "agent",
       "permissions": [
         "create_record",
-        "read_record"
+        "read_record",
+        "logout"
       ]
     },
     {
       "name": "professor",
       "permissions": [
         "create_record",
-        "read_record"
+        "read_record",
+        "logout"
       ]
     }
   ]
