@@ -10,7 +10,7 @@ router.post('/register', rbacMiddleware.checkPermission('register'), authControl
 
 router.post('/forgot', rbacMiddleware.checkPermission('reset_password'), authController.forgotPassword);
 router.get('/forgot/check', rbacMiddleware.checkPermission('reset_password'), authController.checkResetCredentials);
-router.post('/reset', rbacMiddleware.checkPermission('"reset_password"'), authController.resetPassword);
+router.post('/reset', rbacMiddleware.checkPermission('reset_password'), authController.resetPassword);
 
 router.get('/logout', rbacMiddleware.checkPermission('logout'), authController.logoutUser);
 

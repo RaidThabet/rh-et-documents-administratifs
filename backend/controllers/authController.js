@@ -165,7 +165,7 @@ exports.forgotPassword = async (req, res) => {
 
 
 exports.checkResetCredentials = async (req, res) => {
-    const { userId, token } = req.body;
+    const { userId, token } = req.query;
 
     let passwordResetToken = await Token.findOne({ userId });
     if (!passwordResetToken) {
