@@ -4,9 +4,9 @@ import {Card, CardBody, CardHeader} from "@heroui/card";
 import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
-import {MdEmail} from "react-icons/md";
 import {passwordResetSchema, PasswordResetSchema} from "../lib/schema/passwordResetSchema.ts";
 import {useSearchParams} from "react-router";
+import {RiLockPasswordFill} from "react-icons/ri";
 
 function PasswordResetForm() {
     const [params] = useSearchParams();
@@ -39,7 +39,7 @@ function PasswordResetForm() {
                 <Avatar size={"lg"} src={"/images/logo_isimm.png"}/>
                 <p className={"text-2xl font-bold text-center"}>Restauration du mot de passe</p>
                 <p className={"text-md text-center font-semibold"}>
-                    Veuillez saisir votre email pour poursuivre le processus de restauration de votre mot de passe.
+                    Veuillez saisir votre nouveau mot de passe pour poursuivre le processus de restauration.
                 </p>
                 {errors.root &&
                     <Alert variant={'solid'} color={"danger"} title={"Erreur"}/>}
@@ -51,7 +51,7 @@ function PasswordResetForm() {
                 <form onSubmit={onSubmit} className={"flex flex-col justify-center items-center gap-4 h-full"}>
                     <Input
                         color={errors.newPassword ? "danger" : "default"}
-                        startContent={<MdEmail size={20}/>}
+                        startContent={<RiLockPasswordFill size={20}/>}
                         type={"password"}
                         placeholder={"Entrez votre nouveau mot de passe"}
                         errorMessage={errors.newPassword?.message as string}
@@ -61,7 +61,7 @@ function PasswordResetForm() {
                     />
                     <Input
                         color={errors.confirmPassword ? "danger" : "default"}
-                        startContent={<MdEmail size={20}/>}
+                        startContent={<RiLockPasswordFill size={20}/>}
                         type={"password"}
                         placeholder={"Confirmez votre nouveau mot de passe"}
                         errorMessage={errors.confirmPassword?.message as string}
