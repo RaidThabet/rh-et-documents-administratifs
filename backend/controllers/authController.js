@@ -137,7 +137,7 @@ exports.forgotPassword = async (req, res) => {
                     })
                 })
 
-            const link = `${process.env.FRONTEND_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
+            const link = `${process.env.FRONTEND_URL}/password-reset?token=${resetToken}&id=${user._id}`;
             const to = email;
             const subject = "Resetting password";
             const text = `
@@ -167,35 +167,45 @@ exports.forgotPassword = async (req, res) => {
 exports.checkResetCredentials = async (req, res) => {
     const { userId, token } = req.query;
 
-    let passwordResetToken = await Token.findOne({ userId });
+    let passwordResetToken;
+    try {
+        passwordResetToken = await Token.findOne({ userId });
+    } catch (error) {
+        console.error("Invalid or expired password reset token");
+    }
     if (!passwordResetToken) {
         console.error("Invalid or expired password reset token");
-        res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
+        return res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
     }
     const isValid = await bcrypt.compare(token, passwordResetToken.token);
     if (!isValid) {
         console.error("Invalid or expired password reset token");
-        res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
+        return res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
     }
 
-    res.status(200).json({ isCorrect: true, message: "Correct password and reset token" })
+    return res.status(200).json({ isCorrect: true, message: "Correct password and reset token" })
 };
 
 // Reset a user's password
 exports.resetPassword = async (req, res) => {
     const { userId, token, password } = req.body;
 
-    let passwordResetToken = await Token.findOne({ userId });
+    let passwordResetToken;
+    try {
+        passwordResetToken = await Token.findOne({ userId });
+    } catch (error) {
+        console.error("Invalid or expired password reset token");
+    }
     if (!passwordResetToken) {
         // throw new Error("Invalid or expired password reset token");
         console.error("Invalid or expired password reset token");
-        res.status(404).json({ message: "Invalid or expired password reset token" })
+        return res.status(404).json({ message: "Invalid or expired password reset token" })
     }
-    const isValid = await bcrypt.compare(token, passwordResetToken.token);
+    const isValid = await bcrypt.compare(token, passwordResetToken?.token);
     if (!isValid) {
         // throw new Error("Invalid or expired password reset token");
         console.error("Invalid or expired password reset token");
-        res.status(404).json({ message: "Invalid or expired password reset token" })
+        return res.status(404).json({ message: "Invalid or expired password reset token" })
     }
     const salt = 10;
     const hash = await bcrypt.hash(password, salt);

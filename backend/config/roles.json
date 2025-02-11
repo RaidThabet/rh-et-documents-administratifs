@@ -3,7 +3,9 @@
     {
       "name": "anonymous",
       "permissions": [
+        "check_auth_status",
         "login",
+        "logout",
         "reset_password"
       ]
     },
@@ -14,7 +16,9 @@
         "read_record",
         "update_record",
         "delete_record",
+        "check_auth_status",
         "register",
+        "login",
         "logout",
         "reset_password"
       ]
@@ -25,6 +29,8 @@
         "create_record",
         "read_record",
         "update_record",
+        "check_auth_status",
+        "login",
         "logout",
         "reset_password"
       ]
@@ -34,6 +40,8 @@
       "permissions": [
         "create_record",
         "read_record",
+        "check_auth_status",
+        "login",
         "logout",
         "reset_password"
       ]
@@ -43,6 +51,8 @@
       "permissions": [
         "create_record",
         "read_record",
+        "check_auth_status",
+        "login",
         "logout",
         "reset_password"
       ]
