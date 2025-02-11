@@ -6,8 +6,9 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import UsersManagementPage from "./pages/UsersManagementPage.tsx";
 import EmployeesProfsManagementPage from "./pages/EmployeesProfsManagementPage.tsx";
 import ProtectedRoutes from "./components/ProtectedRoutes.tsx";
-import PasswordResetPage from "./pages/PasswordResetPage.tsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
+import PasswordResetPage from "./pages/PasswordResetPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -21,7 +22,8 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
 
                 <Route path={"/login"} element={<LoginPage />}/>
-                <Route path={"/reset"} element={<PasswordResetPage />} />
+                <Route path={"/reset"} element={<ForgotPasswordPage />} />
+                <Route path={"/password-reset"} element={<PasswordResetPage />} />
             </Routes>
         </BrowserRouter>
     </StrictMode>,
