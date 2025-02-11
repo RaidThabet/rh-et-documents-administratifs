@@ -10,10 +10,10 @@ import {Link, useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
 import {useEffect} from "react";
 import {Alert} from "@heroui/alert";
-import {useAuthStore} from "../store/useAuthStore.ts";
+import {getAuthToken} from "../util/auth.ts";
 
 function LoginForm() {
-    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+    const token = getAuthToken();
     const navigate = useNavigate();
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -42,10 +42,11 @@ function LoginForm() {
     })
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (token) {
             navigate("/accueil");
         }
-    }, [navigate, isAuthenticated]);
+
+    }, [token, navigate]);
 
     return (
         <Card className={"px-4 w-3/12"}>

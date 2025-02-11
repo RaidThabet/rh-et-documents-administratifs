@@ -24,7 +24,7 @@ const rowsPerPage = 5;
 
 function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
     const [filteredItems, setFilteredItems] = useState(items);
-    
+
     const sections = columns.map((column) => ({
         key: column.key,
         name: column.label, // Assuming label in column is the name to be used

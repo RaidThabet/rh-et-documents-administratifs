@@ -5,11 +5,18 @@ import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
 import {passwordResetSchema, PasswordResetSchema} from "../lib/schema/passwordResetSchema.ts";
-import {useSearchParams} from "react-router";
+import {useNavigate, useSearchParams} from "react-router";
 import {RiLockPasswordFill} from "react-icons/ri";
+import {resetPassword} from "../actions/authActions.ts";
+import {checkResetParams} from "../util/auth.ts";
+import {useEffect} from "react";
 
 function PasswordResetForm() {
     const [params] = useSearchParams();
+    const token = params.get("token") as string;
+    const userId = params.get("id") as string;
+
+    const navigate = useNavigate();
 
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<PasswordResetSchema>({
         resolver: zodResolver(passwordResetSchema),
@@ -20,10 +27,10 @@ function PasswordResetForm() {
         mode: "onTouched"
     });
 
-    const onSubmit = handleSubmit((data) => {
+    const onSubmit = handleSubmit(async(data) => {
         try {
-            console.log(params);
-            console.log(data);
+            const reqData = {token: params.get("token") as string, userId: params.get("id") as string, password: data.newPassword}
+            await resetPassword(reqData);
         } catch (e) {
             console.log(e);
             setError("root", {
@@ -32,6 +39,19 @@ function PasswordResetForm() {
             })
         }
     })
+
+    useEffect(() => {
+        checkResetParams(token, userId)
+            .then(res => {
+                if (!res.isCorrect) {
+                    navigate("/login")
+                }
+
+                return;
+            })
+            .catch(e => console.log(e))
+
+    }, [navigate, params, token, userId]);
 
     return (
         <Card className={"px-4 w-3/12"}>
@@ -42,7 +62,7 @@ function PasswordResetForm() {
                     Veuillez saisir votre nouveau mot de passe pour poursuivre le processus de restauration.
                 </p>
                 {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={"Erreur"}/>}
+                    <Alert variant={'solid'} color={"danger"} title={errors.root.message}/>}
                 {isSubmitSuccessful && (
                     <Alert variant={"solid"} color={"success"} title={"Votre mot de passe a été modifié avec succès"} />
                 )}

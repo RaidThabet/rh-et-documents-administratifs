@@ -6,6 +6,7 @@ import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
 import {MdEmail} from "react-icons/md";
+import {forgotPassword} from "../actions/authActions.ts";
 
 function ForgotPasswordForm() {
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<ForgotPasswordSchema>({
@@ -16,10 +17,9 @@ function ForgotPasswordForm() {
         mode: "onTouched"
     });
 
-    const onSubmit = handleSubmit((data) => {
+    const onSubmit = handleSubmit(async(data) => {
         try {
-            console.log(data);
-            throw new Error("bruh");
+            await forgotPassword(data);
         } catch (e) {
             setError("root", {
                 type: "manual",
@@ -39,9 +39,9 @@ function ForgotPasswordForm() {
                     Veuillez saisir votre email pour poursuivre le processus de restauration de votre mot de passe.
                 </p>
                 {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={"Un compte avec cet email n'existe pas"}/>}
+                    <Alert variant={'solid'} color={"danger"} title={errors.root?.message}/>}
                 {isSubmitSuccessful && (
-                    <Alert variant={"solid"} color={"secondary"} title={"Veuillez vérifier votre courrier pour procéder au restauration de votre mot de passe."} />
+                    <Alert variant={"solid"} color={"secondary"} title={errors.root?.message} />
                 )}
             </CardHeader>
             <CardBody>

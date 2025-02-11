@@ -34,8 +34,14 @@ function Sidebar() {
     }
 
     const handleLogout = async () => {
-        await logout();
-        navigate("/login");
+        try {
+            await logout();
+            setTimeout(() => navigate("/login"), 0);
+        } catch (e) {
+            navigate("/login");
+            console.log(e);
+        }
+
     }
 
     const renderButtons = () => {
