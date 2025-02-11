@@ -7,6 +7,7 @@ import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
 import {MdEmail} from "react-icons/md";
 import {forgotPassword} from "../actions/authActions.ts";
+import {Link} from "react-router";
 
 function ForgotPasswordForm() {
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<ForgotPasswordSchema>({
@@ -39,9 +40,9 @@ function ForgotPasswordForm() {
                     Veuillez saisir votre email pour poursuivre le processus de restauration de votre mot de passe.
                 </p>
                 {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={errors.root?.message}/>}
+                    <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
                 {isSubmitSuccessful && (
-                    <Alert variant={"solid"} color={"secondary"} title={errors.root?.message} />
+                    <Alert variant={"solid"} color={"secondary"} title={"Veuillez vérifier votre courrier pour poursuivre le processus de restauration"} />
                 )}
             </CardHeader>
             <CardBody>
@@ -60,6 +61,7 @@ function ForgotPasswordForm() {
                             className={"mt-5 rounded-md bg-[#4879f4] disabled:opacity-50 text-white font-semibold py-2 px-4"}>
                         {isSubmitting ? "Connexion..." : "Restaurer"}
                     </button>
+                    <button className={"text-sm"}><Link to={"/login"}>Retourner au login</Link></button>
                 </form>
             </CardBody>
         </Card>

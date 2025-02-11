@@ -36,10 +36,11 @@ function Sidebar() {
     const handleLogout = async () => {
         try {
             await logout();
-            setTimeout(() => navigate("/login"), 0);
         } catch (e) {
-            navigate("/login");
             console.log(e);
+        } finally {
+            navigate("/login");
+
         }
 
     }

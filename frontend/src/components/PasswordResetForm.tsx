@@ -5,7 +5,7 @@ import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
 import {passwordResetSchema, PasswordResetSchema} from "../lib/schema/passwordResetSchema.ts";
-import {useNavigate, useSearchParams} from "react-router";
+import {Link, useNavigate, useSearchParams} from "react-router";
 import {RiLockPasswordFill} from "react-icons/ri";
 import {resetPassword} from "../actions/authActions.ts";
 import {checkResetParams} from "../util/auth.ts";
@@ -62,7 +62,7 @@ function PasswordResetForm() {
                     Veuillez saisir votre nouveau mot de passe pour poursuivre le processus de restauration.
                 </p>
                 {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={errors.root.message}/>}
+                    <Alert variant={'solid'} color={"danger"} title={"Une erreur est survenue"}/>}
                 {isSubmitSuccessful && (
                     <Alert variant={"solid"} color={"success"} title={"Votre mot de passe a été modifié avec succès"} />
                 )}
@@ -96,6 +96,7 @@ function PasswordResetForm() {
                     >
                         {isSubmitting ? "Connexion..." : "Restaurer"}
                     </button>
+                    <button className={"text-sm"}><Link to={"/login"}>Retourner au login</Link></button>
                 </form>
             </CardBody>
         </Card>
