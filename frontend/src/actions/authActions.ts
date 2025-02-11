@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useAuthStore} from "../store/useAuthStore.ts";
 
 export const login = async (credentials: { email: string, password: string }) => {
     try {
@@ -8,12 +9,11 @@ export const login = async (credentials: { email: string, password: string }) =>
                 {withCredentials: true}
             );
 
-        if (response.statusText !== "OK") {
+        if (response.status !== 200) {
             throw new Error("Authentication failed");
         }
-        const newToken = response.data.token;
-        localStorage.setItem("token", newToken);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+
+        useAuthStore.getState().setIsAuthenticated(true);
     } catch (e) {
         console.log(e);
         throw new Error("Authentication non successful")
@@ -21,6 +21,6 @@ export const login = async (credentials: { email: string, password: string }) =>
 }
 
 export const logout = async () => {
-    await axios.get(`${import.meta.env.VUTE_BACKEND_URL}/auth/logout`);
-    localStorage.removeItem("token");
+    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`);
+    useAuthStore.getState().setIsAuthenticated(false);
 };

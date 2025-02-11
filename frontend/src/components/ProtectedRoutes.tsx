@@ -1,14 +1,12 @@
-import {getAuthToken} from "../util/auth.ts";
 import {Navigate, Outlet} from "react-router";
+import {useAuthStore} from "../store/useAuthStore.ts";
 
 function ProtectedRoutes() {
-    const token = getAuthToken();
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
-    if (!token) {
+    if (!isAuthenticated) {
         return <Navigate to={"/login"} />
     }
-
-    console.log("token: " + token);
 
     return <Outlet />
 }
