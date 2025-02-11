@@ -27,7 +27,6 @@ function PageBreadcrumbs() {
     return (
         <Breadcrumbs
             size={"lg"}
-            className={"ml-5 py-2"}
         >
             {items.map(item => (
                 <BreadcrumbItem key={uuid()}>{item}</BreadcrumbItem>
