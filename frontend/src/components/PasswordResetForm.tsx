@@ -46,7 +46,6 @@ function PasswordResetForm() {
                 if (!res.isCorrect) {
                     navigate("/login")
                 }
-
                 return;
             })
             .catch(e => console.log(e))
