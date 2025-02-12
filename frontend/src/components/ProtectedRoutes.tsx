@@ -1,15 +1,19 @@
-import {Navigate, Outlet} from "react-router";
-import {getAuthToken} from "../util/auth.ts";
+import { Navigate, Outlet } from "react-router";
+import { useAuth } from "../hooks/useAuth.ts";
 
 function ProtectedRoutes() {
-    const token = getAuthToken();
+    const { isLoggedIn, loading } = useAuth();
 
-    if (!token) {
-        console.log("not authenticated");
-        return <Navigate to={"/login"} />
+    if (loading) {
+        return <div className={"text-4xl flex justify-center items-center h-[100vh]"}>Chargement...</div>; // Or your loading component
     }
 
-    return <Outlet />
+    if (!isLoggedIn) {
+        console.log("not authenticated");
+        return <Navigate to="/login" />;
+    }
+
+    return <Outlet />;
 }
 
 export default ProtectedRoutes;

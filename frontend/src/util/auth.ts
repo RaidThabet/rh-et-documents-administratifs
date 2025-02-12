@@ -31,3 +31,23 @@ export const checkResetParams = async (token: string, id: string) => {
     }
 
 }
+
+export const checkIsLoggedIn = async () => {
+    try {
+        const response = await axios
+            .get(`${import.meta.env.VITE_BACKEND_URL}/auth/status`,
+                {withCredentials: true}
+            );
+
+        if (response.status !== 200) {
+            throw new Error("Error checking user authentication status");
+        }
+
+        return response.data.loggedIn;
+
+
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}

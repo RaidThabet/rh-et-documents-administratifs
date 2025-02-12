@@ -6,13 +6,14 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Avatar} from "@heroui/avatar";
-import {Link, Navigate, useNavigate} from "react-router";
+import {Link, useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
 import {Alert} from "@heroui/alert";
-import {getAuthToken} from "../util/auth.ts";
+import {useEffect} from "react";
+import {useAuth} from "../hooks/useAuth.ts";
 
 function LoginForm() {
-    const token = getAuthToken();
+    const {isLoggedIn, setIsLoggedIn} = useAuth();
     const navigate = useNavigate();
 
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting}} = useForm<LoginSchema>({
@@ -24,13 +25,10 @@ function LoginForm() {
         mode: "onTouched"
     });
 
-    if (token) {
-        return <Navigate to={"/accueil"} />
-    }
-
     const onSubmit = handleSubmit(async (data) => {
         try {
             await login(data);
+            setIsLoggedIn(true);
             navigate("/accueil");
         } catch (e) {
             setError("root", {
@@ -44,6 +42,13 @@ function LoginForm() {
         }
 
     })
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            console.log("is authenticated");
+            navigate("/accueil");
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <Card className={"px-4 w-3/12"}>

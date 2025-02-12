@@ -12,6 +12,7 @@ import {CgFileDocument} from "react-icons/cg";
 import {Divider} from "@heroui/divider";
 import {LuLogOut} from "react-icons/lu";
 import {logout} from "../actions/authActions.ts";
+import {useAuth} from "../hooks/useAuth.ts";
 
 const buttons = [
     {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management"},
@@ -26,6 +27,7 @@ const buttons = [
 
 function Sidebar() {
     const navigate = useNavigate();
+    const {setIsLoggedIn} = useAuth();
 
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
@@ -36,6 +38,7 @@ function Sidebar() {
     const handleLogout = async () => {
         try {
             await logout();
+            setIsLoggedIn(false);
         } catch (e) {
             console.log(e);
         } finally {

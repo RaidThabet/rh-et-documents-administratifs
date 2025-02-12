@@ -13,7 +13,6 @@ export const login = async (credentials: { email: string, password: string }) =>
         }
 
         const newToken = response.data.token;
-        localStorage.setItem("token", newToken);
         axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
     } catch (e) {
@@ -24,12 +23,13 @@ export const login = async (credentials: { email: string, password: string }) =>
 
 export const logout = async () => {
     try {
-        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`);
-        localStorage.removeItem("token");
+        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
+            withCredentials: true
+        });
+        delete axios.defaults.headers.common["Authorization"];
     } catch (e) {
         console.log(e);
     }
-
 };
 
 export const forgotPassword = async (data: { email: string }) => {
