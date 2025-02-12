@@ -172,17 +172,19 @@ exports.checkResetCredentials = async (req, res) => {
         passwordResetToken = await Token.findOne({ userId });
     } catch (error) {
         console.error("Invalid or expired password reset token");
+        return res.status(200).json({ isCorrect: false, message: "Invalid or expired password reset token" })
     }
     if (!passwordResetToken) {
         console.error("Invalid or expired password reset token");
-        return res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
+        return res.status(200).json({ isCorrect: false, message: "Invalid or expired password reset token" })
     }
     const isValid = await bcrypt.compare(token, passwordResetToken.token);
     if (!isValid) {
         console.error("Invalid or expired password reset token");
-        return res.status(404).json({ isCorrect: false, message: "Invalid or expired password reset token" })
+        return res.status(200).json({ isCorrect: false, message: "Invalid or expired password reset token" })
     }
 
+    console.log("Correct password and reset token")
     return res.status(200).json({ isCorrect: true, message: "Correct password and reset token" })
 };
 
