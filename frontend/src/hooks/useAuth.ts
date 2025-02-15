@@ -11,12 +11,26 @@ export const useAuth = () => {
                 const loggedIn = await checkIsLoggedIn();
                 setIsLoggedIn(loggedIn);
             } catch (error) {
+                console.log(error);
                 setIsLoggedIn(false);
             } finally {
                 setLoading(false);
             }
         };
         checkLogin();
+    }, []);
+
+    useEffect(() => {
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === "logout") {
+                setIsLoggedIn(false);
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
     }, []);
 
     return { isLoggedIn, setIsLoggedIn, loading };

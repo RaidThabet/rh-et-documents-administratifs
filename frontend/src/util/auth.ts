@@ -1,13 +1,5 @@
 import axios from "axios";
 
-export const getAuthToken = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return null;
-    }
-    return token;
-}
-
 export const checkResetParams = async (token: string, id: string) => {
     try {
         const response = await axios

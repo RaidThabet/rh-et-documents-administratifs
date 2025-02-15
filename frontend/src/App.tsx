@@ -1,9 +1,21 @@
 import {HeroUIProvider} from "@heroui/system";
-import {Outlet} from "react-router";
+import {Navigate, Outlet} from "react-router";
 import Sidebar from "./components/Sidebar.tsx";
 import Header from "./components/Header.tsx";
+import {useAuth} from "./hooks/useAuth.ts";
 
 function App() {
+    const { isLoggedIn, loading } = useAuth();
+
+    if (loading) {
+        return <div className={"text-4xl flex justify-center items-center h-[100vh]"}>Chargement...</div>; // Or your loading component
+    }
+
+    if (!isLoggedIn) {
+        console.log("not authenticated");
+        return <Navigate to="/login" />;
+    }
+
     return (
         <HeroUIProvider>
             <div className={"flex flex-row justify-center items-center h-[100vh]"}>

@@ -27,6 +27,7 @@ export const logout = async () => {
             withCredentials: true
         });
         delete axios.defaults.headers.common["Authorization"];
+        localStorage.setItem("logout", Date.now().toString());
     } catch (e) {
         console.log(e);
     }

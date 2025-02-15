@@ -53,7 +53,7 @@ function UsersManagementPage() {
     }
 
     return (
-        <div className={"w-full"}>
+        <div className={"flex flex-row w-full"}>
             <ManagementPage
                 title={"Gestion des Utilisateurs"}
                 subtitle={"Gérer les utilisateurs ici."}

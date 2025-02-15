@@ -43,9 +43,7 @@ function Sidebar() {
             console.log(e);
         } finally {
             navigate("/login");
-
         }
-
     }
 
     const renderButtons = () => {
