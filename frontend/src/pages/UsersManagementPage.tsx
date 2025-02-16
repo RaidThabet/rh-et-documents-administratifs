@@ -8,6 +8,7 @@ import {SlOptionsVertical} from "react-icons/sl";
 import {columns, users} from "../lib/data/users.ts";
 import UserAddModal from "../components/UserAddForm.tsx";
 import {useDisclosure} from "@heroui/modal";
+import Activities from "../components/Activities.tsx";
 
 function UsersManagementPage() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -62,6 +63,9 @@ function UsersManagementPage() {
                 columns={columns}
                 onOpen={onOpen}
             />
+            <div className="mt-28 overflow-y-auto w-1/3 px-6 max-h-[440px]">
+                <Activities />
+            </div>
             <UserAddModal isOpen={isOpen} onOpenChange={onOpenChange} />
         </div>
     );
