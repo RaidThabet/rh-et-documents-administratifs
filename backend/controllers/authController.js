@@ -2,6 +2,8 @@ const User = require('../database/models/user');
 const Role = require('../database/models/role');
 const Token = require('../database/models/token');
 
+const logController = require('../controllers/logController');
+
 const env = require("dotenv").config();
 const { createSecretToken, verifySecretToken } = require("../tokenGeneration/generateToken");
 const bcrypt = require("bcrypt");
@@ -35,6 +37,18 @@ exports.registerUser = async (req, res) => {
         //     res.status(403).send("Only allowed self-assigned roles are: agent, professor!");
         // no need anymore: because now only admin can create new accounts
 
+        const loggedToken = req.cookies.token;
+        if (!loggedToken) {
+            console.error("Action user is not logged in!")
+        }
+        try {
+            const verified = verifySecretToken(loggedToken);
+            const actionnerUser = await User.findById(verified.id)
+            await logController.addLog("add", `${actionnerUser.username} registered ${req.body.username} as a new User`)
+        } catch (error) {
+            console.error(error);
+        }
+
         const oldUser = await User.findOne({ email: req.body.email });
 
         if (oldUser) {
@@ -49,7 +63,7 @@ exports.registerUser = async (req, res) => {
             password: hashedPassword,
         });
         const user = await newUser.save();
-        const token = createSecretToken(user._id);
+        /*const token = createSecretToken(user._id);
 
         res.cookie("token", token, {
             path: "/", // Cookie is accessible from all paths
@@ -59,11 +73,11 @@ exports.registerUser = async (req, res) => {
             sameSite: "None",
         });
 
-        console.log("cookie set succesfully");
+        console.log("cookie set succesfully");*/
 
         res.json(user);
     } catch (error) {
-        console.log("Gott an error", error);
+        console.log("Got an error", error);
     }
 };
 
@@ -122,7 +136,7 @@ exports.forgotPassword = async (req, res) => {
 
             Token.findOne({ userId: user._id })
                 .then((token) => {
-                    if(token)
+                    if (token)
                         token.deleteOne()
                 })
 
@@ -217,7 +231,7 @@ exports.resetPassword = async (req, res) => {
         { new: true }
     );
     const user = await User.findById({ _id: userId });
-    
+
     const to = user.email;
     const subject = "Resetting password";
     const text = `
@@ -237,28 +251,28 @@ exports.resetPassword = async (req, res) => {
             console.error(error);
             res.status(500).json({ message: "Error sending email" });
         })
-    
+
     await passwordResetToken.deleteOne();
 };
 
 
 // Delete a user's account
-exports.deleteUser = (req, res) => {
-    const userId = req.session.userId;
-    if (!userId) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
+// exports.deleteUser = (req, res) => {
+//     const userId = req.session.userId;
+//     if (!userId) {
+//         return res.status(401).json({ error: 'Unauthorized' });
+//     }
 
-    User.findByIdAndDelete(userId, (err) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        req.session.destroy((err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to destroy session' });
-            }
-            res.clearCookie('connect.sid'); // Clear the session cookie if needed
-            res.json({ message: 'Account deleted successfully' });
-        });
-    });
-};
+//     User.findByIdAndDelete(userId, (err) => {
+//         if (err) {
+//             return res.status(500).json({ error: err.message });
+//         }
+//         req.session.destroy((err) => {
+//             if (err) {
+//                 return res.status(500).json({ error: 'Failed to destroy session' });
+//             }
+//             res.clearCookie('connect.sid'); // Clear the session cookie if needed
+//             res.json({ message: 'Account deleted successfully' });
+//         });
+//     });
+// };

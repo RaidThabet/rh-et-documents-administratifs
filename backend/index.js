@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors')
 
 const authRoutes = require('./routes/auth');
+const logRoutes = require('./routes/log');
 const recordsRoutes = require('./routes/records');
 
 const Connect = require('./database/db')
@@ -25,6 +26,7 @@ app.use(
 );
 
 app.use('/auth', authRoutes);
+app.use('/log', logRoutes);
 app.use('/records', recordsRoutes);
 
 

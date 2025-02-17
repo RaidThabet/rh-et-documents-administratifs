@@ -6,7 +6,8 @@
         "check_auth_status",
         "login",
         "logout",
-        "reset_password"
+        "reset_password",
+        "register"
       ]
     },
     {
@@ -20,7 +21,11 @@
         "register",
         "login",
         "logout",
-        "reset_password"
+        "reset_password",
+        "read_log",
+        "create_log",
+        "update_log",
+        "delete_log"
       ]
     },
     {

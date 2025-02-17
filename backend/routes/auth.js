@@ -17,6 +17,6 @@ router.get('/logout', rbacMiddleware.checkPermission('logout'), authController.l
 router.get('/status', rbacMiddleware.checkPermission('check_auth_status'), authController.loggedIn);
 
 router.put('/:id', rbacMiddleware.checkPermission('reset_password'), authController.resetPassword);
-router.delete('/:id', rbacMiddleware.checkPermission('delete_auth'), authController.deleteUser);
+// router.delete('/:id', rbacMiddleware.checkPermission('delete_auth'), authController.deleteUser);
 
 module.exports = router;
