@@ -1,13 +1,13 @@
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
-import {EmployeeProf} from "../../types/EmployeeProf";
 import {useDisclosure} from "@heroui/modal";
 import UserDetails from "../UserDetails.tsx";
 import {MdDeleteForever, MdEdit} from "react-icons/md";
 import {FaEye} from "react-icons/fa";
+import {UserType} from "../../types/User";
 
 type Props = {
-    user: EmployeeProf;
+    user: UserType;
 }
 
 function RowActions({user}: Props) {

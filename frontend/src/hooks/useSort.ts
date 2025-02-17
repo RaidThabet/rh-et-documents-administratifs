@@ -1,21 +1,16 @@
 import {useState, useEffect} from "react";
 import {SortDescriptor} from "@heroui/react";
-import {EmployeeProf} from "../types/EmployeeProf";
 import {UserType} from "../types/User";
 
-export const useSort = (items: (UserType | EmployeeProf)[]) => {
+export const useSort = (items: UserType[]) => {
     const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor | undefined>(undefined);
     const [sortedItems, setSortedItems] = useState(items);
 
     // Update sortedItems when the items or sortDescriptor change
     useEffect(() => {
         const sortedItems = [...items].sort((a, b) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            const first = a[sortDescriptor?.column as keyof EmployeeProf] ?? "";
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            const second = b[sortDescriptor?.column as keyof EmployeeProf] ?? "";
+            const first = a[sortDescriptor?.column as keyof UserType] ?? "";
+            const second = b[sortDescriptor?.column as keyof UserType] ?? "";
 
             if (!isNaN(Number(first)) && !isNaN(Number(second))) {
                 const numFirst = Number(first);

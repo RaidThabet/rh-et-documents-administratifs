@@ -4,18 +4,17 @@ import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
 import {Key, ReactNode, useState} from "react";
 import {Pagination} from "@heroui/pagination";
-import {Column} from "../../types/TableColumn";
+import {Column} from "../../types/Column.ts";
 import {MdOutlinePersonAdd} from "react-icons/md";
 import Filters from "./Filters.tsx";
 import {UserType} from "../../types/User";
-import {EmployeeProf} from "../../types/EmployeeProf";
 import {useSort} from "../../hooks/useSort.ts";
 
 type Props = {
     title: string;
     subtitle: string;
-    renderCell: (item: UserType | EmployeeProf, columnKey: Key) => ReactNode;
-    items: (UserType | EmployeeProf)[];
+    renderCell: (item: UserType, columnKey: Key) => ReactNode;
+    items: UserType[];
     columns: Column[];
     onOpen: () => void
 }

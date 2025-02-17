@@ -5,7 +5,8 @@ import {User} from "@heroui/user";
 import {Chip} from "@heroui/chip";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
-import {columns, users} from "../lib/data/users.ts";
+import {users} from "../lib/data/users.ts";
+import {columns} from "../lib/columns/userManagementPage.ts"
 import UserAddModal from "../components/UserAddForm.tsx";
 import {useDisclosure} from "@heroui/modal";
 import Activities from "../components/Activities.tsx";

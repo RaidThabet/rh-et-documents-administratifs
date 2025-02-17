@@ -1,10 +1,10 @@
 import {Button} from "@heroui/button";
-import {EmployeeProf} from "../types/EmployeeProf";
 import {Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader} from "@heroui/drawer";
 import {Avatar} from "@heroui/avatar";
+import {UserType} from "../types/User";
 
 type Props = {
-    user: EmployeeProf;
+    user: UserType;
     isOpen: boolean;
     onOpen: () => void;
     onOpenChange: () => void;
