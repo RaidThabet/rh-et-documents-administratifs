@@ -25,7 +25,6 @@ exports.registerUser = async (req, res) => {
         if (
             !(
                 req.body.email &&
-                req.body.password &&
                 req.body.role &&
                 req.body.username
             )
@@ -55,12 +54,18 @@ exports.registerUser = async (req, res) => {
             return res.status(409).send("User Already Exist. Please Login");
         }
         const salt = 10;
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        const hashedPassword = await bcrypt.hash(crypto.randomBytes(32).toString("hex"), salt);
         const newUser = new User({
             role: req.body.role,
             username: req.body.username,
             email: req.body.email,
             password: hashedPassword,
+            status: req.body.status,
+            age: req.body.age,
+            gender: req.body.gender,
+            grade: req.body.grade,
+            department: req.body.department,
+            seniority: req.body.seniority,
         });
         const user = await newUser.save();
         /*const token = createSecretToken(user._id);
@@ -227,7 +232,7 @@ exports.resetPassword = async (req, res) => {
     const hash = await bcrypt.hash(password, salt);
     await User.updateOne(
         { _id: userId },
-        { $set: { password: hash } },
+        { $set: { password: hash, status: 'Actif' } },
         { new: true }
     );
     const user = await User.findById({ _id: userId });
