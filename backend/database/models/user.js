@@ -6,11 +6,11 @@ const userSchema = new mongoose.Schema({
   email:String,
   role: String,
   status: { type: String, enum: ['Actif', 'Inactif'], default: 'Inactif' },
-  age: string,
+  age: String,
   gender: { type: String, enum: ['Homme', 'Femme'] },
-  grade: string,
-  department: string,
-  seniority: string,
+  grade: String,
+  department: String,
+  seniority: String,
 });
 
 const User = mongoose.model('User', userSchema);
