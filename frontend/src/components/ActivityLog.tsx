@@ -1,10 +1,10 @@
 import { FaUserPlus, FaUserEdit, FaUserMinus } from "react-icons/fa";
 
 type Props = {
-    actionType: "add" | "modify" | "delete";
+    log: {action: "add" | "modify" | "delete"; message: string; createdAt: string}
 };
 
-function ActivityLog({ actionType }: Props) {
+function ActivityLog({ log }: Props) {
     // Define styles & text based on action type
     const actionDetails = {
         add: {
@@ -28,18 +28,18 @@ function ActivityLog({ actionType }: Props) {
     };
 
     return (
-        <div className={`flex items-start gap-3 py-2 pl-4 border-l-4 ${actionDetails[actionType].border}`}>
+        <div className={`flex items-start gap-3 py-2 pl-4 border-l-4 ${actionDetails[log.action].border}`}>
             {/* Icon */}
-            <div className={`p-2 rounded-full ${actionDetails[actionType].iconColor}`}>
-                {actionDetails[actionType].icon}
+            <div className={`p-2 rounded-full ${actionDetails[log.action].iconColor}`}>
+                {actionDetails[log.action].icon}
             </div>
 
             {/* Content */}
             <div className="flex flex-col">
                 <span className="text-gray-800 text-sm font-medium">
-                    Foulen Fouleni <span className="text-gray-600">{actionDetails[actionType].text}</span>
+                    Foulen Fouleni <span className="text-gray-600">{log.message}</span>
                 </span>
-                <span className="text-xs text-gray-400">12/05/2025</span>
+                <span className="text-xs text-gray-400">{log.createdAt}</span>
             </div>
         </div>
     );
