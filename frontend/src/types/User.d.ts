@@ -1,7 +1,7 @@
 export type UserType = {
-    id: number;
+    _id: number;
     email: string;
-    name: string;
+    username: string;
     role: string;
     status: string;
     age: string;

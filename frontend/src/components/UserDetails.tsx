@@ -20,7 +20,7 @@ function UserDetails({user, isOpen, onOpenChange}: Props) {
                             <div className="flex items-center gap-4">
                                 <Avatar src={user.avatar} size="lg"/>
                                 <div>
-                                    <p className="text-lg font-semibold">{user.name}</p>
+                                    <p className="text-lg font-semibold">{user.username}</p>
                                     <p className="text-sm text-gray-500">{user.grade}</p>
                                 </div>
                             </div>

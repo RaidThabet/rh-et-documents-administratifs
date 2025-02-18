@@ -5,13 +5,24 @@ import {User} from "@heroui/user";
 import {Chip} from "@heroui/chip";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
-import {users} from "../lib/data/users.ts";
 import {columns} from "../lib/columns/userManagementPage.ts"
 import UserAddModal from "../components/UserAddForm.tsx";
 import {useDisclosure} from "@heroui/modal";
 import Activities from "../components/Activities.tsx";
+import {useQuery} from "@tanstack/react-query";
+import {getAllUsers} from "../actions/userActions.ts";
 
 function UsersManagementPage() {
+    const {data, isPending, isError, error} = useQuery({
+        queryKey: ["users"],
+        queryFn: getAllUsers,
+        initialData: []
+    });
+
+    if (isError) {
+        console.log(error);
+    }
+
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
@@ -20,7 +31,7 @@ function UsersManagementPage() {
         const cellValue  = user[columnKey];
 
         switch (columnKey) {
-            case "name":
+            case "username":
                 return (
                     <User
                         avatarProps={{radius: "lg", src: user.avatar}}
@@ -60,7 +71,8 @@ function UsersManagementPage() {
                 title={"Gestion des Utilisateurs"}
                 subtitle={"Gérer les utilisateurs ici."}
                 renderCell={renderCell}
-                items={users}
+                items={data}
+                isLoading={isPending}
                 columns={columns}
                 onOpen={onOpen}
             />

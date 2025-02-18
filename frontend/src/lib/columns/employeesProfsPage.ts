@@ -1,5 +1,7 @@
-export const columns = [
-    { key: "name", label: "Nom" },
+import {Column} from "../../types/Column.ts";
+
+export const columns: Column[] = [
+    { key: "username", label: "Nom" },
     { key: "gender", label: "Genre" },
     { key: "grade", label: "Grade" },
     { key: "department", label: "Département" },

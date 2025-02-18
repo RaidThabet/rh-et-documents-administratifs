@@ -2,28 +2,33 @@ import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@
 import {Input} from "@heroui/input";
 import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
-import {Key, ReactNode, useState} from "react";
+import {Key, ReactNode, useEffect, useState} from "react";
 import {Pagination} from "@heroui/pagination";
 import {Column} from "../../types/Column.ts";
 import {MdOutlinePersonAdd} from "react-icons/md";
 import Filters from "./Filters.tsx";
 import {UserType} from "../../types/User";
 import {useSort} from "../../hooks/useSort.ts";
+import {Spinner} from "@heroui/react";
 
 type Props = {
     title: string;
     subtitle: string;
     renderCell: (item: UserType, columnKey: Key) => ReactNode;
     items: UserType[];
+    isLoading: boolean;
     columns: Column[];
     onOpen: () => void
 }
 
 const rowsPerPage = 5;
 
-function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: Props) {
+function ManagementPage({title, subtitle, renderCell, columns, items, isLoading, onOpen}: Props) {
     const [filteredItems, setFilteredItems] = useState(items);
+    const [page, setPage] = useState(1);
+    const {sortDescriptor, handleSort, sortedItems} = useSort(filteredItems);
 
+    const pages = Math.ceil(filteredItems.length / rowsPerPage);
     const sections = columns.map((column) => ({
         key: column.key,
         name: column.label, // Assuming label in column is the name to be used
@@ -57,19 +62,17 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
         setPage(1);
     };
 
-    const {sortDescriptor, handleSort, sortedItems} = useSort(filteredItems);
-
-
-    const [page, setPage] = useState(1);
-
-    const pages = Math.ceil(filteredItems.length / rowsPerPage);
-
     const pageItems = () => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
         return sortedItems.slice(start, end);
     }
+
+    useEffect(() => {
+        setFilteredItems(items);
+        setPage(1);
+    }, [items]);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -79,7 +82,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
             <p className={'md:text-xl font-medium'}>{subtitle}</p>
             <div className={"mt-5 flex flex-col justify-center items-center gap-4"}> {/*table container*/}
                 <div className={"flex md:flex-row flex-col justify-between items-center w-full"}> {/*table header container*/}
-                    <h1 className={"md:text-2xl"}>Total des données: 25</h1>
+                    <h1 className={"md:text-2xl"}>Total des données: {items.length}</h1>
                     <div className={"flex md:flex-row flex-col justify-end gap-5 w-1/2"}>
                         <Input
                             radius={"sm"}
@@ -122,8 +125,10 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                                 showShadow
                                 color="primary"
                                 page={page}
-                                total={pages}
+                                total={pages || 1}
+                                isDisabled={pages === 0}
                                 onChange={(page) => setPage(page)}
+
                             />
                         </div>
                     }
@@ -138,9 +143,14 @@ function ManagementPage({title, subtitle, renderCell, columns, items, onOpen}: P
                             </TableColumn>
                         )}
                     </TableHeader>
-                    <TableBody items={pageItems()} emptyContent={"Pas des données à afficher."}>
+                    <TableBody
+                        loadingState={isLoading ? "loading" : "idle"}
+                        loadingContent={<Spinner />}
+                        items={pageItems()}
+                        emptyContent={"Pas des données à afficher."}
+                    >
                         {(item) => (
-                            <TableRow key={item.id}>
+                            <TableRow key={item._id}>
                                 {(columnKey) => (
                                     <TableCell>
                                         {renderCell(item, columnKey)}
