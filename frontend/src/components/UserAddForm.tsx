@@ -7,6 +7,7 @@ import {userAddSchema, UserAddSchema} from "../lib/schema/userAddSchema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useMutation} from "@tanstack/react-query";
 import {addUser} from "../actions/userActions.ts";
+import {Alert} from "@heroui/alert";
 
 type Props = {
     isOpen: boolean;
@@ -42,8 +43,8 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                         <ModalHeader>Formulaire d'ajout</ModalHeader>
                         <ModalBody>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {error && <h1>{error.message}</h1>}
-                                {isSubmitSuccessful && <h1>User added successfully</h1>}
+                                {error && <Alert variant={"solid"} color={"danger"} title={error.message} className={"col-span-2 w-full"} />}
+                                {isSubmitSuccessful && <Alert variant={"solid"} className={"col-span-2 w-full"} color={"success"} title={"Utilisateur ajouté avec succès"} />}
                                 <Input
                                     size="sm"
                                     variant="faded"
