@@ -36,18 +36,6 @@ exports.registerUser = async (req, res) => {
         //     res.status(403).send("Only allowed self-assigned roles are: agent, professor!");
         // no need anymore: because now only admin can create new accounts
 
-        const loggedToken = req.cookies.token;
-        if (!loggedToken) {
-            console.error("Action user is not logged in!")
-        }
-        try {
-            const verified = verifySecretToken(loggedToken);
-            const actionnerUser = await User.findById(verified.id)
-            await logController.addLog("add", `${actionnerUser.username} registered ${req.body.username} as a new User`)
-        } catch (error) {
-            console.error(error);
-        }
-
         const oldUser = await User.findOne({ email: req.body.email });
 
         if (oldUser) {
@@ -79,6 +67,18 @@ exports.registerUser = async (req, res) => {
         });
 
         console.log("cookie set succesfully");*/
+
+        const loggedToken = req.cookies.token;
+        if (!loggedToken) {
+            console.error("Action user is not logged in!")
+        }
+        try {
+            const verified = verifySecretToken(loggedToken);
+            const actionnerUser = await User.findById(verified.id)
+            await logController.addLog("add", `${actionnerUser.username} registered ${req.body.username} as a new User`)
+        } catch (error) {
+            console.error(error);
+        }
 
         res.json(user);
     } catch (error) {
@@ -259,6 +259,46 @@ exports.resetPassword = async (req, res) => {
 
     await passwordResetToken.deleteOne();
 };
+
+
+exports.updateUser = async (req, res) => {
+    if (
+        !(
+            req.body.email &&
+            req.body.role &&
+            req.body.username
+        )
+    ) {
+        res.status(400).send("All input is required");
+    }
+
+    await User.updateOne(
+        { email: req.body.email },
+        { $set: {
+            role: req.body.role,
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword,
+            status: req.body.status,
+            age: req.body.age,
+            gender: req.body.gender,
+            grade: req.body.grade,
+            department: req.body.department,
+            seniority: req.body.seniority,
+        }},
+        { new: true }
+    );
+}
+
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
 
 // Delete a user's account
