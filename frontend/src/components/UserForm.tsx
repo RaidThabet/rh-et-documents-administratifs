@@ -12,18 +12,25 @@ import {Alert} from "@heroui/alert";
 type Props = {
     isOpen: boolean;
     onOpenChange: () => void;
+    user?: UserAddSchema
 }
 
-function UserAddModal({isOpen, onOpenChange}: Props) {
+function UserFormModal({isOpen, onOpenChange, user}: Props) {
 
-    const {mutate, error} = useMutation({
+    const {mutate, error, isSuccess} = useMutation({
             mutationFn: addUser
         }
     )
 
-    const {getValues, setValue, register, handleSubmit, formState: {isValid, errors, isSubmitSuccessful, isSubmitting}} = useForm<UserAddSchema>({
+    const {getValues, setValue, register, handleSubmit, formState: {isValid, errors, isSubmitting}} = useForm<UserAddSchema>({
         mode: "onTouched",
-        resolver: zodResolver(userAddSchema)
+        resolver: zodResolver(userAddSchema),
+        defaultValues: {
+            gender: "Homme",
+            department: "Informatique",
+            role: "anonymous",
+            ...user
+        }
     })
 
     const onSubmit = handleSubmit((data: UserAddSchema) => {
@@ -44,7 +51,7 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                         <ModalBody>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {error && <Alert variant={"solid"} color={"danger"} title={error.message} className={"col-span-2 w-full"} />}
-                                {isSubmitSuccessful && <Alert variant={"solid"} className={"col-span-2 w-full"} color={"success"} title={"Utilisateur ajouté avec succès"} />}
+                                {isSuccess && <Alert variant={"solid"} className={"col-span-2 w-full"} color={"success"} title={"Utilisateur ajouté avec succès"} />}
                                 <Input
                                     size="sm"
                                     variant="faded"
@@ -63,8 +70,7 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                                     radius={"sm"}
                                     variant={"faded"}
                                     {...register("gender")}
-                                    errorMessage={errors.gender?.message as string}
-                                    onChange={(e) => setValue("gender", e.target.value)} // Update form state
+                                     onChange={(e) => setValue("gender", e.target.value)} // Update form state
                                 >
                                     <SelectItem key={"Homme"} value={"Homme"}>Homme</SelectItem>
                                     <SelectItem key={"Femme"} value={"Femme"}>Femme</SelectItem>
@@ -105,8 +111,6 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                                     size={"sm"}
                                     variant={"faded"}
                                     {...register("department")}
-                                    errorMessage={errors.department?.message as string}
-                                    isInvalid={!!errors.department}
                                     onChange={e => setValue("department", e.target.value)} // Update form state
                                 >
                                     <SelectItem key={"Informatique"} value={"Informatique"}>Informatique</SelectItem>
@@ -122,8 +126,6 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                                     radius={"sm"}
                                     variant={"faded"}
                                     {...register("role")}
-                                    errorMessage={errors.role?.message as string}
-                                    isInvalid={!!errors.role}
                                     onChange={e => setValue("role", e.target.value)} // Update form state
                                 >
                                     <SelectItem key={"anonymous"} value={"anonymous"}>anonymous</SelectItem>
@@ -137,7 +139,7 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
                         <ModalFooter className="flex justify-end space-x-2">
                             <Button variant="bordered" onPress={onClose}>Annuler</Button>
                             <Button isDisabled={!isValid} type="submit" color="primary">
-                                {isSubmitting ? "Chargement..." : "Ajouter"}
+                                {isSubmitting ? "Chargement..." : (user ? "Modifier" : "Ajouter")}
                             </Button>
                         </ModalFooter>
                     </form>
@@ -147,4 +149,4 @@ function UserAddModal({isOpen, onOpenChange}: Props) {
     );
 }
 
-export default UserAddModal;
+export default UserFormModal;

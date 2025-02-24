@@ -21,7 +21,7 @@ export const addUser = async (data: UserAddSchema) => {
         return {message: "Utilisateur ajouté avec succès"};
     } catch (e) {
         console.log(e);
-        throw e;
+        throw new Error(e.response.data);
     }
 }
 

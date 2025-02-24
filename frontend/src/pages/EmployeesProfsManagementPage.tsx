@@ -1,6 +1,6 @@
 import ManagementPage from "../components/ManagementPage/ManagementPage.tsx";
 import {columns} from "../lib/columns/employeesProfsPage.ts";
-import UserAddModal from "../components/UserAddForm.tsx";
+import UserFormModal from "../components/UserForm.tsx";
 import {Key, ReactNode} from "react";
 import {useDisclosure} from "@heroui/modal";
 import {User} from "@heroui/user";
@@ -65,7 +65,7 @@ function EmployeesProfsManagementPage() {
                 columns={columns}
                 onOpen={onOpen}
             />
-            <UserAddModal isOpen={isOpen} onOpenChange={onOpenChange}/>
+            <UserFormModal isOpen={isOpen} onOpenChange={onOpenChange}/>
         </div>
     );
 }
