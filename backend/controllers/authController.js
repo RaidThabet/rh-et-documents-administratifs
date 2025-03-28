@@ -277,22 +277,28 @@ exports.updateUser = async (req, res) => {
         res.status(400).send("All input is required");
     }
 
-    await User.updateOne(
-        { email: req.body.email },
-        { $set: {
-            role: req.body.role,
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword,
-            status: req.body.status,
-            age: req.body.age,
-            gender: req.body.gender,
-            grade: req.body.grade,
-            department: req.body.department,
-            seniority: req.body.seniority,
-        }},
-        { new: true }
-    );
+    try {
+        await User.updateOne(
+            { email: req.body.email },
+            { $set: {
+                role: req.body.role,
+                username: req.body.username,
+                email: req.body.email,
+                // password: hashedPassword, // update password with forgotPassword
+                status: req.body.status,
+                age: req.body.age,
+                gender: req.body.gender,
+                grade: req.body.grade,
+                department: req.body.department,
+                seniority: req.body.seniority,
+            }},
+            { new: true }
+        );
+        res.status(200).json({ message: "Updated user successfully!" });;
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Updating user failed!" });
+    }
 }
 
 
@@ -326,3 +332,18 @@ exports.getAllUsers = async (req, res) => {
 //         });
 //     });
 // };
+exports.deleteUser = async (req, res) => {
+    if (!req.body.email) {
+        res.status(400).send("Email is required");
+    }
+
+    try {
+        await User.deleteOne(
+            { email: req.body.email },
+        );
+        res.status(200).json({ message: "Deleted user successfully!" });;
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Deleting user failed!" });
+    }
+}

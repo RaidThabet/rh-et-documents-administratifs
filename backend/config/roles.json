@@ -23,6 +23,8 @@
         "logout",
         "reset_password",
         "fetch_users",
+        "update_auth",
+        "delete_auth",
         "read_log",
         "create_log",
         "update_log",
