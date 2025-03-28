@@ -159,9 +159,14 @@ exports.forgotPassword = async (req, res) => {
             const link = `${process.env.FRONTEND_URL}/password-reset?token=${resetToken}&id=${user._id}`;
             const to = email;
             const subject = "Resetting password";
-            const text = `
+            const text = (user.status == "Actif") ?`
                 <h1>Hello ${user.username}!</h1>
                 To reset your password, use this link
+                It will expire in 1 hour
+                ${link}
+            ` : `
+                <h1>Hello ${user.username}!</h1>
+                Continue to configure and activate your account, use this link
                 It will expire in 1 hour
                 ${link}
             `;
