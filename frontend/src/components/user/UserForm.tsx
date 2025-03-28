@@ -3,10 +3,10 @@ import {Button} from "@heroui/button";
 import {Input} from "@heroui/input";
 import {Select, SelectItem} from "@heroui/select";
 import {useForm} from "react-hook-form";
-import {userAddSchema, UserAddSchema} from "../lib/schema/userAddSchema.ts";
+import {userAddSchema, UserAddSchema} from "../../lib/schema/userAddSchema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useMutation} from "@tanstack/react-query";
-import {addUser} from "../actions/userActions.ts";
+import {addUser, updateUser} from "../../actions/userActions.ts";
 import {Alert} from "@heroui/alert";
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 function UserFormModal({isOpen, onOpenChange, user}: Props) {
 
     const {mutate, error, isSuccess} = useMutation({
-            mutationFn: addUser
+            mutationFn: user ? updateUser : addUser
         }
     )
 
@@ -47,7 +47,7 @@ function UserFormModal({isOpen, onOpenChange, user}: Props) {
             <ModalContent>
                 {(onClose) => (
                     <form onSubmit={onSubmit} className="p-4">
-                        <ModalHeader>Formulaire d'ajout</ModalHeader>
+                        <ModalHeader>Formulaire {user? "de modification" : "d'ajout"}</ModalHeader>
                         <ModalBody>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {error && <Alert variant={"solid"} color={"danger"} title={error.message} className={"col-span-2 w-full"} />}
@@ -150,3 +150,5 @@ function UserFormModal({isOpen, onOpenChange, user}: Props) {
 }
 
 export default UserFormModal;
+
+// TODO: in case the user deleted the password reset mail by mistake, make resending another mail available

@@ -4,11 +4,11 @@ import {Card, CardBody, CardHeader} from "@heroui/card";
 import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
-import {passwordResetSchema, PasswordResetSchema} from "../lib/schema/passwordResetSchema.ts";
+import {passwordResetSchema, PasswordResetSchema} from "../../lib/schema/passwordResetSchema.ts";
 import {Link, useNavigate, useSearchParams} from "react-router";
 import {RiLockPasswordFill} from "react-icons/ri";
-import {resetPassword} from "../actions/authActions.ts";
-import {checkResetParams} from "../util/auth.ts";
+import {resetPassword} from "../../actions/authActions.ts";
+import {checkResetParams} from "../../util/auth.ts";
 import {useEffect} from "react";
 
 function PasswordResetForm() {

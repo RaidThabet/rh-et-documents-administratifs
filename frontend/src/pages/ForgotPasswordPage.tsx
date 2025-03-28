@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "../components/ForgotPasswordForm.tsx";
+import ForgotPasswordForm from "../components/user/ForgotPasswordForm.tsx";
 
 function ForgotPasswordPage() {
     return (

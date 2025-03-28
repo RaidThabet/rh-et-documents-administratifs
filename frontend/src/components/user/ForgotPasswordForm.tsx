@@ -1,12 +1,12 @@
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {forgotPasswordSchema, ForgotPasswordSchema} from "../lib/schema/forgotPasswordSchema.ts";
+import {forgotPasswordSchema, ForgotPasswordSchema} from "../../lib/schema/forgotPasswordSchema.ts";
 import {Card, CardBody, CardHeader} from "@heroui/card";
 import {Avatar} from "@heroui/avatar";
 import {Alert} from "@heroui/alert";
 import {Input} from "@heroui/input";
 import {MdEmail} from "react-icons/md";
-import {forgotPassword} from "../actions/authActions.ts";
+import {forgotPassword} from "../../actions/authActions.ts";
 import {Link} from "react-router";
 
 function ForgotPasswordForm() {

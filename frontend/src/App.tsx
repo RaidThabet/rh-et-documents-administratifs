@@ -1,6 +1,6 @@
 import {HeroUIProvider} from "@heroui/system";
 import {Navigate, Outlet} from "react-router";
-import Sidebar from "./components/Sidebar.tsx";
+import Sidebar from "./components/sidebar/Sidebar.tsx";
 import Header from "./components/Header.tsx";
 import {useAuth} from "./hooks/useAuth.ts";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";

@@ -4,7 +4,7 @@ import {Key, ReactNode} from "react";
 import {User} from "@heroui/user";
 import {Chip} from "@heroui/chip";
 import {columns} from "../lib/columns/userManagementPage.ts"
-import UserFormModal from "../components/UserForm.tsx";
+import UserFormModal from "../components/user/UserForm.tsx";
 import {useDisclosure} from "@heroui/modal";
 import Activities from "../components/Activities.tsx";
 import {useQuery} from "@tanstack/react-query";

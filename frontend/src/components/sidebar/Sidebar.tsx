@@ -11,8 +11,8 @@ import {FiDatabase, FiSettings} from "react-icons/fi";
 import {CgFileDocument} from "react-icons/cg";
 import {Divider} from "@heroui/divider";
 import {LuLogOut} from "react-icons/lu";
-import {logout} from "../actions/authActions.ts";
-import {useAuth} from "../hooks/useAuth.ts";
+import {logout} from "../../actions/authActions.ts";
+import {useAuth} from "../../hooks/useAuth.ts";
 
 const buttons = [
     {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management"},

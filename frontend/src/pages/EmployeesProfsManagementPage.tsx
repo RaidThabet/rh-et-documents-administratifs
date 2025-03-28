@@ -1,6 +1,6 @@
 import ManagementPage from "../components/ManagementPage/ManagementPage.tsx";
 import {columns} from "../lib/columns/employeesProfsPage.ts";
-import UserFormModal from "../components/UserForm.tsx";
+import UserFormModal from "../components/user/UserForm.tsx";
 import {Key, ReactNode} from "react";
 import {useDisclosure} from "@heroui/modal";
 import {User} from "@heroui/user";

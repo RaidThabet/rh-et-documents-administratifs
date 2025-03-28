@@ -1,7 +1,7 @@
 import {Button} from "@heroui/button";
 import {Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader} from "@heroui/drawer";
 import {Avatar} from "@heroui/avatar";
-import {UserType} from "../types/User";
+import {UserType} from "../../types/User";
 
 type Props = {
     user: UserType;

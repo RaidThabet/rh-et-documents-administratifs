@@ -21,6 +21,48 @@ export const addUser = async (data: UserAddSchema) => {
         return {message: "Utilisateur ajouté avec succès"};
     } catch (e) {
         console.log(e);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        throw new Error(e.response.data);
+    }
+}
+
+export const updateUser = async (data: UserAddSchema) => {
+    try {
+        const response = await axios
+            .put(`${import.meta.env.VITE_BACKEND_URL}/auth`,
+                data,
+                {withCredentials: true}
+            );
+
+        if (response.status !== 200) {
+            throw new Error("Failed to update user");
+        }
+
+        return {message: "Utilisateur modifié avec succés"};
+    } catch (e) {
+        console.log(e);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        throw new Error(e.response.data);
+    }
+}
+
+export const deleteUser = async (data: { email: string }) => {
+    try {
+        const response = await axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/auth`,
+                {data, withCredentials: true});
+
+        if (response.status !== 200) {
+            throw new Error("Failed to delete user")
+        }
+
+        return {message: "Utilisateur supprimé avec succés"};
+    } catch (e) {
+        console.log(e);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         throw new Error(e.response.data);
     }
 }
