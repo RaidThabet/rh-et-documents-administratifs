@@ -5,12 +5,12 @@ import {RiLockPasswordFill} from "react-icons/ri";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
-import {Avatar} from "@heroui/avatar";
 import {Link, useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
 import {Alert} from "@heroui/alert";
 import {useEffect} from "react";
 import {useAuth} from "../hooks/useAuth.ts";
+import { motion } from "framer-motion";
 
 function LoginForm() {
     const {isLoggedIn, setIsLoggedIn} = useAuth();
@@ -53,7 +53,14 @@ function LoginForm() {
     return (
         <Card className={"px-4 w-3/12"}>
             <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
-                <Avatar size={"lg"} src={"/images/logo_isimm.png"}/>
+                {/*<Avatar size={"lg"} src={"/images/logo_isimm.png"}/>*/}
+                {/*<motion.img layoutId={"logo-isimm"} src="/images/logo_isimm.png" alt="Logo ISIMM"/>*/}
+                <motion.img
+                    layoutId="logo-isimm"
+                    className="h-40 object-contain"
+                    src="/public/images/logo_isimm.png"
+                    alt="Logo ISIMM"
+                />
                 <p className={"text-2xl font-bold"}>Authentification</p>
                 <p className={"text-md text-center font-semibold"}>
                     Bonjour! Veuillez saisir vos coordonnées pour vous connecter.

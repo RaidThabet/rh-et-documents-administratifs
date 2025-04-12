@@ -1,4 +1,3 @@
-import {Avatar} from "@heroui/avatar";
 import {NavLink, useNavigate} from "react-router";
 import {v4 as uuidv4} from "uuid";
 import SidebarButton from "./SidebarButton.tsx";
@@ -13,6 +12,7 @@ import {Divider} from "@heroui/divider";
 import {LuLogOut} from "react-icons/lu";
 import {logout} from "../../actions/authActions.ts";
 import {useAuth} from "../../hooks/useAuth.ts";
+import { motion } from "framer-motion";
 
 const buttons = [
     {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management"},
@@ -79,7 +79,13 @@ function Sidebar() {
                     </button>
                 </div>
                 <div>
-                    <Avatar size={"md"} src={"/images/logo_isimm.png"}/>
+                    {/*<Avatar size={"md"} src={"/images/logo_isimm.png"}/>*/}
+                    <motion.img
+                        layoutId="logo-isimm"
+                        className="h-12 object-contain"
+                        src="/public/images/logo_isimm.png"
+                        alt="Logo ISIMM"
+                    />
                 </div>
                 {!isCollapsed && (
                     <p

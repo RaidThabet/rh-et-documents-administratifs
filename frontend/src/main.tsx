@@ -15,26 +15,29 @@ import LeavesAbsencesPage from "./pages/LeavesAbsencesPage.tsx";
 import TimetablesPage from "./pages/TimetablesPage.tsx";
 import StatsReportsPage from "./pages/StatsReportsPage.tsx";
 import TasksResponsibilitiesPage from "./pages/TasksResponsibilitiesPage.tsx";
+import {AnimatePresence} from "framer-motion";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <Routes>
-                <Route path={"/accueil"} element={<App/>}>
-                    <Route path={"users-management"} element={<UsersManagementPage/>}/>
-                    <Route path={"employees-profs-management"} element={<EmployeesProfsManagementPage/>}/>
-                    <Route path={"system-settings"} element={<SystemSettingsPage/>}/>
-                    <Route path={"documents"} element={<AdministrativeDocumentsPage/>}/>
-                    <Route path={"absences-and-leaves"} element={<LeavesAbsencesPage/>}/>
-                    <Route path={"timetables"} element={<TimetablesPage/>}/>
-                    <Route path={"tasks-and-responsibilities"} element={<TasksResponsibilitiesPage/>}/>
-                    <Route path={"stats-and-reports"} element={<StatsReportsPage/>}/>
-                </Route>
-                <Route path={"/"} element={<HomePage />} />
-                <Route path={"/login"} element={<LoginPage/>}/>
-                <Route path={"/reset"} element={<ForgotPasswordPage/>}/>
-                <Route path={"/password-reset"} element={<PasswordResetPage/>}/>
-            </Routes>
+            <AnimatePresence mode="wait">
+                <Routes>
+                    <Route path={"/accueil"} element={<App/>}>
+                        <Route path={"users-management"} element={<UsersManagementPage/>}/>
+                        <Route path={"employees-profs-management"} element={<EmployeesProfsManagementPage/>}/>
+                        <Route path={"system-settings"} element={<SystemSettingsPage/>}/>
+                        <Route path={"documents"} element={<AdministrativeDocumentsPage/>}/>
+                        <Route path={"absences-and-leaves"} element={<LeavesAbsencesPage/>}/>
+                        <Route path={"timetables"} element={<TimetablesPage/>}/>
+                        <Route path={"tasks-and-responsibilities"} element={<TasksResponsibilitiesPage/>}/>
+                        <Route path={"stats-and-reports"} element={<StatsReportsPage/>}/>
+                    </Route>
+                    <Route path={"/"} element={<HomePage/>}/>
+                    <Route path={"/login"} element={<LoginPage/>}/>
+                    <Route path={"/reset"} element={<ForgotPasswordPage/>}/>
+                    <Route path={"/password-reset"} element={<PasswordResetPage/>}/>
+                </Routes>
+            </AnimatePresence>
         </BrowserRouter>
     </StrictMode>,
 )

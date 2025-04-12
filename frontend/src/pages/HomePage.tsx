@@ -1,10 +1,24 @@
+import { motion } from "framer-motion";
 import {Link} from "react-router";
+import {useAuth} from "../hooks/useAuth.ts";
+import {useEffect, useState} from "react";
 
 function HomePage() {
+    const {isLoggedIn} = useAuth();
+
+    const [nextPageHref, setNextPageHref] = useState(isLoggedIn ? "/accueil" : "/login");
+
+    useEffect(() => {
+        setNextPageHref(() => {
+            return isLoggedIn ? "/accueil" : "login";
+        })
+    }, [isLoggedIn]);
+
     return (
         <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-600 to-blue-600">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl flex flex-col items-center gap-8">
-                <img
+                <motion.img
+                    layoutId="logo-isimm"
                     className="h-40 object-contain"
                     src="/public/images/logo_isimm.png"
                     alt="Logo ISIMM"
@@ -19,7 +33,7 @@ function HomePage() {
                 </p>
 
                 <Link
-                    to="/accueil"
+                    to={nextPageHref}
                     className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
                 >
                     Démarrer
