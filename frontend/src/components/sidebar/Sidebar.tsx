@@ -20,7 +20,7 @@ const buttons = [
     {icon: <FiDatabase size={17}/>, label: "Employés et enseignants", href: "employees-profs-management"},
     {icon: <CgFileDocument size={17}/>, label: "Documents administratifs", href: "documents"},
     {icon: <FaRegCalendarTimes size={17}/>, label: "Absences et congés", href: "absences-and-leaves"},
-    {icon: <MdAccessTime size={17}/>, label: "Emploi du temps", href: "time-table"},
+    {icon: <MdAccessTime size={17}/>, label: "Emploi du temps", href: "timetables"},
     {icon: <FaTasks size={17}/>, label: "Tâches et responsabilités", href: "tasks-and-responsibilities"},
     {icon: <IoStatsChartOutline size={17}/>, label: "Statistiques et rapports", href: "stats-and-reports"},
 ]

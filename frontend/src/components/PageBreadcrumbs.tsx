@@ -6,7 +6,10 @@ import {v4 as uuid} from "uuid";
 const breadcrumbMapping: object = {
     "accueil": "Accueil",
     "employees-profs-management": "Employés et Enseignants",
-    "users-management": "Gestion des Utilisateurs"
+    "users-management": "Gestion des Utilisateurs",
+    "system-settings": "Paramètres Système",
+    "documents": "Documents Administratifs",
+    "absences-and-leaves": "Congés et Absences",
 }
 
 function PageBreadcrumbs() {
