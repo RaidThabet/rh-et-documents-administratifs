@@ -82,9 +82,10 @@ function Sidebar() {
                     {/*<Avatar size={"md"} src={"/images/logo_isimm.png"}/>*/}
                     <motion.img
                         layoutId="logo-isimm"
-                        className="h-12 object-contain"
+                        className="h-11 object-contain hover:cursor-pointer"
                         src="/public/images/logo_isimm.png"
                         alt="Logo ISIMM"
+                        onClick={() => navigate("/")}
                     />
                 </div>
                 {!isCollapsed && (

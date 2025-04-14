@@ -70,6 +70,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
     }
 
     useEffect(() => {
+        console.log("debugging: inside use effect set page to 1");
         setFilteredItems(items);
         setPage(1);
     }, [items]);

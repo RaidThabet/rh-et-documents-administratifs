@@ -84,3 +84,21 @@ export const getAllUsers = async () => {
         throw e;
     }
 }
+
+export const getEmployeesAndAgents = async () => {
+    try {
+        const response = await axios
+            .get(`${import.meta.env.VITE_BACKEND_URL}/auth/users`,
+                {withCredentials: true}
+            );
+
+        if (response.status !== 200) {
+            throw new Error("Failed to fetch users");
+        }
+
+        return response.data.filter((e: { role: string; }) => e.role === "agent" || e.role === "professor");
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}

@@ -8,18 +8,16 @@ import {User} from "@heroui/user";
 import RowActions from "../components/ManagementPage/RowActions.tsx";
 import {UserType} from "../types/User";
 import {useQuery} from "@tanstack/react-query";
-import {getAllUsers} from "../actions/userActions.ts";
+import {getEmployeesAndAgents} from "../actions/userActions.ts";
 
 function EmployeesProfsManagementPage() {
     const {data, isPending, isError, error} = useQuery({
-        queryKey: ["users"],
-        queryFn: getAllUsers,
+        queryKey: ["employees-agents"],
+        queryFn: getEmployeesAndAgents,
         initialData: []
     });
 
-    console.log(data);
-
-    const data2 = data.filter((e: { role: string; }) => e.role === "agent" || e.role === "professor");
+    // const data2 = data.filter((e: { role: string; }) => e.role === "agent" || e.role === "professor");
 
     if (isError) {
         console.log(error);
@@ -60,7 +58,7 @@ function EmployeesProfsManagementPage() {
                 title={"Gestion des Données des Employés et des Enseignants"}
                 subtitle={"Gérer les employés et les enseignants ici."}
                 renderCell={renderCell}
-                items={data2}
+                items={data}
                 isLoading={isPending}
                 columns={columns}
                 onOpen={onOpen}
