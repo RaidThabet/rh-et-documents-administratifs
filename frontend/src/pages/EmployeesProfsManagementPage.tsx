@@ -17,8 +17,6 @@ function EmployeesProfsManagementPage() {
         initialData: []
     });
 
-    // const data2 = data.filter((e: { role: string; }) => e.role === "agent" || e.role === "professor");
-
     if (isError) {
         console.log(error);
     }

@@ -28,6 +28,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
     const [page, setPage] = useState(1);
     const {sortDescriptor, handleSort, sortedItems} = useSort(filteredItems);
 
+    const [searchName, setSearchName] = useState("");
+
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
     const sections = columns.map((column) => ({
         key: column.key,
@@ -75,6 +77,22 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
         setPage(1);
     }, [items]);
 
+    useEffect(() => {
+        setFilteredItems(() => {
+            if (searchName === "") {
+                return items;
+            }
+
+            return filteredItems.filter(i => i.username.toUpperCase().includes(searchName.toUpperCase()));
+        })
+    }, [searchName]);
+
+    const onSearchNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.currentTarget;
+
+        setSearchName(value);
+    }
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return (
@@ -90,6 +108,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
                             className={"md:w-1/2 w-full"}
                             startContent={<BiSearch size={20}/>}
                             placeholder={"Rechercher par nom..."}
+                            value={searchName}
+                            onChange={onSearchNameChange}
                         />
                         <div className={"flex md:flex-row flex-col justify-center items-center gap-5"}>
                             {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
