@@ -1,4 +1,4 @@
-import ManagementPage from "../components/ManagementPage/ManagementPage.tsx";
+import Management from "../components/ManagementPage/Management.tsx";
 import {UserType} from "../types/User";
 import {Key, ReactNode} from "react";
 import {User} from "@heroui/user";
@@ -9,7 +9,7 @@ import {useDisclosure} from "@heroui/modal";
 import Activities from "../components/Activities.tsx";
 import {useQuery} from "@tanstack/react-query";
 import {getAllUsers} from "../actions/userActions.ts";
-import RowActions from "../components/ManagementPage/RowActions.tsx";
+import UserRowActions from "../components/ManagementPage/UserRowActions.tsx";
 
 function UsersManagementPage() {
     const {data, isPending, isError, error} = useQuery({
@@ -48,14 +48,14 @@ function UsersManagementPage() {
                 )
             case "actions":
                 return (
-                    <RowActions user={user} />
+                    <UserRowActions user={user} />
                 )
         }
     }
 
     return (
         <div className={"flex flex-row w-full"}>
-            <ManagementPage
+            <Management
                 title={"Gestion des Utilisateurs"}
                 subtitle={"Gérer les utilisateurs ici."}
                 renderCell={renderCell}

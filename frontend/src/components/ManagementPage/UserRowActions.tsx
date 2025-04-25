@@ -12,7 +12,7 @@ type Props = {
     user: UserType;
 }
 
-function RowActions({user}: Props) {
+function UserRowActions({user}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isFormOpen, onOpen: onFormOpen, onOpenChange: onFormOpenChange} = useDisclosure();
     const {
@@ -62,4 +62,4 @@ function RowActions({user}: Props) {
     );
 }
 
-export default RowActions;
+export default UserRowActions;

@@ -1,4 +1,4 @@
-import {Column} from "../../types/Column.ts";
+import {Column} from "../../types/Column.d.ts";
 
 export const columns: Column[] = [
     {key: "username", label: "Utilisateur"},

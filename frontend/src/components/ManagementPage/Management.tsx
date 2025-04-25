@@ -4,34 +4,33 @@ import {Button} from "@heroui/button";
 import {BiSearch} from "react-icons/bi";
 import {Key, ReactNode, useEffect, useState} from "react";
 import {Pagination} from "@heroui/pagination";
-import {Column} from "../../types/Column.ts";
+import {Column} from "../../types/Column.d.ts";
 import {MdOutlinePersonAdd} from "react-icons/md";
 import Filters from "./Filters.tsx";
-import {UserType} from "../../types/User";
-import {useSort} from "../../hooks/useSort.ts";
 import {Spinner} from "@heroui/react";
 
-type Props = {
+type Props<T> = {
     title: string;
     subtitle: string;
-    renderCell: (item: UserType, columnKey: Key) => ReactNode;
-    items: UserType[];
-    isLoading: boolean;
+    renderCell: (item: T, columnKey: Key) => ReactNode;
+    items: T[];
+    isLoading?: boolean;
     columns: Column[];
-    onOpen: () => void
+    onOpen?: () => void;
+    hasAddButton?: boolean
 }
 
 const rowsPerPage = 5;
 
-function ManagementPage({title, subtitle, renderCell, columns, items, isLoading, onOpen}: Props) {
+function Management({title, subtitle, renderCell, columns, items, isLoading, onOpen, hasAddButton = true}: Props) {
     const [filteredItems, setFilteredItems] = useState(items);
+    const [searchedItems, setSearchedItems] = useState(items);
     const [page, setPage] = useState(1);
-    const {sortDescriptor, handleSort, sortedItems} = useSort(filteredItems);
 
     const [searchName, setSearchName] = useState("");
 
-    const pages = Math.ceil(filteredItems.length / rowsPerPage);
-    const sections = columns.map((column) => ({
+    const pages = Math.ceil(searchedItems.length / rowsPerPage);
+    const sections = columns.map((column: { key: string | number; label: never; }) => ({
         key: column.key,
         name: column.label, // Assuming label in column is the name to be used
         possibleValues: [
@@ -46,8 +45,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
     const filterItems = (filters: object) => {
         console.log("inside filterItems with filter: ");
         console.log(filters);
-        let newItems = [...items.map(i => ({ ...i }))]; // Copy to avoid mutating original items
-
+        let newItems = [...items.map(i => ({...i}))]; // Copy to avoid mutating original items
 
 
         for (const [key, values] of Object.entries(filters)) {
@@ -61,6 +59,7 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
         console.log("these are newItems: ", newItems);
 
         setFilteredItems(newItems);
+        setSearchedItems(newItems);
         setPage(1);
     };
 
@@ -68,23 +67,28 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return sortedItems.slice(start, end);
+        return searchedItems.slice(start, end);
     }
 
     useEffect(() => {
-        console.log("debugging: inside use effect set page to 1");
         setFilteredItems(items);
+        setSearchedItems(items);
         setPage(1);
     }, [items]);
 
     useEffect(() => {
-        setFilteredItems(() => {
+        setSearchedItems(() => {
             if (searchName === "") {
-                return items;
+                return filteredItems;
             }
 
-            return filteredItems.filter(i => i.username.toUpperCase().includes(searchName.toUpperCase()));
-        })
+            const newFilteredItems = filteredItems.filter(i => i.username.toUpperCase().includes(searchName.toUpperCase()));
+
+            console.log(newFilteredItems);
+
+            return newFilteredItems;
+        });
+        setPage(1);
     }, [searchName]);
 
     const onSearchNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,37 +103,36 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
         <div className={"mt-3 flex flex-col w-full gap-2 px-12"}> {/*page container*/}
             <p className={"md:text-4xl text-xl font-bold"}>{title}</p>
             <p className={'md:text-xl font-medium'}>{subtitle}</p>
-            <div className={"mt-5 flex flex-col justify-center items-center gap-4"}> {/*table container*/}
-                <div className={"flex md:flex-row flex-col justify-between items-center w-full"}> {/*table header container*/}
-                    <h1 className={"md:text-2xl"}>Total des données: {items.length}</h1>
-                    <div className={"flex md:flex-row flex-col justify-end gap-5 w-1/2"}>
-                        <Input
+            <div
+                className={"flex md:flex-row flex-col justify-between items-center w-full"}> {/*table header container*/}
+                <h1 className={"md:text-2xl"}>Total des données: {items.length}</h1>
+                <div className={"flex md:flex-row flex-col justify-end gap-5 w-1/2"}>
+                    <Input
+                        radius={"sm"}
+                        className={"md:w-1/2 w-full"}
+                        startContent={<BiSearch size={20}/>}
+                        placeholder={"Rechercher par nom..."}
+                        value={searchName}
+                        onChange={onSearchNameChange}
+                    />
+                    <div className={"flex md:flex-row flex-col justify-center items-center gap-5"}>
+                        {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
+                        <Filters onFilter={filterItems} sections={sections}/>
+                        {hasAddButton && (<Button
+                            startContent={<MdOutlinePersonAdd size={20}/>}
+                            onPress={onOpen}
                             radius={"sm"}
-                            className={"md:w-1/2 w-full"}
-                            startContent={<BiSearch size={20}/>}
-                            placeholder={"Rechercher par nom..."}
-                            value={searchName}
-                            onChange={onSearchNameChange}
-                        />
-                        <div className={"flex md:flex-row flex-col justify-center items-center gap-5"}>
-                            {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
-                            <Filters onFilter={filterItems} sections={sections}/>
-                            <Button
-                                startContent={<MdOutlinePersonAdd size={20}/>}
-                                onPress={onOpen}
-                                radius={"sm"}
-                                className={"bg-[#1565C0] text-white"}
-                            >
-                                Ajouter
-                            </Button>
-                        </div>
+                            className={"bg-[#1565C0] text-white"}
+                        >
+                            Ajouter
+                        </Button>)}
                     </div>
-
                 </div>
+
+            </div>
+            <div className={"mt-5 flex flex-col justify-between items-center h-full gap-4"}> {/*table container*/}
                 <Table
                     isStriped={true}
-                    sortDescriptor={sortDescriptor}
-                    onSortChange={handleSort}
                     color={"primary"}
                     classNames={{
                         wrapper: "max-h-[382px]",
@@ -138,26 +141,11 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
                     selectionBehavior={"replace"}
                     aria-label={"Management Table"}
                     bottomContentPlacement={"outside"}
-                    bottomContent={
-                        <div className="flex w-full justify-center">
-                            <Pagination
-                                isCompact
-                                showControls
-                                showShadow
-                                color="primary"
-                                page={page}
-                                total={pages || 1}
-                                isDisabled={pages === 0}
-                                onChange={(page) => setPage(page)}
-
-                            />
-                        </div>
-                    }
                 >
                     <TableHeader columns={columns}>
                         {(column) => (
                             <TableColumn
-                                allowsSorting={true}
+                                allowsSorting={false}
                                 key={column.key}
                             >
                                 {column.label}
@@ -165,8 +153,8 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
                         )}
                     </TableHeader>
                     <TableBody
-                        loadingState={isLoading ? "loading" : "idle"}
-                        loadingContent={<Spinner />}
+                        loadingState={isLoading && items.length === 0 ? "loading" : "idle"}
+                        loadingContent={<Spinner/>}
                         items={pageItems()}
                         emptyContent={"Pas des données à afficher."}
                     >
@@ -181,9 +169,22 @@ function ManagementPage({title, subtitle, renderCell, columns, items, isLoading,
                         )}
                     </TableBody>
                 </Table>
+                <div className="flex w-full justify-center">
+                    <Pagination
+                        isCompact
+                        showControls
+                        showShadow
+                        color="primary"
+                        page={page}
+                        total={pages || 1}
+                        isDisabled={pages === 0}
+                        onChange={(page) => setPage(page)}
+
+                    />
+                </div>
             </div>
         </div>
     );
 }
 
-export default ManagementPage;
+export default Management;

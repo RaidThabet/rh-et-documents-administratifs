@@ -1,11 +1,11 @@
-import ManagementPage from "../components/ManagementPage/ManagementPage.tsx";
+import Management from "../components/ManagementPage/Management.tsx";
 import {columns} from "../lib/columns/employeesProfsPage.ts";
 import UserFormModal from "../components/user/UserForm.tsx";
 import {Key, ReactNode} from "react";
 import {useDisclosure} from "@heroui/modal";
 import {User} from "@heroui/user";
 
-import RowActions from "../components/ManagementPage/RowActions.tsx";
+import UserRowActions from "../components/ManagementPage/UserRowActions.tsx";
 import {UserType} from "../types/User";
 import {useQuery} from "@tanstack/react-query";
 import {getEmployeesAndAgents} from "../actions/userActions.ts";
@@ -45,14 +45,14 @@ function EmployeesProfsManagementPage() {
             case "seniority":
                 return cellValue;
             case "actions":
-                return <RowActions user={user} />
+                return <UserRowActions user={user} />
         }
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return (
         <div className={"w-full"}>
-            <ManagementPage
+            <Management
                 title={"Gestion des Données des Employés et des Enseignants"}
                 subtitle={"Gérer les employés et les enseignants ici."}
                 renderCell={renderCell}

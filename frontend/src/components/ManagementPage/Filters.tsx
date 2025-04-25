@@ -51,7 +51,7 @@ function Filters({sections, onFilter}: Props) {
                                 <DrawerHeader>Spécifier vos filtres</DrawerHeader>
                                 <DrawerBody>
                                     <div className={"flex flex-col justify-center items-center gap-5"}>
-                                        {sections.filter(s => s.name !== "Utilisateur" && s.name !== "Nom" && s.name !== "Actions").map(section => (
+                                        {sections.filter(s => s.name !== "Utilisateur" && s.name !== "Nom" && s.name !== "Actions" && s.name !== "User").map(section => (
                                             <Select selectionMode={"multiple"} key={uuid()} label={section.name}>
                                                 {section.possibleValues.map(v => (
                                                     <SelectItem
