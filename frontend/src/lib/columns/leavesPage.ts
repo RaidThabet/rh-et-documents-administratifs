@@ -5,6 +5,6 @@ export const columns: Column[] = [
     { key: "type", label: "Type" },
     { key: "start", label: "Start" },
     { key: "end", label: "End" },
-    { key: "justification", label: "Justification" },
     { key: "status", label: "Status" },
+    { key: "actions", label: "Actions" },
 ]

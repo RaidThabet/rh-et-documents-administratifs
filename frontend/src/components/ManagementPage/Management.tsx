@@ -161,7 +161,7 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                         {(item) => (
                             <TableRow key={item._id}>
                                 {(columnKey) => (
-                                    <TableCell>
+                                    <TableCell className={"overflow-hidden"}>
                                         {renderCell(item, columnKey)}
                                     </TableCell>
                                 )}

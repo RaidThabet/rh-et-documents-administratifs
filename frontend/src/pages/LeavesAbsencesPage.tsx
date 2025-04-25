@@ -6,6 +6,7 @@ import {columns} from "../lib/columns/leavesPage.ts";
 import {format} from "date-fns";
 import {useQuery} from "@tanstack/react-query";
 import {getAllLeaves} from "../actions/leaveActions.ts";
+import LeaveRowActions from "../components/leave/LeaveRowActions.tsx";
 
 const colorMap = {
     pending: "warning",
@@ -26,6 +27,8 @@ function LeavesAbsencesPage() {
         const cellValue = leave[columnKey];
 
         switch (columnKey) {
+            case "actions":
+                return <LeaveRowActions leave={leave} />;
             case "username":
             case "type":
             case "justification":

@@ -14,7 +14,7 @@ export const dummyLeaves = [
         type: "sick_leave",
         start: new Date("2025-04-10"),
         end: new Date("2025-04-12"),
-        justification: "Caught the flu",
+        justification: "Caught the fluCaught the fluCaught the fluCaught the fluCaught the fluCaught the fluCaught the fluCaught the fluCaught the flu  ",
         status: "pending"
     },
     {
