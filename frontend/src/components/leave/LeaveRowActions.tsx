@@ -5,6 +5,7 @@ import {SlOptionsVertical} from "react-icons/sl";
 import {MdDeleteForever, MdEdit} from "react-icons/md";
 import {FaEye} from "react-icons/fa";
 import LeaveDetails from "./LeaveDetails.tsx";
+import LeaveForm from "./LeaveForm.tsx";
 
 type Props = {
     leave: Leave
@@ -12,6 +13,7 @@ type Props = {
 
 function LeaveRowActions({leave}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const {isOpen: isOpenForm, onOpen: onOpenForm, onOpenChange: onOpenChangeForm} = useDisclosure();
 
     return (
         <>
@@ -32,6 +34,7 @@ function LeaveRowActions({leave}: Props) {
                     <DropdownItem
                         startContent={<MdEdit/>}
                         key="edit"
+                        onPress={onOpenForm}
                     >
                         Modifier
                     </DropdownItem>
@@ -46,6 +49,7 @@ function LeaveRowActions({leave}: Props) {
                 </DropdownMenu>
             </Dropdown>
             <LeaveDetails leave={leave} isOpen={isOpen} onOpenChange={onOpenChange} />
+            <LeaveForm leave={leave} isOpen={isOpenForm} onOpenChange={onOpenChangeForm} />
         </>
     );
 }
