@@ -48,7 +48,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("username")}
                                     errorMessage={errors.username?.message as string}
                                     isInvalid={!!errors.username}
-                                    readOnly={true}
+                                    readOnly={!!leave}
                                 />
                                 <Input
                                     size="sm"
@@ -58,7 +58,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("type")}
                                     errorMessage={errors.type?.message as string}
                                     isInvalid={!!errors.type}
-                                    readOnly={true}
+                                    readOnly={!!leave}
                                 />
                                 <Input
                                     size="sm"
@@ -79,7 +79,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("end")}
                                     errorMessage={errors.end?.message as string}
                                     isInvalid={!!errors.end}
-                                    readOnly={true}
+                                    readOnly={!!leave}
                                 />
                                 <Input
                                     size="sm"
@@ -89,7 +89,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("justification")}
                                     errorMessage={errors.justification?.message as string}
                                     isInvalid={!!errors.justification}
-                                    readOnly={true}
+                                    readOnly={!!leave}
                                 />
                                 <Input
                                     size="sm"
@@ -99,7 +99,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("status")}
                                     errorMessage={errors.status?.message as string}
                                     isInvalid={!!errors.status}
-                                    readOnly={true}
+                                    readOnly={!!leave}
                                 />
                             </div>
                         </ModalBody>

@@ -15,6 +15,9 @@ export const login = async (credentials: { email: string, password: string }) =>
         const newToken = response.data.token;
         axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
+        const user = response.data.user;
+
+        localStorage.setItem("username", user.username);
     } catch (e) {
         console.log(e);
         throw new Error("Authentication non successful")
@@ -28,6 +31,7 @@ export const logout = async () => {
         });
         delete axios.defaults.headers.common["Authorization"];
         localStorage.setItem("logout", Date.now().toString());
+        localStorage.removeItem("username");
     } catch (e) {
         console.log(e);
     }

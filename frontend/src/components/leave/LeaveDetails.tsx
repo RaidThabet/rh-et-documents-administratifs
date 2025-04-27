@@ -1,8 +1,9 @@
 import {Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader} from "@heroui/drawer";
 import {Button} from "@heroui/button";
-import {FiUser, FiClock, FiCalendar, FiInfo, FiCheckCircle, FiXCircle} from "react-icons/fi";
+import {FiUser, FiClock, FiCalendar, FiCheckCircle, FiXCircle} from "react-icons/fi";
 import {Leave} from "../../types/Leave";
 import {format} from "date-fns";
+import {AiOutlineInfoCircle} from "react-icons/ai";
 
 type Props = {
     leave: Leave;
@@ -52,7 +53,7 @@ function LeaveDetails({leave, isOpen, onOpenChange, onAccept, onReject}: Props) 
                                     </div>
                                 </div>
                                 <div className="pt-2 flex items-start gap-3">
-                                    <FiInfo className="mt-1 text-gray-500" />
+                                    <AiOutlineInfoCircle className="mt-1 text-gray-500" />
                                     <div>
                                         <dt className="text-sm font-medium text-gray-500">Justification</dt>
                                         <dd className="text-md text-gray-900">{leave.justification}</dd>
