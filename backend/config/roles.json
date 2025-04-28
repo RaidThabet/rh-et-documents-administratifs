@@ -33,7 +33,12 @@
         "create_leave",
         "update_leave",
         "handle_leave",
-        "delete_leave"
+        "delete_leave",
+        "read_task",
+        "create_task",
+        "update_task",
+        "complete_task",
+        "delete_task"
       ]
     },
     {
@@ -45,7 +50,19 @@
         "check_auth_status",
         "login",
         "logout",
-        "reset_password"
+        "fetch_users",
+        "read_log",
+        "read_leave",
+        "create_leave",
+        "update_leave",
+        "handle_leave",
+        "delete_leave",
+        "reset_password",
+        "read_task",
+        "create_task",
+        "update_task",
+        "complete_task",
+        "delete_task"
       ]
     },
     {
@@ -56,7 +73,9 @@
         "check_auth_status",
         "login",
         "logout",
-        "reset_password"
+        "reset_password",
+        "read_task",
+        "complete_task"
       ]
     },
     {
