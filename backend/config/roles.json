@@ -28,7 +28,12 @@
         "read_log",
         "create_log",
         "update_log",
-        "delete_log"
+        "delete_log",
+        "read_leave",
+        "create_leave",
+        "update_leave",
+        "handle_leave",
+        "delete_leave"
       ]
     },
     {
