@@ -7,7 +7,8 @@ const leaveSchema = new mongoose.Schema({
         ref: "user",
     },
     leave_type: {
-        type: { type: String, enum: ['annual_leave', 'sick_leave', 'compensatory_leave', 'exceptional_leave', 'unpaid_leave'] },
+        type: String,
+        enum: ['annual_leave', 'sick_leave', 'compensatory_leave', 'exceptional_leave', 'unpaid_leave'],
         required: true,
     },
     leave_start: {
@@ -22,8 +23,9 @@ const leaveSchema = new mongoose.Schema({
         type: String,
     },
     request_status: {
-        type: { type: String, enum: ['pending', 'accepted', 'rejected'] },
-        default: 'pending'
+        type: String,
+        enum: ['pending', 'accepted', 'rejected'],
+        default: 'pending',
     },
     createdAt: {
         type: Date,
