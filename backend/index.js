@@ -6,6 +6,7 @@ const cors = require('cors')
 const authRoutes = require('./routes/auth');
 const logRoutes = require('./routes/log');
 const recordsRoutes = require('./routes/records');
+const leaveRoutes = require('./routes/leave');
 
 const Connect = require('./database/db')
 
@@ -28,6 +29,7 @@ app.use(
 app.use('/auth', authRoutes);
 app.use('/log', logRoutes);
 app.use('/records', recordsRoutes);
+app.use('/leave', leaveRoutes);
 
 
 const PORT = process.env.PORT || 5000;
