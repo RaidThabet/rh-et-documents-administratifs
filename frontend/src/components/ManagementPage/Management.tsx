@@ -8,6 +8,7 @@ import {Column} from "../../types/Column.d.ts";
 import {MdOutlinePersonAdd} from "react-icons/md";
 import Filters from "./Filters.tsx";
 import {Spinner} from "@heroui/react";
+import {v4 as uuid} from "uuid";
 
 type Props<T> = {
     title: string;
@@ -118,7 +119,7 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                     <div className={"flex md:flex-row flex-col justify-center items-center gap-5"}>
                         {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
                         <Filters onFilter={filterItems} sections={sections}/>
-                        {hasAddButton && (<Button
+                        {true && (<Button
                             startContent={<MdOutlinePersonAdd size={20}/>}
                             onPress={onOpen}
                             radius={"sm"}
@@ -159,7 +160,7 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                         emptyContent={"Pas des données à afficher."}
                     >
                         {(item) => (
-                            <TableRow key={item._id}>
+                            <TableRow key={uuid()}>
                                 {(columnKey) => (
                                     <TableCell className={"overflow-hidden"}>
                                         {renderCell(item, columnKey)}

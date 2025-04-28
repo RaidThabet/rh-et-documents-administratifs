@@ -18,6 +18,7 @@ export const login = async (credentials: { email: string, password: string }) =>
         const user = response.data.user;
 
         localStorage.setItem("username", user.username);
+        localStorage.setItem("userId", user._id);
     } catch (e) {
         console.log(e);
         throw new Error("Authentication non successful")
@@ -32,6 +33,7 @@ export const logout = async () => {
         delete axios.defaults.headers.common["Authorization"];
         localStorage.setItem("logout", Date.now().toString());
         localStorage.removeItem("username");
+        localStorage.removeItem("userId");
     } catch (e) {
         console.log(e);
     }

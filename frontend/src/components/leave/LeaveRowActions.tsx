@@ -6,6 +6,7 @@ import {MdDeleteForever, MdEdit} from "react-icons/md";
 import {FaEye} from "react-icons/fa";
 import LeaveDetails from "./LeaveDetails.tsx";
 import LeaveForm from "./LeaveForm.tsx";
+import LeaveDeleteModal from "./LeaveDeleteModal.tsx";
 
 type Props = {
     leave: Leave
@@ -14,6 +15,7 @@ type Props = {
 function LeaveRowActions({leave}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isOpenForm, onOpen: onOpenForm, onOpenChange: onOpenChangeForm} = useDisclosure();
+    const {isOpen: isOpenDelete, onOpen: onOpenDelete, onOpenChange: onOpenChangeDelete} = useDisclosure();
 
     return (
         <>
@@ -43,6 +45,7 @@ function LeaveRowActions({leave}: Props) {
                         color={"danger"}
                         className={"text-danger"}
                         key="delete"
+                        onPress={onOpenDelete}
                     >
                         Supprimer
                     </DropdownItem>
@@ -50,6 +53,7 @@ function LeaveRowActions({leave}: Props) {
             </Dropdown>
             <LeaveDetails leave={leave} isOpen={isOpen} onOpenChange={onOpenChange} />
             <LeaveForm leave={leave} isOpen={isOpenForm} onOpenChange={onOpenChangeForm} />
+            <LeaveDeleteModal isOpen={isOpenDelete} onOpenChange={onOpenChangeDelete} id={leave._id ?? ""} />
         </>
     );
 }

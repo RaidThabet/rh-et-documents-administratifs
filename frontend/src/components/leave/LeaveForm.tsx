@@ -5,6 +5,8 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/
 import {Button} from "@heroui/button";
 import {Input} from "@heroui/input";
 import {format} from "date-fns";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {addLeave, updateLeave} from "../../actions/leaveActions.ts";
 
 type Props = {
     isOpen: boolean;
@@ -13,7 +15,17 @@ type Props = {
 }
 
 function LeaveForm({isOpen, onOpenChange, leave}: Props) {
-    const {getValues, setValue, register, handleSubmit, formState: {isValid, errors, isSubmitting}} = useForm<LeaveSchema>({
+    const userId = localStorage.getItem("userId");
+    const queryClient = useQueryClient();
+
+    const {mutate, isPending, isError, error} = useMutation({
+        mutationFn: !leave ? addLeave : updateLeave,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["leaves"]});
+        }
+    })
+
+    const {register, handleSubmit, formState: {isValid, errors}} = useForm<LeaveSchema>({
         mode: "onTouched",
         resolver: zodResolver(leaveSchema),
         defaultValues: {
@@ -25,7 +37,8 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
 
     const onSubmit = handleSubmit((data: LeaveSchema) => {
         try {
-            // mutate(data);
+            console.log("inside adding leave")
+            mutate(data);
         } catch (e) {
             console.log(e);
         }
@@ -39,7 +52,17 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                     <form onSubmit={onSubmit} className="p-4">
                         <ModalHeader>Formulaire {leave ? "de modification" : "d'ajout"}</ModalHeader>
                         <ModalBody>
+                            {isError && (<p>{error.message as string}</p>)}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <Input
+                                    className="col-span-2 w-full"
+                                    {...register("_id")}
+                                    errorMessage={errors._id?.message as string}
+                                    isInvalid={!!errors._id}
+                                    readOnly={!!leave}
+                                    value={leave?._id || ""}
+                                    type={"hidden"}
+                                />
                                 <Input
                                     size="sm"
                                     variant="faded"
@@ -49,6 +72,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     errorMessage={errors.username?.message as string}
                                     isInvalid={!!errors.username}
                                     readOnly={!!leave}
+                                    value={userId || ""}
                                 />
                                 <Input
                                     size="sm"
@@ -79,7 +103,6 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     {...register("end")}
                                     errorMessage={errors.end?.message as string}
                                     isInvalid={!!errors.end}
-                                    readOnly={!!leave}
                                 />
                                 <Input
                                     size="sm"
@@ -91,21 +114,13 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     isInvalid={!!errors.justification}
                                     readOnly={!!leave}
                                 />
-                                <Input
-                                    size="sm"
-                                    variant="faded"
-                                    label="Statut"
-                                    className="col-span-2 w-full"
-                                    {...register("status")}
-                                    errorMessage={errors.status?.message as string}
-                                    isInvalid={!!errors.status}
-                                    readOnly={!!leave}
-                                />
                             </div>
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="bordered" onPress={onClose}>Annuler</Button>
-                            <Button color={"primary"} type="submit" disabled={!isValid || isSubmitting}>Submit</Button>
+                            <Button isDisabled={!isValid} type="submit" color="primary">
+                                {isPending ? "Chargement..." : (leave ? "Modifier" : "Ajouter")}
+                            </Button>
                         </ModalFooter>
                     </form>
                 )}

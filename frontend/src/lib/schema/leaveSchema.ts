@@ -1,12 +1,13 @@
 import {z} from "zod";
 
 export const leaveSchema = z.object({
+    _id: z.string().optional(),
     username: z.string().trim().min(1, {message: "User ID cannot be blank"}),
     type: z.string().trim().min(1, {message: "Invalid leave type"}),
     start: z.string(),
     end: z.string(),
     justification: z.string().trim().min(1, {message: "Invalid justification"}),
-    status: z.string().trim().min(1, {message: "Invalid status"}) // (small typo in your comment btw)
+    // status: z.string().trim().min(1, {message: "Invalid status"}) // (small typo in your comment btw)
 }).refine(data => {
     const startDate = new Date(data.start);
     const endDate = new Date(data.end);

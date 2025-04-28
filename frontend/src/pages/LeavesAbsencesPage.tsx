@@ -7,6 +7,8 @@ import {format} from "date-fns";
 import {useQuery} from "@tanstack/react-query";
 import {getAllLeaves} from "../actions/leaveActions.ts";
 import LeaveRowActions from "../components/leave/LeaveRowActions.tsx";
+import {useDisclosure} from "@heroui/modal";
+import LeaveForm from "../components/leave/LeaveForm.tsx";
 
 const colorMap = {
     pending: "warning",
@@ -15,7 +17,7 @@ const colorMap = {
 };
 
 function LeavesAbsencesPage() {
-    const {data, isPending, isError, error} = useQuery({
+    const {data, isPending, isError, error, refetch} = useQuery({
         queryKey: ["leaves"],
         queryFn: getAllLeaves,
         initialData: []
@@ -44,6 +46,8 @@ function LeavesAbsencesPage() {
         }
     }
 
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
     return (
         <div className={"w-full"}>
             <Management
@@ -53,9 +57,10 @@ function LeavesAbsencesPage() {
                 items={data}
                 isLoading={isPending}
                 columns={columns}
-                // onOpen={onOpen}
+                onOpen={onOpen}
                 hasAddButton={false}
             />
+            <LeaveForm isOpen={isOpen} onOpenChange={onOpenChange} />
         </div>
     );
 }
