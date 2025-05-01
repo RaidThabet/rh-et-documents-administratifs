@@ -4,16 +4,35 @@ import {FiUser, FiClock, FiCalendar, FiCheckCircle, FiXCircle} from "react-icons
 import {Leave} from "../../types/Leave";
 import {format} from "date-fns";
 import {AiOutlineInfoCircle} from "react-icons/ai";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {handleLeaveRequest} from "../../actions/leaveActions.ts";
 
 type Props = {
     leave: Leave;
     isOpen: boolean;
     onOpenChange: () => void;
-    onAccept?: () => void;
-    onReject?: () => void;
 };
 
-function LeaveDetails({leave, isOpen, onOpenChange, onAccept, onReject}: Props) {
+function LeaveDetails({leave, isOpen, onOpenChange}: Props) {
+    const queryClient = useQueryClient();
+
+    const {mutate} = useMutation({
+        mutationFn: handleLeaveRequest,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["leaves"]});
+        }
+    })
+
+    const onHandleLeaveRequest = (status: string) => {
+        try {
+            const data = {id: leave._id ?? "", newStatus: status};
+
+            mutate(data);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <Drawer isOpen={isOpen} onOpenChange={onOpenChange} size="md">
             <DrawerContent>
@@ -70,7 +89,7 @@ function LeaveDetails({leave, isOpen, onOpenChange, onAccept, onReject}: Props) 
                             {leave.status === "pending" && (
                                 <div className="flex gap-3">
                                     <Button
-                                        onPress={onReject}
+                                        onPress={() => onHandleLeaveRequest("rejected")}
                                         variant="bordered"
                                         color="danger"
                                         startContent={<FiXCircle />}
@@ -78,7 +97,7 @@ function LeaveDetails({leave, isOpen, onOpenChange, onAccept, onReject}: Props) 
                                         Rejeter
                                     </Button>
                                     <Button
-                                        onPress={onAccept}
+                                        onPress={() => onHandleLeaveRequest("accepted")}
                                         color="primary"
                                         startContent={<FiCheckCircle />}
                                     >

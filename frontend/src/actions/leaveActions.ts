@@ -115,3 +115,23 @@ export const deleteLeave = async (data: { id: string }) => {
         throw new Error(e.response.data);
     }
 }
+
+export const handleLeaveRequest = async ({id, newStatus}: {id: string, newStatus: string}) => {
+    const data = {leave_request_status: newStatus}
+    try {
+        const response = await axios
+            .put(`${import.meta.env.VITE_BACKEND_URL}/leave/handleRequest/${id}`,
+                {data, withCredentials: true});
+
+        if (response.status !== 200) {
+            throw new Error("Failed to delete leave")
+        }
+
+        return {message: "Congé supprimé avec succés"};
+    } catch (e) {
+        console.log(e);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        throw new Error(e.response.data);
+    }
+}
