@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const logRoutes = require('./routes/log');
 const recordsRoutes = require('./routes/records');
 const leaveRoutes = require('./routes/leave');
+const taskRoutes = require('./routes/task');
 
 const Connect = require('./database/db')
 
@@ -30,6 +31,7 @@ app.use('/auth', authRoutes);
 app.use('/log', logRoutes);
 app.use('/records', recordsRoutes);
 app.use('/leave', leaveRoutes);
+app.use('/task', taskRoutes);
 
 
 const PORT = process.env.PORT || 5000;
