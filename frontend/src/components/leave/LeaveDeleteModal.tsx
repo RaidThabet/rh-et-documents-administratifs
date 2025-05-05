@@ -1,8 +1,8 @@
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/modal";
 import {Button} from "@heroui/button";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {Alert} from "@heroui/alert";
 import {deleteLeave} from "../../actions/leaveActions.ts";
+import {addToast} from "@heroui/toast";
 
 type Props = {
     isOpen: boolean;
@@ -13,7 +13,7 @@ type Props = {
 function LeaveDeleteModal({isOpen, onOpenChange, id}: Props) {
     const queryClient = useQueryClient();
 
-    const {mutate, error, isSuccess, isPending} = useMutation({
+    const {mutate, error, isPending} = useMutation({
         mutationFn: deleteLeave,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["leaves"]});
@@ -25,9 +25,19 @@ function LeaveDeleteModal({isOpen, onOpenChange, id}: Props) {
     const onSubmit = (e) => {
         e.preventDefault();
         try {
-            mutate({id: id})
+            mutate({id: id});
+            addToast({
+                title: "Congé supprimé avec succès",
+                color: "success",
+                variant: "solid"
+            });
         } catch (e) {
             console.log(e);
+            addToast({
+                title: error?.message || e.message || "Erreur",
+                color: "danger",
+                variant: "solid"
+            });
         }
     }
 
@@ -38,8 +48,6 @@ function LeaveDeleteModal({isOpen, onOpenChange, id}: Props) {
                     <form onSubmit={onSubmit}>
                         <ModalHeader>Suppression de congé</ModalHeader>
                         <ModalBody className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {error && <Alert variant={"solid"} color={"danger"} title={error.message} className={"col-span-2 w-full"} />}
-                            {isSuccess && <Alert variant={"solid"} className={"col-span-2 w-full"} color={"success"} title={"Congé supprimé avec succès"} />}
                             <p className="col-span-2 w-full">Est-ce que vous êtes sûre vous voulez supprimer ce congé?</p>
                         </ModalBody>
                         <ModalFooter className="flex justify-end space-x-2">

@@ -7,7 +7,7 @@ import {userAddSchema, UserAddSchema} from "../../lib/schema/userAddSchema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useMutation} from "@tanstack/react-query";
 import {addUser, updateUser} from "../../actions/userActions.ts";
-import {Alert} from "@heroui/alert";
+import {addToast} from "@heroui/toast";
 
 type Props = {
     isOpen: boolean;
@@ -17,7 +17,7 @@ type Props = {
 
 function UserFormModal({isOpen, onOpenChange, user}: Props) {
 
-    const {mutate, error, isSuccess} = useMutation({
+    const {mutate, error} = useMutation({
             mutationFn: user ? updateUser : addUser
         }
     )
@@ -36,8 +36,18 @@ function UserFormModal({isOpen, onOpenChange, user}: Props) {
     const onSubmit = handleSubmit((data: UserAddSchema) => {
         try {
             mutate(data);
+            addToast({
+                title: user ? "Utilisateur mis à jour avec succès" : "Utilisateur ajouté avec succès",
+                color: "success",
+                variant: "solid"
+            });
         } catch (e) {
             console.log(e);
+            addToast({
+                title: error?.message || e.message || "Erreur",
+                color: "danger",
+                variant: "solid"
+            });
         }
 
     })
@@ -50,8 +60,6 @@ function UserFormModal({isOpen, onOpenChange, user}: Props) {
                         <ModalHeader>Formulaire {user? "de modification" : "d'ajout"}</ModalHeader>
                         <ModalBody>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {error && <Alert variant={"solid"} color={"danger"} title={error.message} className={"col-span-2 w-full"} />}
-                                {isSuccess && <Alert variant={"solid"} className={"col-span-2 w-full"} color={"success"} title={"Utilisateur ajouté avec succès"} />}
                                 <Input
                                     size="sm"
                                     variant="faded"

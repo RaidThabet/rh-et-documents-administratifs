@@ -8,6 +8,7 @@ import {Input} from "@heroui/input";
 import {MdEmail} from "react-icons/md";
 import {forgotPassword} from "../../actions/authActions.ts";
 import {Link} from "react-router";
+import {addToast} from "@heroui/toast";
 
 function ForgotPasswordForm() {
     const {register, handleSubmit, setError, formState: {errors, isValid, isSubmitting, isSubmitSuccessful}} = useForm<ForgotPasswordSchema>({
@@ -21,13 +22,23 @@ function ForgotPasswordForm() {
     const onSubmit = handleSubmit(async(data) => {
         try {
             await forgotPassword(data);
+            addToast({
+                title: "Veuillez vérifier votre courrier pour poursuivre le processus de restauration",
+                color: "success",
+                variant: "solid"
+            });
         } catch (e) {
             setError("root", {
                 type: "manual",
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 message: e.message || "Veuillez vérifier vos coordonnées"
-            })
+            });
+            addToast({
+                title: error?.message || e.message || "Veuillez vérifier vos coordonnées",
+                color: "danger",
+                variant: "solid"
+            });
         }
     })
 
@@ -39,8 +50,6 @@ function ForgotPasswordForm() {
                 <p className={"text-md text-center font-semibold"}>
                     Veuillez saisir votre email pour poursuivre le processus de restauration de votre mot de passe.
                 </p>
-                {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
                 {isSubmitSuccessful && (
                     <Alert variant={"solid"} color={"secondary"} title={"Veuillez vérifier votre courrier pour poursuivre le processus de restauration"} />
                 )}

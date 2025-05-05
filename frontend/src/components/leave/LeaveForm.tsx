@@ -7,6 +7,7 @@ import {Input} from "@heroui/input";
 import {format} from "date-fns";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {addLeave, updateLeave} from "../../actions/leaveActions.ts";
+import {addToast} from "@heroui/toast";
 
 type Props = {
     isOpen: boolean;
@@ -39,8 +40,18 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
         try {
             console.log("inside adding leave")
             mutate(data);
+            addToast({
+                title: leave ? "Congé mis à jour avec succès" : "Congé ajouté avec succès",
+                color: "success",
+                variant: "solid"
+            });
         } catch (e) {
             console.log(e);
+            addToast({
+                title: error?.message || e.message || "Erreur",
+                color: "danger",
+                variant: "solid"
+            });
         }
 
     })

@@ -7,10 +7,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema, LoginSchema} from "../lib/schema/loginSchema.ts";
 import {Link, useNavigate} from "react-router";
 import {login} from "../actions/authActions.ts";
-import {Alert} from "@heroui/alert";
 import {useEffect} from "react";
 import {useAuth} from "../hooks/useAuth.ts";
 import { motion } from "framer-motion";
+import {addToast} from "@heroui/toast";
 
 function LoginForm() {
     const {isLoggedIn, setIsLoggedIn} = useAuth();
@@ -30,12 +30,23 @@ function LoginForm() {
             await login(data);
             setIsLoggedIn(true);
             navigate("/accueil");
+            addToast({
+                title: "Authentification réussie",
+                color: "success",
+                variant: "solid"
+            })
         } catch (e) {
             setError("root", {
                 type: "manual",
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 message: e.message || "Veuillez vérifier vos coordonnées"
+            })
+            addToast({
+                title: "Erreur d'authentification",
+                description: e.message || "Veuillez vérifier vos coordonnées",
+                color: "danger",
+                variant: "solid"
             })
             console.log(e);
             throw e;
@@ -53,8 +64,6 @@ function LoginForm() {
     return (
         <Card className={"px-4 w-3/12"}>
             <CardHeader className={"flex flex-col justify-start items-center gap-2"}>
-                {/*<Avatar size={"lg"} src={"/images/logo_isimm.png"}/>*/}
-                {/*<motion.img layoutId={"logo-isimm"} src="/images/logo_isimm.png" alt="Logo ISIMM"/>*/}
                 <motion.img
                     layoutId="logo-isimm"
                     className="h-40 object-contain"
@@ -65,8 +74,6 @@ function LoginForm() {
                 <p className={"text-md text-center font-semibold"}>
                     Bonjour! Veuillez saisir vos coordonnées pour vous connecter.
                 </p>
-                {errors.root &&
-                    <Alert variant={'solid'} color={"danger"} title={"Veuillez vérifier vos coordonnées"}/>}
             </CardHeader>
             <CardBody>
                 <form onSubmit={onSubmit} className={"flex flex-col justify-center items-center gap-4 h-full"}>

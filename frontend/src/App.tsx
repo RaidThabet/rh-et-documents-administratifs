@@ -1,4 +1,3 @@
-import {HeroUIProvider} from "@heroui/system";
 import {Navigate, Outlet} from "react-router";
 import Sidebar from "./components/sidebar/Sidebar.tsx";
 import Header from "./components/Header.tsx";
@@ -12,7 +11,6 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <HeroUIProvider>
                 <div className="flex flex-row justify-center items-center h-[100vh]">
                     <Sidebar />
 
@@ -31,7 +29,6 @@ function App() {
                         )}
                     </div>
                 </div>
-            </HeroUIProvider>
         </QueryClientProvider>
     );
 }
