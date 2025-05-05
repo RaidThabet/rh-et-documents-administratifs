@@ -121,7 +121,7 @@ export const handleLeaveRequest = async ({id, newStatus}: {id: string, newStatus
     try {
         const response = await axios
             .put(`${import.meta.env.VITE_BACKEND_URL}/leave/handleRequest/${id}`,
-                {data, withCredentials: true});
+                data, {withCredentials: true});
 
         if (response.status !== 200) {
             throw new Error("Failed to delete leave")
