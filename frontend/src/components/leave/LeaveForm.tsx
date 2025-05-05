@@ -4,6 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/modal";
 import {Button} from "@heroui/button";
 import {Input} from "@heroui/input";
+import {Select, SelectItem} from "@heroui/select";
 import {format} from "date-fns";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {addLeave, updateLeave} from "../../actions/leaveActions.ts";
@@ -26,11 +27,12 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
         }
     })
 
-    const {register, handleSubmit, formState: {isValid, errors}} = useForm<LeaveSchema>({
+    const {register, handleSubmit, getValues, setValue, formState: {isValid, errors}} = useForm<LeaveSchema>({
         mode: "onTouched",
         resolver: zodResolver(leaveSchema),
         defaultValues: {
             ...leave,
+            type: leave?.type || "annual_leave",
             start: leave?.start ? format(new Date(leave.start), "yyyy-MM-dd") : "",
             end: leave?.end ? format(new Date(leave.end), "yyyy-MM-dd") : "",
         }
@@ -85,16 +87,26 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     readOnly={!!leave}
                                     value={userId || ""}
                                 />
-                                <Input
-                                    size="sm"
-                                    variant="faded"
-                                    label="Type de congé"
+                                <Select
+                                    value={getValues("type")}
+                                    isRequired={true}
                                     className="col-span-2 w-full"
+                                    label="Type de congé"
+                                    size="sm"
+                                    radius="sm"
+                                    variant="faded"
                                     {...register("type")}
+                                    onChange={e => setValue("type", e.target.value)}
                                     errorMessage={errors.type?.message as string}
                                     isInvalid={!!errors.type}
-                                    readOnly={!!leave}
-                                />
+                                    isDisabled={!!leave}
+                                >
+                                    <SelectItem key="annual_leave" value="annual_leave">Annual Leave</SelectItem>
+                                    <SelectItem key="sick_leave" value="sick_leave">Sick Leave</SelectItem>
+                                    <SelectItem key="compensatory_leave" value="compensatory_leave">Compensatory Leave</SelectItem>
+                                    <SelectItem key="exceptional_leave" value="exceptional_leave">Exceptional Leave</SelectItem>
+                                    <SelectItem key="unpaid_leave" value="unpaid_leave">Unpaid Leave</SelectItem>
+                                </Select>
                                 <Input
                                     size="sm"
                                     variant="faded"
