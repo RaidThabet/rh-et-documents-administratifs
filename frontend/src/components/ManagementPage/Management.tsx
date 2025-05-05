@@ -6,9 +6,12 @@ import {Key, ReactNode, useEffect, useState} from "react";
 import {Pagination} from "@heroui/pagination";
 import {Column} from "../../types/Column.d.ts";
 import {MdOutlinePersonAdd} from "react-icons/md";
+import {FaFilePdf} from "react-icons/fa6";
 import Filters from "./Filters.tsx";
 import {Spinner} from "@heroui/react";
 import {v4 as uuid} from "uuid";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 type Props<T> = {
     title: string;
@@ -29,6 +32,62 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
     const [page, setPage] = useState(1);
 
     const [searchName, setSearchName] = useState("");
+
+    const exportToPdf = () => {
+        const doc = new jsPDF();
+
+        // Add title to the PDF
+        doc.setFontSize(18);
+        doc.text(title, 14, 22);
+        doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 38);
+        doc.text(`Total des données: ${items.length}`, 14, 46);
+
+        // Prepare the table data
+        const tableData = searchedItems.map(item => {
+            return columns.map(column => {
+                // Skip the actions column as it contains React components
+                if (column.key === 'actions') {
+                    return '';
+                }
+                // Get the value from the item
+                // @ts-expect-error - We know the item has this property
+                const value = item[column.key];
+
+                // Convert to string if not already
+                return value !== undefined ? String(value) : '';
+            });
+        });
+
+        // Prepare column headers
+        const tableHeaders = columns
+            .filter(column => column.key !== 'actions')
+            .map(column => column.label);
+
+        // Create the table
+        autoTable(doc, {
+            head: [tableHeaders],
+            body: tableData,
+            startY: 50,
+            theme: 'grid',
+            styles: {
+                fontSize: 10,
+                cellPadding: 3,
+                lineColor: [0, 0, 0],
+                lineWidth: 0.1,
+            },
+            headStyles: {
+                fillColor: [21, 101, 192],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold',
+            },
+            alternateRowStyles: {
+                fillColor: [240, 240, 240],
+            },
+        });
+
+        // Save the PDF
+        doc.save(`${title.toLowerCase().replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+    };
 
     const pages = Math.ceil(searchedItems.length / rowsPerPage);
     const sections = columns.map((column: { key: string | number; label: never; }) => ({
@@ -106,7 +165,17 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
             <p className={'md:text-xl font-medium'}>{subtitle}</p>
             <div
                 className={"flex md:flex-row flex-col justify-between items-center w-full"}> {/*table header container*/}
-                <h1 className={"md:text-2xl"}>Total des données: {items.length}</h1>
+                <div className="flex flex-row gap-4">
+                    <h1 className={"md:text-2xl"}>Total des données: {items.length}</h1>
+                    <Button
+                        startContent={<FaFilePdf size={20}/>}
+                        onPress={exportToPdf}
+                        radius={"sm"}
+                        color="danger"
+                    >
+                        Exporter PDF
+                    </Button>
+                </div>
                 <div className={"flex md:flex-row flex-col justify-end gap-5 w-1/2"}>
                     <Input
                         radius={"sm"}
@@ -119,7 +188,7 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                     <div className={"flex md:flex-row flex-col justify-center items-center gap-5"}>
                         {/*<Button startContent={<IoFilterSharp size={20} /> } radius={"sm"}>Filtres</Button>*/}
                         <Filters onFilter={filterItems} sections={sections}/>
-                        {true && (<Button
+                        {hasAddButton && (<Button
                             startContent={<MdOutlinePersonAdd size={20}/>}
                             onPress={onOpen}
                             radius={"sm"}
