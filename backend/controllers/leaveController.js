@@ -21,7 +21,17 @@ exports.createLeave = async (req, res) => {
 // Read all leaves
 exports.getAllLeaves = async (req, res) => {
     try {
-        const leaves = await Leave.find();
+        const leaves = await Leave.find().sort({ createdAt: -1 });
+        res.status(200).json(leaves);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Read all leaves of user
+exports.getAllLeavesOfUser = async (req, res) => {
+    try {
+        const leaves = await Leave.find({ userId: req.params.id }).sort({ createdAt: -1 });
         res.status(200).json(leaves);
     } catch (error) {
         res.status(500).json({ error: error.message });
