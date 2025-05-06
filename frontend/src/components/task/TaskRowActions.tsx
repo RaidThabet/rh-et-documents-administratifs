@@ -1,30 +1,24 @@
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/dropdown";
 import {SlOptionsVertical} from "react-icons/sl";
 import {useDisclosure} from "@heroui/modal";
-import UserDetails from "../user/UserDetails.tsx";
-import {MdDeleteForever, MdEdit, MdAddTask} from "react-icons/md";
+import TaskDetails from "./TaskDetails.tsx";
+import {MdDeleteForever, MdEdit} from "react-icons/md";
 import {FaEye} from "react-icons/fa";
-import {UserType} from "../../types/User";
-import UserFormModal from "../user/UserForm.tsx";
-import UserDeleteModal from "../user/UserDeleteModal.tsx";
-import AssignTaskForm from "../task/AssignTaskForm.tsx";
+import {Task} from "../../types/Task";
+import TaskFormModal from "./TaskForm.tsx";
+import TaskDeleteModal from "./TaskDeleteModal.tsx";
 
 type Props = {
-    user: UserType;
+    task: Task;
 }
 
-function UserRowActions({user}: Props) {
+function TaskRowActions({task}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isFormOpen, onOpen: onFormOpen, onOpenChange: onFormOpenChange} = useDisclosure();
     const {
         isOpen: isDeleteDialogOpen,
         onOpen: onDeleteDialogOpen,
         onOpenChange: onDeleteDialogOpenChange
-    } = useDisclosure();
-    const {
-        isOpen: isAssignTaskOpen,
-        onOpen: onAssignTaskOpen,
-        onOpenChange: onAssignTaskOpenChange
     } = useDisclosure();
 
     return (
@@ -46,16 +40,9 @@ function UserRowActions({user}: Props) {
                     <DropdownItem
                         startContent={<MdEdit/>}
                         onPress={onFormOpen}
-                        key="edit"
+                        key="status"
                     >
-                        Modifier
-                    </DropdownItem>
-                    <DropdownItem
-                        startContent={<MdAddTask/>}
-                        onPress={onAssignTaskOpen}
-                        key="assign-task"
-                    >
-                        Assigner une tâche
+                        Changer le statut
                     </DropdownItem>
                     <DropdownItem
                         startContent={<MdDeleteForever/>}
@@ -68,12 +55,11 @@ function UserRowActions({user}: Props) {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <UserDetails user={user} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>
-            <UserFormModal isOpen={isFormOpen} onOpenChange={onFormOpenChange} user={user}/>
-            <UserDeleteModal isOpen={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} email={user.email} />
-            <AssignTaskForm isOpen={isAssignTaskOpen} onOpenChange={onAssignTaskOpenChange} user={user}/>
+            <TaskDetails task={task} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>
+            <TaskFormModal isOpen={isFormOpen} onOpenChange={onFormOpenChange} task={task}/>
+            <TaskDeleteModal isOpen={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} taskId={task._id || ""} />
         </>
     );
 }
 
-export default UserRowActions;
+export default TaskRowActions;

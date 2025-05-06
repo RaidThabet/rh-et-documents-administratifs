@@ -21,12 +21,23 @@ type Props<T> = {
     isLoading?: boolean;
     columns: Column[];
     onOpen?: () => void;
-    hasAddButton?: boolean
+    hasAddButton?: boolean;
+    searchField?: string; // Add a prop to specify which field to search by
 }
 
 const rowsPerPage = 5;
 
-function Management({title, subtitle, renderCell, columns, items, isLoading, onOpen, hasAddButton = true}: Props) {
+function Management({
+    title, 
+    subtitle, 
+    renderCell, 
+    columns, 
+    items, 
+    isLoading, 
+    onOpen, 
+    hasAddButton = true,
+    searchField = "username" // Default to username for backwards compatibility
+}: Props) {
     const [filteredItems, setFilteredItems] = useState(items);
     const [searchedItems, setSearchedItems] = useState(items);
     const [page, setPage] = useState(1);
@@ -44,18 +55,34 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
 
         // Prepare the table data
         const tableData = searchedItems.map(item => {
-            return columns.map(column => {
-                // Skip the actions column as it contains React components
-                if (column.key === 'actions') {
-                    return '';
-                }
-                // Get the value from the item
-                // @ts-expect-error - We know the item has this property
-                const value = item[column.key];
-
-                // Convert to string if not already
-                return value !== undefined ? String(value) : '';
-            });
+            return columns
+                .filter(column => column.key !== 'actions')
+                .map(column => {
+                    // For complex cells that need special handling
+                    // Simulate rendering the cell and extract text content
+                    if (column.key === 'responableId' && 'responsibleName' in item) {
+                        // Use the responsibleName field if it exists (for tasks)
+                        // @ts-expect-error - Dynamic property access
+                        return item.responsibleName || '';
+                    }
+                    
+                    // For regular cells, get the value directly
+                    // @ts-expect-error - Dynamic property access
+                    const value = item[column.key];
+                    
+                    // Format date values
+                    if (column.key === 'deadline' && value instanceof Date) {
+                        return format(new Date(value), 'dd/MM/yyyy');
+                    }
+                    
+                    // Format status values
+                    if (column.key === 'taskStatus') {
+                        return value === 'enCours' ? 'En cours' : 'Terminé';
+                    }
+    
+                    // Convert to string if not already
+                    return value !== undefined ? String(value) : '';
+                });
         });
 
         // Prepare column headers
@@ -142,14 +169,19 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                 return filteredItems;
             }
 
-            const newFilteredItems = filteredItems.filter(i => i.username.toUpperCase().includes(searchName.toUpperCase()));
+            const newFilteredItems = filteredItems.filter(item => {
+                // Safely access the search field, with fallback to empty string if it's undefined
+                // @ts-expect-error - Dynamic property access
+                const fieldValue = (item[searchField] || "").toString();
+                return fieldValue.toUpperCase().includes(searchName.toUpperCase());
+            });
 
             console.log(newFilteredItems);
 
             return newFilteredItems;
         });
         setPage(1);
-    }, [searchName]);
+    }, [searchName, searchField, filteredItems]);
 
     const onSearchNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = e.currentTarget;
@@ -157,8 +189,16 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
         setSearchName(value);
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // Determine search placeholder text based on the searchField
+    const getSearchPlaceholder = () => {
+        // Find the column that matches the searchField to get a user-friendly label
+        const matchingColumn = columns.find(col => col.key === searchField);
+        if (matchingColumn) {
+            return `Rechercher par ${matchingColumn.label.toLowerCase()}...`;
+        }
+        return "Rechercher...";
+    };
+
     return (
         <div className={"mt-3 flex flex-col w-full gap-2 px-12"}> {/*page container*/}
             <p className={"md:text-4xl text-xl font-bold"}>{title}</p>
@@ -181,7 +221,7 @@ function Management({title, subtitle, renderCell, columns, items, isLoading, onO
                         radius={"sm"}
                         className={"md:w-1/2 w-full"}
                         startContent={<BiSearch size={20}/>}
-                        placeholder={"Rechercher par nom..."}
+                        placeholder={getSearchPlaceholder()}
                         value={searchName}
                         onChange={onSearchNameChange}
                     />

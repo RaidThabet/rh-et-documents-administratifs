@@ -7,15 +7,27 @@ import {columns} from "../lib/columns/userManagementPage.ts"
 import UserFormModal from "../components/user/UserForm.tsx";
 import {useDisclosure} from "@heroui/modal";
 import Activities from "../components/Activities.tsx";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {getAllUsers} from "../actions/userActions.ts";
 import UserRowActions from "../components/ManagementPage/UserRowActions.tsx";
+import {useEffect} from "react";
+import {getAllTasks} from "../actions/taskActions.ts";
 
 function UsersManagementPage() {
+    const queryClient = useQueryClient();
+
     const {data, isPending, isError, error} = useQuery({
         queryKey: ["users"],
         queryFn: getAllUsers,
         initialData: []
+    });
+
+    // Prefetch tasks to have them ready when needed
+    useQuery({
+        queryKey: ["tasks"],
+        queryFn: getAllTasks,
+        initialData: [],
+        enabled: true
     });
 
     if (isError) {
@@ -23,6 +35,11 @@ function UsersManagementPage() {
     }
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+    // Ensure that tasks are refetched when users page is loaded
+    useEffect(() => {
+        queryClient.invalidateQueries({queryKey: ["tasks"]});
+    }, [queryClient]);
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
