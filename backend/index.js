@@ -9,6 +9,8 @@ const recordsRoutes = require('./routes/records');
 const leaveRoutes = require('./routes/leave');
 const taskRoutes = require('./routes/task');
 
+const statsRoutes = require('./routes/stats');
+
 const Connect = require('./database/db')
 
 
@@ -32,6 +34,7 @@ app.use('/log', logRoutes);
 app.use('/records', recordsRoutes);
 app.use('/leave', leaveRoutes);
 app.use('/task', taskRoutes);
+app.use('/stats', statsRoutes);
 
 
 const PORT = process.env.PORT || 5000;
