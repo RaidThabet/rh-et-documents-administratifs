@@ -31,12 +31,16 @@ function StatsReportsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'tasks'>('overview');
-  
+
+  const userRole = localStorage.getItem("userRole") as string;
+
+
   // Fetch users for name mapping
   const { data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: getAllUsers,
-    initialData: []
+    initialData: [],
+    enabled: ["rh", "admin"].includes(userRole)
   });
   
   // Create a map of user IDs to user objects for quick lookup
@@ -80,8 +84,6 @@ function StatsReportsPage() {
 
     fetchStats();
   }, []);
-
-  const userRole = localStorage.getItem("userRole") as string;
 
   if (["agent", "professor"].includes(userRole)) {
     return <Navigate to={"/accueil"} />

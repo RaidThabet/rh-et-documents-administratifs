@@ -16,11 +16,13 @@ import {Navigate} from "react-router";
 
 function UsersManagementPage() {
     const queryClient = useQueryClient();
+    const userRole = localStorage.getItem("userRole") as string;
 
     const {data, isPending, isError, error} = useQuery({
         queryKey: ["users"],
         queryFn: getAllUsers,
-        initialData: []
+        initialData: [],
+        enabled: ["rh", "admin"].includes(userRole)
     });
 
     // Prefetch tasks to have them ready when needed
@@ -41,8 +43,6 @@ function UsersManagementPage() {
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["tasks"]});
     }, [queryClient]);
-
-    const userRole = localStorage.getItem("userRole") as string;
 
     if (["agent", "professor"].includes(userRole)) {
         return <Navigate to={"/accueil"} />

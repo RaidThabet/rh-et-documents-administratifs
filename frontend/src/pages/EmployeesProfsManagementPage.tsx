@@ -12,10 +12,12 @@ import {getEmployeesAndAgents} from "../actions/userActions.ts";
 import {Navigate} from "react-router";
 
 function EmployeesProfsManagementPage() {
+    const userRole = localStorage.getItem("userRole") as string;
     const {data, isPending, isError, error} = useQuery({
         queryKey: ["employees-agents"],
         queryFn: getEmployeesAndAgents,
-        initialData: []
+        initialData: [],
+        enabled: ["rh", "admin"].includes(userRole)
     });
 
     if (isError) {
@@ -24,7 +26,6 @@ function EmployeesProfsManagementPage() {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-    const userRole = localStorage.getItem("userRole") as string;
 
     if (["agent", "professor"].includes(userRole)) {
         return <Navigate to={"/accueil"} />

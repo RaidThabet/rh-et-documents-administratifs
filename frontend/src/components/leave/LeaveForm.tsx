@@ -17,7 +17,7 @@ type Props = {
 }
 
 function LeaveForm({isOpen, onOpenChange, leave}: Props) {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId") ?? "";
     const queryClient = useQueryClient();
 
     const username = localStorage.getItem("username") as string | "username";
@@ -43,7 +43,8 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
     const onSubmit = handleSubmit((data: LeaveSchema) => {
         try {
             console.log("inside adding leave")
-            mutate(data);
+            console.log(data);
+            mutate({...data, username: userId});
             addToast({
                 title: leave ? "Congé mis à jour avec succès" : "Congé ajouté avec succès",
                 color: "success",

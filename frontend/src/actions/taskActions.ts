@@ -3,9 +3,13 @@ import {Task} from "../types/Task";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-export async function getAllTasks(): Promise<Task[]> {
+export async function getAllTasks(id: string | null): Promise<Task[]> {
+    let endpoint = `${API_URL}/task`;
+    if (id) {
+        endpoint += `/user/${id}`;
+    }
     try {
-        const response = await axios.get(`${API_URL}/task`, {withCredentials: true});
+        const response = await axios.get(endpoint, {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -13,9 +17,11 @@ export async function getAllTasks(): Promise<Task[]> {
     }
 }
 
-export async function getTaskById(id: string): Promise<Task> {
+export async function getTasksByUserId(): Promise<Task> {
     try {
-        const response = await axios.get(`${API_URL}/task/${id}`, {withCredentials: true});
+        const response = await axios.get(`${API_URL}/task/user/681a1c019747637c53ec3c85`, {withCredentials: true});
+        console.warn("############### this is the data tasks by user id")
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(`Error fetching task with id ${id}:`, error);

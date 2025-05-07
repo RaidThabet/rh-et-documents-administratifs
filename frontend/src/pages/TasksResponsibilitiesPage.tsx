@@ -5,7 +5,7 @@ import {Chip} from "@heroui/chip";
 import {User} from "@heroui/user";
 import {columns} from "../lib/columns/taskManagementPage.ts";
 import {useQuery} from "@tanstack/react-query";
-import {getAllTasks} from "../actions/taskActions.ts";
+import {getAllTasks, getTasksByUserId} from "../actions/taskActions.ts";
 import {getAllUsers} from "../actions/userActions.ts";
 import TaskRowActions from "../components/task/TaskRowActions.tsx";
 import {format} from "date-fns";
@@ -13,15 +13,16 @@ import {UserType} from "../types/User";
 
 function TasksResponsibilitiesPage() {
     const userRole = localStorage.getItem("userRole") as string;
+    const userId = localStorage.getItem("userId");
     const {data: tasks = [], isPending: isTasksLoading, isError, error} = useQuery({
         queryKey: ["tasks"],
-        queryFn: getAllTasks,
+        queryFn: () => getAllTasks(["rh", "admin"].includes(userRole) ? null : userId),
         initialData: []
     });
 
     const {data: users = [], isPending: isUsersLoading} = useQuery({
         queryKey: ["users"],
-        queryFn: getAllUsers,
+        queryFn: () => getAllTasks(userId),
         initialData: []
     });
 
