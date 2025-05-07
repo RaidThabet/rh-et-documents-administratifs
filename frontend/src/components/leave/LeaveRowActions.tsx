@@ -15,6 +15,8 @@ type Props = {
 }
 
 function LeaveRowActions({leave, userMap = {}}: Props) {
+    const userRole = localStorage.getItem("userRole") as string;
+
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isOpenForm, onOpen: onOpenForm, onOpenChange: onOpenChangeForm} = useDisclosure();
     const {isOpen: isOpenDelete, onOpen: onOpenDelete, onOpenChange: onOpenChangeDelete} = useDisclosure();
@@ -35,14 +37,14 @@ function LeaveRowActions({leave, userMap = {}}: Props) {
                     >
                         Voir
                     </DropdownItem>
-                    <DropdownItem
-                        startContent={<MdEdit/>}
-                        key="edit"
-                        onPress={onOpenForm}
-                    >
-                        Modifier
-                    </DropdownItem>
-                    <DropdownItem
+                    {/*<DropdownItem*/}
+                    {/*    startContent={<MdEdit/>}*/}
+                    {/*    key="edit"*/}
+                    {/*    onPress={onOpenForm}*/}
+                    {/*>*/}
+                    {/*    Modifier*/}
+                    {/*</DropdownItem>*/}
+                    {["admin", "rh"].includes(userRole) ? (<DropdownItem
                         startContent={<MdDeleteForever/>}
                         color={"danger"}
                         className={"text-danger"}
@@ -50,7 +52,7 @@ function LeaveRowActions({leave, userMap = {}}: Props) {
                         onPress={onOpenDelete}
                     >
                         Supprimer
-                    </DropdownItem>
+                    </DropdownItem>) : null}
                 </DropdownMenu>
             </Dropdown>
             <LeaveDetails 
