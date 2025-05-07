@@ -17,14 +17,18 @@ export async function getAllTasks(id: string | null): Promise<Task[]> {
     }
 }
 
-export async function getTasksByUserId(): Promise<Task> {
+export async function getTasksByUserId(userId: string | null): Promise<Task> {
+    if (!userId) {
+        console.error("No user ID provided to getTasksByUserId");
+        return [];
+    }
+    
     try {
-        const response = await axios.get(`${API_URL}/task/user/681a1c019747637c53ec3c85`, {withCredentials: true});
-        console.warn("############### this is the data tasks by user id")
-        console.log(response.data);
+        const response = await axios.get(`${API_URL}/task/user/${userId}`, {withCredentials: true});
+        console.log("Tasks data for user:", userId);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching task with id ${id}:`, error);
+        console.error(`Error fetching tasks for user ${userId}:`, error);
         throw error;
     }
 }

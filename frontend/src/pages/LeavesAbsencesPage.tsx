@@ -22,6 +22,7 @@ const colorMap = {
 function LeavesAbsencesPage() {
     const userRole = localStorage.getItem("userRole") as string;
     const userId = !["agent", "professor"].includes(userRole) ? null :  localStorage.getItem("userId") as string;
+    const username = localStorage.getItem("username") as string;
 
     const {data: leaves = [], isPending: isLeavesLoading} = useQuery({
         queryKey: ["leaves"],
@@ -77,7 +78,7 @@ function LeavesAbsencesPage() {
                         {user.email}
                     </User>
                 ) : (
-                    leave.username || cellValue
+                    username
                 );
             }
             case "type":

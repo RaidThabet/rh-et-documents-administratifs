@@ -14,6 +14,7 @@ import {UserType} from "../types/User";
 function TasksResponsibilitiesPage() {
     const userRole = localStorage.getItem("userRole") as string;
     const userId = localStorage.getItem("userId");
+    const userName = localStorage.getItem("username") as string;
     const {data: tasks = [], isPending: isTasksLoading, isError, error} = useQuery({
         queryKey: ["tasks", userId],
         queryFn: () => getAllTasks(["rh", "admin"].includes(userRole) ? null : userId),
@@ -22,18 +23,21 @@ function TasksResponsibilitiesPage() {
 
     const {data: users = [], isPending: isUsersLoading} = useQuery({
         queryKey: ["users"],
-        queryFn: () => getAllTasks(userId),
+        queryFn: getAllUsers,
         initialData: []
     });
 
     // Create a map of user IDs to user objects for quick lookup
     const userMap = useMemo(() => {
-        return users.reduce((acc: Record<string, UserType>, user: UserType) => {
+        console.log("Building userMap from users:", users);
+        const map = users.reduce((acc: Record<string, UserType>, user: UserType) => {
             if (user._id) {
                 acc[user._id] = user;
             }
             return acc;
         }, {});
+        console.log("Final userMap:", map);
+        return map;
     }, [users]);
 
     // Enhance tasks with responsible username for searching
@@ -71,7 +75,7 @@ function TasksResponsibilitiesPage() {
                         {user.email}
                     </User>
                 ) : (
-                    cellValue
+                    userName
                 );
             }
             case "deadline":
