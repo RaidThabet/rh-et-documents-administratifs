@@ -19,6 +19,7 @@ export const login = async (credentials: { email: string, password: string }) =>
 
         localStorage.setItem("username", user.username);
         localStorage.setItem("userId", user._id);
+        localStorage.setItem("userRole", user.role);
     } catch (e) {
         console.log(e);
         throw new Error("Authentication non successful")

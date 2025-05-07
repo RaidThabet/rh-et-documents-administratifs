@@ -11,10 +11,14 @@ type LeaveBackendSchema = {
     request_status: string;
 }
 
-export const getAllLeaves = async () => {
+export const getAllLeaves = async (userId: string | null) => {
+    let apiUrl = `${import.meta.env.VITE_BACKEND_URL}/leave`
+    if (userId) {
+        apiUrl += `/user/${userId}`;
+    }
     try {
         const response = await axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/leave`,
+            .get(apiUrl,
                 {withCredentials: true}
             );
 

@@ -12,22 +12,48 @@ import {Divider} from "@heroui/divider";
 import {LuLogOut} from "react-icons/lu";
 import {logout} from "../../actions/authActions.ts";
 import {useAuth} from "../../hooks/useAuth.ts";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 const buttons = [
-    {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management"},
-    {icon: <FiSettings size={17}/>, label: "Paramètres système", href: "system-settings"},
-    {icon: <FiDatabase size={17}/>, label: "Employés et enseignants", href: "employees-profs-management"},
-    {icon: <CgFileDocument size={17}/>, label: "Documents administratifs", href: "documents"},
-    {icon: <FaRegCalendarTimes size={17}/>, label: "Absences et congés", href: "absences-and-leaves"},
-    {icon: <MdAccessTime size={17}/>, label: "Emploi du temps", href: "timetables"},
-    {icon: <FaTasks size={17}/>, label: "Tâches et responsabilités", href: "tasks-and-responsibilities"},
-    {icon: <IoStatsChartOutline size={17}/>, label: "Statistiques et rapports", href: "stats-and-reports"},
+    {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management", roles: ["rh", "admin"]},
+    // {icon: <FiSettings size={17}/>, label: "Paramètres système", href: "system-settings", roles: ["rh", "admin"]},
+    {
+        icon: <FiDatabase size={17}/>,
+        label: "Employés et enseignants",
+        href: "employees-profs-management",
+        roles: ["rh", "admin"]
+    },
+    {icon: <CgFileDocument size={17}/>, label: "Documents administratifs", href: "documents", roles: ["rh", "admin"]},
+    {
+        icon: <FaRegCalendarTimes size={17}/>,
+        label: "Absences et congés",
+        href: "absences-and-leaves",
+        roles: ["rh", "admin", "agent", "professor"]
+    },
+    // {
+    //     icon: <MdAccessTime size={17}/>,
+    //     label: "Emploi du temps",
+    //     href: "time-table",
+    //     roles: ["rh", "admin", "agent", "professor"]
+    // },
+    {
+        icon: <FaTasks size={17}/>,
+        label: "Tâches et responsabilités",
+        href: "tasks-and-responsibilities",
+        roles: ["rh", "admin", "agent", "professor"]
+    },
+    {
+        icon: <IoStatsChartOutline size={17}/>,
+        label: "Statistiques et rapports",
+        href: "stats-and-reports",
+        roles: ["rh", "admin"]
+    },
 ]
 
 function Sidebar() {
     const navigate = useNavigate();
     const {setIsLoggedIn} = useAuth();
+    const userRole: string = localStorage.getItem("userRole") as string | "anonymous";
 
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
@@ -47,10 +73,13 @@ function Sidebar() {
     }
 
     const renderButtons = () => {
+        const filteredButtons = buttons.filter(b => b.roles.includes(userRole));
+        console.log(filteredButtons);
+
         return (
             <div className={"flex flex-col justify-center items-center gap-3 w-full"}>
                 {
-                    buttons.map(({icon, label, href}) => (
+                    filteredButtons.map(({icon, label, href}) => (
                         <NavLink key={uuidv4()} to={href} className={"flex justify-center items-center w-full"}
                         >
                             {

@@ -12,6 +12,7 @@ import {format} from "date-fns";
 import {UserType} from "../types/User";
 
 function TasksResponsibilitiesPage() {
+    const userRole = localStorage.getItem("userRole") as string;
     const {data: tasks = [], isPending: isTasksLoading, isError, error} = useQuery({
         queryKey: ["tasks"],
         queryFn: getAllTasks,
@@ -85,7 +86,7 @@ function TasksResponsibilitiesPage() {
                 );
             case "actions":
                 return (
-                    <TaskRowActions task={task}/>
+                    <TaskRowActions userRole={userRole} task={task}/>
                 );
         }
     };

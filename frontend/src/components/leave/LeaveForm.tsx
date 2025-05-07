@@ -20,6 +20,8 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
     const userId = localStorage.getItem("userId");
     const queryClient = useQueryClient();
 
+    const username = localStorage.getItem("username") as string | "username";
+
     const {mutate, isPending, isError, error} = useMutation({
         mutationFn: !leave ? addLeave : updateLeave,
         onSuccess: () => {
@@ -85,7 +87,7 @@ function LeaveForm({isOpen, onOpenChange, leave}: Props) {
                                     errorMessage={errors.username?.message as string}
                                     isInvalid={!!errors.username}
                                     readOnly={!!leave}
-                                    value={userId || ""}
+                                    value={username || ""}
                                 />
                                 <Select
                                     value={getValues("type")}

@@ -1,22 +1,22 @@
 export const columns = [
     {
         key: "responableId",
-        label: "RESPONSABLE"
+        label: "Responsable"
     },
     {
         key: "description",
-        label: "DESCRIPTION"
+        label: "Description"
     },
     {
         key: "deadline",
-        label: "ÉCHÉANCE"
+        label: "Échéance"
     },
     {
         key: "taskStatus",
-        label: "STATUT"
+        label: "Statut"
     },
     {
         key: "actions",
-        label: "ACTIONS"
+        label: "Actions"
     },
 ];

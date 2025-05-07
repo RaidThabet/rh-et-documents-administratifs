@@ -9,6 +9,7 @@ import UserRowActions from "../components/ManagementPage/UserRowActions.tsx";
 import {UserType} from "../types/User";
 import {useQuery} from "@tanstack/react-query";
 import {getEmployeesAndAgents} from "../actions/userActions.ts";
+import {Navigate} from "react-router";
 
 function EmployeesProfsManagementPage() {
     const {data, isPending, isError, error} = useQuery({
@@ -22,6 +23,12 @@ function EmployeesProfsManagementPage() {
     }
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+    const userRole = localStorage.getItem("userRole") as string;
+
+    if (["agent", "professor"].includes(userRole)) {
+        return <Navigate to={"/accueil"} />
+    }
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

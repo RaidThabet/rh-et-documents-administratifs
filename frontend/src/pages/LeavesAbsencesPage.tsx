@@ -17,9 +17,12 @@ const colorMap = {
 };
 
 function LeavesAbsencesPage() {
-    const {data, isPending, isError, error, refetch} = useQuery({
+    const userRole = localStorage.getItem("userRole") as string;
+    const userId = !["agent", "professor"].includes(userRole) ? null :  localStorage.getItem("userId") as string;
+
+    const {data, isPending} = useQuery({
         queryKey: ["leaves"],
-        queryFn: getAllLeaves,
+        queryFn: () => getAllLeaves(userId),
         initialData: []
     })
 
@@ -58,7 +61,7 @@ function LeavesAbsencesPage() {
                 isLoading={isPending}
                 columns={columns}
                 onOpen={onOpen}
-                hasAddButton={false}
+                hasAddButton={!!userId}
             />
             <LeaveForm isOpen={isOpen} onOpenChange={onOpenChange} />
         </div>

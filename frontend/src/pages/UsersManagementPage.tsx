@@ -12,6 +12,7 @@ import {getAllUsers} from "../actions/userActions.ts";
 import UserRowActions from "../components/ManagementPage/UserRowActions.tsx";
 import {useEffect} from "react";
 import {getAllTasks} from "../actions/taskActions.ts";
+import {Navigate} from "react-router";
 
 function UsersManagementPage() {
     const queryClient = useQueryClient();
@@ -40,6 +41,12 @@ function UsersManagementPage() {
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["tasks"]});
     }, [queryClient]);
+
+    const userRole = localStorage.getItem("userRole") as string;
+
+    if (["agent", "professor"].includes(userRole)) {
+        return <Navigate to={"/accueil"} />
+    }
 
     const renderCell = (user: UserType, columnKey: Key): ReactNode => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

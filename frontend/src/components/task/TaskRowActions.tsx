@@ -10,9 +10,10 @@ import TaskDeleteModal from "./TaskDeleteModal.tsx";
 
 type Props = {
     task: Task;
+    userRole: string;
 }
 
-function TaskRowActions({task}: Props) {
+function TaskRowActions({task, userRole}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isFormOpen, onOpen: onFormOpen, onOpenChange: onFormOpenChange} = useDisclosure();
     const {
@@ -37,14 +38,14 @@ function TaskRowActions({task}: Props) {
                     >
                         Voir
                     </DropdownItem>
-                    <DropdownItem
+                    {(userRole === "agent" || userRole === "professor") ? (<DropdownItem
                         startContent={<MdEdit/>}
                         onPress={onFormOpen}
                         key="status"
                     >
                         Changer le statut
-                    </DropdownItem>
-                    <DropdownItem
+                    </DropdownItem>) : null}
+                    {(userRole === "rh" || userRole === "admin") ? (<DropdownItem
                         startContent={<MdDeleteForever/>}
                         color={"danger"}
                         className={"text-danger"}
@@ -52,7 +53,7 @@ function TaskRowActions({task}: Props) {
                         key="delete"
                     >
                         Supprimer
-                    </DropdownItem>
+                    </DropdownItem>) : null}
                 </DropdownMenu>
             </Dropdown>
             <TaskDetails task={task} isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>

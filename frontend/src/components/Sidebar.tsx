@@ -1,120 +1,129 @@
-import { Link, useLocation } from "react-router-dom";
-import { FaChalkboardTeacher, FaUsers, FaCalendarAlt, FaTasks, FaFileAlt, FaCog, FaClipboardList, FaChartBar } from "react-icons/fa";
-import { cn } from "../utils/cn";
-import Permission from "./common/Permission";
-import { useAuth } from "../context/AuthContext";
+import {Avatar} from "@heroui/avatar";
+import {NavLink, useNavigate} from "react-router";
+import {v4 as uuidv4} from "uuid";
+import {FaRegCalendarTimes, FaRegUser, FaTasks} from "react-icons/fa";
+import {IoStatsChartOutline} from "react-icons/io5";
+import {useState} from "react";
+import {TbLayoutSidebar} from "react-icons/tb";
+import {MdAccessTime} from "react-icons/md";
+import {FiDatabase, FiSettings} from "react-icons/fi";
+import {CgFileDocument} from "react-icons/cg";
+import {Divider} from "@heroui/divider";
+import {LuLogOut} from "react-icons/lu";
+import {logout} from "../actions/authActions.ts";
+import {useAuth} from "../hooks/useAuth.ts";
+import SidebarButton from "./sidebar/SidebarButton.tsx";
 
-export default function Sidebar() {
-  const location = useLocation();
-  const { user } = useAuth();
-  
-  // Define navigation items with required permissions
-  const navigation = [
-    { 
-      name: "Utilisateurs", 
-      href: "/accueil/users-management", 
-      icon: FaUsers,
-      permission: "fetch_users"  // Only admin and RH can manage users
+const buttons = [
+    {icon: <FaRegUser size={17}/>, label: "Gestion des utilisateurs", href: "users-management", roles: ["rh", "admin"]},
+    {icon: <FiSettings size={17}/>, label: "Paramètres système", href: "system-settings", roles: ["rh", "admin"]},
+    {
+        icon: <FiDatabase size={17}/>,
+        label: "Employés et enseignants",
+        href: "employees-profs-management",
+        roles: ["rh", "admin"]
     },
-    { 
-      name: "Employés & Profs", 
-      href: "/accueil/employees-profs-management", 
-      icon: FaChalkboardTeacher,
-      permission: "fetch_users"  // Only admin and RH can manage employees and profs
+    {icon: <CgFileDocument size={17}/>, label: "Documents administratifs", href: "documents", roles: ["rh", "admin"]},
+    {
+        icon: <FaRegCalendarTimes size={17}/>,
+        label: "Absences et congés",
+        href: "absences-and-leaves",
+        roles: ["rh", "admin", "agent", "professor"]
     },
-    { 
-      name: "Paramètres du Système", 
-      href: "/accueil/system-settings", 
-      icon: FaCog,
-      permission: "update_record"  // Only admin and RH can access system settings
+    {
+        icon: <MdAccessTime size={17}/>,
+        label: "Emploi du temps",
+        href: "time-table",
+        roles: ["rh", "admin", "agent", "professor"]
     },
-    { 
-      name: "Documents Administratifs", 
-      href: "/accueil/documents", 
-      icon: FaFileAlt,
-      permission: "read_record"  // All authenticated users can access documents
+    {
+        icon: <FaTasks size={17}/>,
+        label: "Tâches et responsabilités",
+        href: "tasks-and-responsibilities",
+        roles: ["rh", "admin", "agent", "professor"]
     },
-    { 
-      name: "Absences & Congés", 
-      href: "/accueil/absences-and-leaves", 
-      icon: FaCalendarAlt,
-      permission: "read_leave"  // All authenticated users can access leaves
+    {
+        icon: <IoStatsChartOutline size={17}/>,
+        label: "Statistiques et rapports",
+        href: "stats-and-reports",
+        roles: ["rh", "admin"]
     },
-    { 
-      name: "Emplois du Temps", 
-      href: "/accueil/timetables", 
-      icon: FaClipboardList,
-      permission: "read_record"  // All authenticated users can access timetables
-    },
-    { 
-      name: "Tâches & Responsabilités", 
-      href: "/accueil/tasks-and-responsibilities", 
-      icon: FaTasks,
-      permission: "read_task"  // All authenticated users can access tasks
-    },
-    { 
-      name: "Statistiques & Rapports", 
-      href: "/accueil/stats-and-reports", 
-      icon: FaChartBar,
-      permission: "read_record"  // All authenticated users can access reports
-    },
-  ];
+]
 
-  // Filter navigation items for agent and professor roles
-  // They should only see specific pages
-  const filteredNavigation = navigation.filter(item => {
-    // If user is professor or agent, only show specific pages
-    if (user?.role === "professor" || user?.role === "agent") {
-      return [
-        "/accueil/tasks-and-responsibilities",
-        "/accueil/absences-and-leaves",
-        "/accueil/timetables",
-        "/accueil/documents"
-      ].includes(item.href);
+function Sidebar() {
+    const navigate = useNavigate();
+    const {setIsLoggedIn} = useAuth();
+    const userRole: string = localStorage.getItem("userRole") as string | "anonymous";
+
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+
+    const handleCollapse = () => {
+        setIsCollapsed(prev => !prev);
     }
-    
-    // For admin and RH, show all items they have permission for
-    return true;
-  });
 
-  return (
-    <div className="flex flex-col h-full w-64 bg-gray-800 text-white">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">
-          {user?.role === "admin" ? "Admin Portal" : 
-           user?.role === "rh" ? "RH Portal" : 
-           user?.role === "agent" ? "Agent Portal" : 
-           user?.role === "professor" ? "Professeur Portal" : 
-           "Portal"}
-        </h1>
-        {user && (
-          <p className="text-sm text-gray-400 mt-1">
-            {user.username}
-          </p>
-        )}
-      </div>
-      <nav className="flex-1 overflow-y-auto">
-        <ul className="space-y-1 px-2">
-          {filteredNavigation.map((item) => (
-            <Permission key={item.name} permission={item.permission}>
-              <li>
-                <Link
-                  to={item.href}
-                  className={cn(
-                    "flex items-center px-2 py-2 text-sm font-medium rounded-md group transition-colors",
-                    location.pathname === item.href
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                  )}
-                >
-                  <item.icon className="mr-3 h-6 w-6 flex-shrink-0" />
-                  {item.name}
-                </Link>
-              </li>
-            </Permission>
-          ))}
-        </ul>
-      </nav>
-    </div>
-  );
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setIsLoggedIn(false);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            navigate("/login");
+        }
+    }
+
+    const renderButtons = () => {
+        const filteredButtons = buttons.filter(b => b.roles.includes(userRole));
+        console.log(filteredButtons);
+
+        return (
+            <div className={"flex flex-col justify-center items-center gap-3 w-full"}>
+                {
+                    filteredButtons.map(({icon, label, href}) => (
+                        <NavLink key={uuidv4()} to={href} className={"flex justify-center items-center w-full"}
+                        >
+                            {
+                                ({isActive}) => (
+                                    <SidebarButton isCollapsed={isCollapsed} icon={icon} label={label}
+                                                   isActive={isActive}/>
+                                )
+                            }
+                        </NavLink>
+                    ))}
+            </div>
+        )
+    }
+
+    return (
+        <nav
+            className={"z-30 drop-shadow-lg border-r-1 border-r-neutral-300 left-0 px-4 flex flex-col justify-start items-start gap-3 bg-neutral-100 h-full"}> {/*Sidebar main container*/}
+            <div className={"w-full flex flex-row justify-start items-center py-3 gap-3"}> {/*Avatar container*/}
+                <div className={"space-x-2 absolute bottom-1 left-1"}>
+                    <button onClick={handleCollapse}>
+                        <TbLayoutSidebar
+                            size={22}/>
+                    </button>
+                    <button onClick={handleLogout} className={"absolute bottom-1 left-17"}>
+                        <LuLogOut size={22}/>
+                    </button>
+                </div>
+                <div>
+                    <Avatar size={"md"} src={"/images/logo_isimm.png"}/>
+                </div>
+                {!isCollapsed && (
+                    <p
+                        className={"text-xl font-semibold"}
+                    >
+                        RH
+                    </p>
+                )}
+            </div>
+            <div className={"w-full"}>
+                <Divider/>
+            </div>
+            {renderButtons()}
+        </nav>
+    );
 }
+
+export default Sidebar;

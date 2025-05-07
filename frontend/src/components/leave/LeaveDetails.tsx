@@ -14,6 +14,7 @@ type Props = {
 };
 
 function LeaveDetails({leave, isOpen, onOpenChange}: Props) {
+    const userRole = localStorage.getItem("userRole") as string;
     const queryClient = useQueryClient();
 
     const {mutate} = useMutation({
@@ -86,7 +87,7 @@ function LeaveDetails({leave, isOpen, onOpenChange}: Props) {
                                 Fermer
                             </Button>
 
-                            {leave.status === "pending" && (
+                            {(leave.status === "pending" && (userRole === "admin" || userRole === "rh") ) && (
                                 <div className="flex gap-3">
                                     <Button
                                         onPress={() => onHandleLeaveRequest("rejected")}

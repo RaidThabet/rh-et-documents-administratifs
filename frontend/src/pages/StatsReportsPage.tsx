@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from '@heroui/card';
 import { Alert } from '@heroui/alert';
 import { Button } from '@heroui/button';
 import { UserRoleStats, UserTaskStats, getAllStats } from '../actions/statsActions';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+import {Navigate} from "react-router";
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
@@ -60,6 +61,12 @@ function StatsReportsPage() {
     fetchStats();
   }, []);
 
+  const userRole = localStorage.getItem("userRole") as string;
+
+  if (["agent", "professor"].includes(userRole)) {
+    return <Navigate to={"/accueil"} />
+  }
+
   const formatRoleName = (role: string) => {
     return role.charAt(0).toUpperCase() + role.slice(1).replace('_', ' ');
   };
@@ -75,7 +82,7 @@ function StatsReportsPage() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Alert variant="destructive" className="my-4">
+        <Alert color="danger" className="my-4">
           {error}
           <Button onClick={() => window.location.reload()} className="ml-4">Retry</Button>
         </Alert>
@@ -138,13 +145,11 @@ function StatsReportsPage() {
       
       <div className="flex gap-4 mb-6">
         <Button 
-          variant={activeTab === 'overview' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('overview')}
         >
           Overview
         </Button>
         <Button 
-          variant={activeTab === 'tasks' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('tasks')}
         >
           Tasks by User
