@@ -15,7 +15,7 @@ function TasksResponsibilitiesPage() {
     const userRole = localStorage.getItem("userRole") as string;
     const userId = localStorage.getItem("userId");
     const {data: tasks = [], isPending: isTasksLoading, isError, error} = useQuery({
-        queryKey: ["tasks"],
+        queryKey: ["tasks", userId],
         queryFn: () => getAllTasks(["rh", "admin"].includes(userRole) ? null : userId),
         initialData: []
     });
