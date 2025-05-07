@@ -89,6 +89,8 @@
         "login",
         "logout",
         "reset_password",
+        "read_task",
+        "complete_task",
         "read_leave",
         "create_leave"
       ]
