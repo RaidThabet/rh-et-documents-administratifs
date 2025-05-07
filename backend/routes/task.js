@@ -5,6 +5,7 @@ const rbacMiddleware = require('../middleware/rbacMiddleware');
 const taskController = require('../controllers/taskController');
 
 router.get('/', rbacMiddleware.checkPermission('read_task'), taskController.getAllTasks);
+router.get('/user/:id', rbacMiddleware.checkPermission('read_task'), taskController.getAllTasksOfUser);
 router.post('/', rbacMiddleware.checkPermission('create_task'), taskController.createTask);
 router.put('/:id', rbacMiddleware.checkPermission('update_task'), taskController.updateTask);
 router.put('/complete/:id', rbacMiddleware.checkPermission('complete_task'), taskController.completeTask);

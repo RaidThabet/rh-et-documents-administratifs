@@ -21,7 +21,17 @@ exports.createTask = async (req, res) => {
 // Get all tasks
 exports.getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find();
+        const tasks = await Task.find().sort({ createdAt: -1 });
+        res.status(200).json(tasks);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Read all tasks of user
+exports.getAllTasksOfUser = async (req, res) => {
+    try {
+        const tasks = await Leave.find({ responableId: req.params.id }).sort({ createdAt: -1 });
         res.status(200).json(tasks);
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -75,7 +75,9 @@
         "logout",
         "reset_password",
         "read_task",
-        "complete_task"
+        "complete_task",
+        "read_leave",
+        "create_leave"
       ]
     },
     {
@@ -86,7 +88,9 @@
         "check_auth_status",
         "login",
         "logout",
-        "reset_password"
+        "reset_password",
+        "read_leave",
+        "create_leave"
       ]
     }
   ]
