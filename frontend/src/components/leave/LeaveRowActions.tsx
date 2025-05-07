@@ -7,12 +7,14 @@ import {FaEye} from "react-icons/fa";
 import LeaveDetails from "./LeaveDetails.tsx";
 import LeaveForm from "./LeaveForm.tsx";
 import LeaveDeleteModal from "./LeaveDeleteModal.tsx";
+import {UserType} from "../../types/User";
 
 type Props = {
-    leave: Leave
+    leave: Leave;
+    userMap?: Record<string, UserType>;
 }
 
-function LeaveRowActions({leave}: Props) {
+function LeaveRowActions({leave, userMap = {}}: Props) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {isOpen: isOpenForm, onOpen: onOpenForm, onOpenChange: onOpenChangeForm} = useDisclosure();
     const {isOpen: isOpenDelete, onOpen: onOpenDelete, onOpenChange: onOpenChangeDelete} = useDisclosure();
@@ -51,7 +53,12 @@ function LeaveRowActions({leave}: Props) {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <LeaveDetails leave={leave} isOpen={isOpen} onOpenChange={onOpenChange} />
+            <LeaveDetails 
+                leave={leave} 
+                isOpen={isOpen} 
+                onOpenChange={onOpenChange} 
+                user={leave.userId ? userMap[leave.userId] : undefined} 
+            />
             <LeaveForm leave={leave} isOpen={isOpenForm} onOpenChange={onOpenChangeForm} />
             <LeaveDeleteModal isOpen={isOpenDelete} onOpenChange={onOpenChangeDelete} id={leave._id ?? ""} />
         </>

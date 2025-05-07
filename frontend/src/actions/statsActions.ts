@@ -102,18 +102,26 @@ export const getTasksStatusPerUser = async (): Promise<UserTaskStats[]> => {
       if (!item) return { _id: 'unknown', userName: 'Unknown User', tasks: [] };
       
       // Extract ID safely
-      const id = item._id || 'unknown';
+      const id = item._id || (item.userId || 'unknown');
       
       // Try different properties that might contain username
       let userName = 'Unknown User';
+      
+      // First priority: use userMap if we have it (most reliable)
       if (userMap.has(id)) {
         userName = userMap.get(id);
-      } else if (item.userName) {
+      } 
+      // Second priority: try properties from the item itself
+      else if (item.userName && item.userName !== id) {
         userName = item.userName;
-      } else if (item.username) {
+      } 
+      else if (item.username && item.username !== id) {
         userName = item.username;
-      } else if (item.userId) {
-        userName = `User ${item.userId.substring(0, 6)}`;
+      }
+      // If we couldn't find a good username, we'll use a shortened ID
+      else {
+        const shortId = id.substring(0, 6);
+        userName = `User ${shortId}`;
       }
       
       return {

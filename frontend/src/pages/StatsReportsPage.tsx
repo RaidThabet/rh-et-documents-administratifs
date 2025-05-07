@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Card } from '@heroui/card';
 import { Alert } from '@heroui/alert';
 import { Button } from '@heroui/button';
@@ -6,6 +6,9 @@ import { UserRoleStats, UserTaskStats, getAllStats } from '../actions/statsActio
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import {Navigate} from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getAllUsers } from "../actions/userActions";
+import { UserType } from "../types/User";
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
@@ -28,6 +31,23 @@ function StatsReportsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'tasks'>('overview');
+  
+  // Fetch users for name mapping
+  const { data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: getAllUsers,
+    initialData: []
+  });
+  
+  // Create a map of user IDs to user objects for quick lookup
+  const userMap = useMemo(() => {
+    return users.reduce((acc: Record<string, UserType>, user: UserType) => {
+      if (user._id) {
+        acc[user._id] = user;
+      }
+      return acc;
+    }, {});
+  }, [users]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -217,10 +237,8 @@ function StatsReportsPage() {
               return null; // Skip rendering this item
             }
             
-            // Convert 'Unknown User' to a more user-friendly display
-            const displayName = user.userName === "Unknown User" 
-              ? `User ${String(user._id).substring(0, 6)}` 
-              : user.userName;
+            // Display user name from userMap if available, otherwise fall back to userName
+            const displayName = userMap[user._id] ? userMap[user._id].username : user.userName;
             
             // Handle potentially missing tasks array
             const tasks = Array.isArray(user.tasks) ? user.tasks : [];
